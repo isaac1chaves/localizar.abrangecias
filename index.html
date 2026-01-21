@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<!-- saved from url=(0100)file:///C:/Users/isaac.chaves/OneDrive%20-%20Dem%C3%A1/Documentos/projetos/abrangencia_3_listas.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pesquisa de Abrangência (Núcleos Anápolis / Brasília / Nossa Abrangência)</title>
+  <style>
+    :root { --bg:#0b1020; --card:#141a2f; --muted:#8aa1b1; --text:#e9f1f7; --accent:#4cc2ff; --accent-2:#7df7c8; --danger:#ff6b6b; --warn:#ffb86b; }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Noto Sans','Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji';
+      background: radial-gradient(1000px 600px at 10% 0%, #172042 0%, var(--bg) 45%),
+                  radial-gradient(800px 500px at 90% 10%, #0f2c3f 0%, transparent 40%), var(--bg);
+      color:var(--text); min-height:100dvh; display:grid; place-items:center; padding:24px;
+    }
+    .app { width:min(1120px,100%); background: color-mix(in oklab, var(--card), black 10%);
+      border:1px solid color-mix(in oklab, var(--card), white 8%);
+      border-radius:16px; padding:20px 20px 16px; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+    header { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    h1 { font-size: clamp(18px, 2.1vw, 24px); margin:0; letter-spacing:.2px; }
+    .pill { font-size:12px; padding:4px 10px; border-radius:999px; background:#0d2638; color:var(--accent); border:1px solid #1f3f58; }
+    .search {
+      margin-top:16px; display:grid; gap:10px; grid-template-columns:1fr auto; align-items:center;
+      background:#0f1528; border:1px solid #212b4b; padding:12px; border-radius:12px;
+    }
+    .search input[type="text"] { width:100%; background:transparent; border:none; outline:none; color:var(--text); font-size:16px; padding:8px; letter-spacing:.2px; }
+    .search button { background: linear-gradient(180deg, var(--accent), #2996cf); color:#00243a; font-weight:700; border:none; border-radius:10px; padding:10px 14px; cursor:pointer; box-shadow:0 6px 18px rgba(76,194,255,.35); transition:transform .06s ease; }
+    .search button:active { transform: translateY(1px); }
+    .result { margin-top:14px; padding:14px; border-radius:12px; border:1px dashed #2a355c; background:#0f1528; display:grid; gap:8px; }
+    .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:600; }
+    .ana { background:#2b1115; color:#ffb3bd; border:1px solid #5b2a30; }     /* ✖ */
+    .bra { background:#231933; color:#c7b2ff; border:1px solid #3b2b6b; }     /* ✖ */
+    .ok  { background:#0d2a1f; color:#7df7c8; border:1px solid #184c39; }      /* ✔ */
+    .nao { background:#2a1a0d; color:#ffdbb0; border:1px solid #4b2b1a; }      /* ⚠ */
+    .hint { color:var(--muted); font-size:13px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-top:8px; }
+    .card { background:#0f1528; border:1px solid #212b4b; border-radius:12px; padding:12px; }
+    .card h3 { margin:0 0 8px; font-size:14px; color:#a9c6ff; letter-spacing:.2px; }
+    .chips { display:flex; gap:6px; flex-wrap:wrap; max-height:240px; overflow:auto; }
+    .chip { padding:6px 10px; border-radius:999px; background:#0c1328; border:1px solid #1b2a56; color:#cfe3ff; font-size:12px; cursor:pointer; }
+    .chip:hover { background:#0f1a3b; }
+    footer { margin-top:16px; color:var(--muted); font-size:12px; text-align:center; }
+    .credit { position:fixed; bottom:6px; right:10px; font-size:10px; letter-spacing:.3px; color:#9bb4c7; opacity:.65; user-select:none; pointer-events:none; }
+    /* Sugestão */
+    .suggest { display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; padding:10px 12px; border-radius:12px;
+      background: linear-gradient(180deg, #0b1e18, #0f2a22); border:1px solid #1b4a3d; box-shadow: 0 6px 20px rgba(0,0,0,.28); }
+    .sug-icon { width:28px; height:28px; display:grid; place-items:center; border-radius:999px; background:#0f3a2f; color:#9be8cf; box-shadow: inset 0 0 0 1px #1b4a3d; }
+    .sug-title { color:#bff6e4; font-weight:700; }
+    .sug-sub { color:#9be8cf; font-size:13px; }
+    .sug-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .sug-pill { padding:6px 10px; border-radius:999px; border:1px solid #1b4a3d; background:#0e241f; color:#bff6e4; cursor:pointer; font-weight:600; }
+    .sug-pill:hover { background:#123228; }
+    .linklike { background:none; color:#7df7c8; border:none; padding:0; font:inherit; cursor:pointer; text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Pesquisa de Abrangência</h1>
+      <span class="pill">Núcleos Anápolis · Núcleos Brasília · Nossa Abrangência</span>
+    </header>
+
+    <section class="search" role="search">
+      <input id="q" type="text" placeholder="Cole aqui: ex. &#39;SEDS - SEC MUN ASSISTENCIA SOCIAL - CIDADE OCIDENTAL&#39;" aria-label="Pesquisar município">
+      <button id="btn">Buscar</button>
+    </section>
+
+    <section id="out" class="result" aria-live="polite" aria-atomic="true"><div><div class="badge ok">✔ Nossa abrangência</div></div><div><div>Entrada: <strong>SEDS-SECRETARIA MUN DE ASSISTENCIA SOCIAL-CORREGO DO OURO</strong></div></div><div><div>Cidade analisada: <strong>CORREGO DO OURO</strong></div></div></section>
+
+    <section class="grid" aria-label="Listas rápidas">
+      <div class="card">
+        <h3>Núcleos Anápolis</h3>
+        <div class="chips" id="chips-ana"><span class="chip" tabindex="0">anapolis</span><span class="chip" tabindex="0">barro alto</span><span class="chip" tabindex="0">campo limpo de goias</span><span class="chip" tabindex="0">carmo do rio verde</span><span class="chip" tabindex="0">ceres</span><span class="chip" tabindex="0">goianapolis</span><span class="chip" tabindex="0">guaraita</span><span class="chip" tabindex="0">guarinos</span><span class="chip" tabindex="0">hidrolina</span><span class="chip" tabindex="0">ipiranga de goias</span><span class="chip" tabindex="0">itapaci</span><span class="chip" tabindex="0">itapuranga</span><span class="chip" tabindex="0">jaraguá</span><span class="chip" tabindex="0">morro agudo de goiás</span><span class="chip" tabindex="0">nova america</span><span class="chip" tabindex="0">nova gloria</span><span class="chip" tabindex="0">pilar de goias</span><span class="chip" tabindex="0">rialma</span><span class="chip" tabindex="0">rianapolis</span><span class="chip" tabindex="0">rubiataba</span><span class="chip" tabindex="0">santa isabel</span><span class="chip" tabindex="0">santa rita do novo destino</span><span class="chip" tabindex="0">sao luis do norte</span><span class="chip" tabindex="0">sao miguel do araguaia</span><span class="chip" tabindex="0">sao patricio</span><span class="chip" tabindex="0">uruaçu</span><span class="chip" tabindex="0">uruana</span><span class="chip" tabindex="0">vila propicio</span></div>
+      </div>
+      <div class="card">
+        <h3>Núcleos Brasília</h3>
+        <div class="chips" id="chips-bra"><span class="chip" tabindex="0">abadiania</span><span class="chip" tabindex="0">agua fria de goias</span><span class="chip" tabindex="0">aguas lindas de goias</span><span class="chip" tabindex="0">alexania</span><span class="chip" tabindex="0">cabeceiras</span><span class="chip" tabindex="0">cidade ocidental</span><span class="chip" tabindex="0">cocalzinho de goias</span><span class="chip" tabindex="0">corumba de goias</span><span class="chip" tabindex="0">cristalina</span><span class="chip" tabindex="0">formosa</span><span class="chip" tabindex="0">luziania</span><span class="chip" tabindex="0">mimoso de goias</span><span class="chip" tabindex="0">novo gama</span><span class="chip" tabindex="0">padre bernado</span><span class="chip" tabindex="0">pirenopolis</span><span class="chip" tabindex="0">planaltina</span><span class="chip" tabindex="0">santo antonio do descoberto</span><span class="chip" tabindex="0">valparaiso de goias</span><span class="chip" tabindex="0">vila boa</span></div>
+      </div>
+      <div class="card">
+        <h3>Nossa Abrangência</h3>
+        <div class="chips" id="chips-cob"><span class="chip" tabindex="0">Abadia de Goiás</span><span class="chip" tabindex="0">Abadiânia</span><span class="chip" tabindex="0">Acreúna</span><span class="chip" tabindex="0">Adelândia</span><span class="chip" tabindex="0">Água Fria de Goiás</span><span class="chip" tabindex="0">Água Limpa</span><span class="chip" tabindex="0">Águas Lindas de Goiás</span><span class="chip" tabindex="0">Alexânia</span><span class="chip" tabindex="0">Aloândia</span><span class="chip" tabindex="0">Alto Horizonte</span><span class="chip" tabindex="0">Alto Paraíso de Goiás</span><span class="chip" tabindex="0">Alvorada do Norte</span><span class="chip" tabindex="0">Amaralina</span><span class="chip" tabindex="0">Americano do Brasil</span><span class="chip" tabindex="0">Amorinópolis</span><span class="chip" tabindex="0">Anhanguera</span><span class="chip" tabindex="0">Anicuns</span><span class="chip" tabindex="0">Aparecida de Goiânia</span><span class="chip" tabindex="0">Aparecida do Rio Doce</span><span class="chip" tabindex="0">Aporé</span><span class="chip" tabindex="0">Araçu</span><span class="chip" tabindex="0">Aragarças</span><span class="chip" tabindex="0">Aragoiânia</span><span class="chip" tabindex="0">Araguapaz</span><span class="chip" tabindex="0">Arenópolis</span><span class="chip" tabindex="0">Aruanã</span><span class="chip" tabindex="0">Aurilândia</span><span class="chip" tabindex="0">Avelinópolis</span><span class="chip" tabindex="0">Baliza</span><span class="chip" tabindex="0">Bela Vista de Goiás</span><span class="chip" tabindex="0">Bom Jardim de Goiás</span><span class="chip" tabindex="0">Bom Jesus de Goiás</span><span class="chip" tabindex="0">Bonfinópolis</span><span class="chip" tabindex="0">Bonópolis</span><span class="chip" tabindex="0">Brazabrantes</span><span class="chip" tabindex="0">Britânia</span><span class="chip" tabindex="0">Buriti Alegre</span><span class="chip" tabindex="0">Buriti de Goiás</span><span class="chip" tabindex="0">Buritinópolis</span><span class="chip" tabindex="0">Cabeceiras</span><span class="chip" tabindex="0">Cachoeira Alta</span><span class="chip" tabindex="0">Cachoeira de Goiás</span><span class="chip" tabindex="0">Cachoeira Dourada</span><span class="chip" tabindex="0">Caçu</span><span class="chip" tabindex="0">Caiapônia</span><span class="chip" tabindex="0">Caldas Novas</span><span class="chip" tabindex="0">Caldazinha</span><span class="chip" tabindex="0">Campestre de Goiás</span><span class="chip" tabindex="0">Campinaçu</span><span class="chip" tabindex="0">Campinorte</span><span class="chip" tabindex="0">Campo Alegre de Goiás</span><span class="chip" tabindex="0">Campos Belos</span><span class="chip" tabindex="0">Campos Verdes</span><span class="chip" tabindex="0">Carmo do Rio Verde</span><span class="chip" tabindex="0">Castelândia</span><span class="chip" tabindex="0">Catalão</span><span class="chip" tabindex="0">Caturaí</span><span class="chip" tabindex="0">Cavalcante</span><span class="chip" tabindex="0">Ceres</span><span class="chip" tabindex="0">Cezarina</span><span class="chip" tabindex="0">Chapadão do Céu</span><span class="chip" tabindex="0">Cidade Ocidental</span><span class="chip" tabindex="0">Cocalzinho de Goiás</span><span class="chip" tabindex="0">Colinas do Sul</span><span class="chip" tabindex="0">Córrego do Ouro</span><span class="chip" tabindex="0">Corumbá de Goiás</span><span class="chip" tabindex="0">Corumbaíba</span><span class="chip" tabindex="0">Cristalina</span><span class="chip" tabindex="0">Cristianópolis</span><span class="chip" tabindex="0">Crixás</span><span class="chip" tabindex="0">Cromínia</span><span class="chip" tabindex="0">Cumari</span><span class="chip" tabindex="0">Damianópolis</span><span class="chip" tabindex="0">Damolândia</span><span class="chip" tabindex="0">Davinópolis</span><span class="chip" tabindex="0">Diorama</span><span class="chip" tabindex="0">Divinópolis de Goiás</span><span class="chip" tabindex="0">Doverlândia</span><span class="chip" tabindex="0">Edealina</span><span class="chip" tabindex="0">Edéia</span><span class="chip" tabindex="0">Estrela do Norte</span><span class="chip" tabindex="0">Faina</span><span class="chip" tabindex="0">Fazenda Nova</span><span class="chip" tabindex="0">Firminópolis</span><span class="chip" tabindex="0">Flores de Goiás</span><span class="chip" tabindex="0">Formosa</span><span class="chip" tabindex="0">Formoso</span><span class="chip" tabindex="0">Gameleira de Goiás</span><span class="chip" tabindex="0">Goianápolis</span><span class="chip" tabindex="0">Goiandira</span><span class="chip" tabindex="0">Goianésia</span><span class="chip" tabindex="0">Goiânia</span><span class="chip" tabindex="0">Goianira</span><span class="chip" tabindex="0">Goiás</span><span class="chip" tabindex="0">Goiatuba</span><span class="chip" tabindex="0">Gouvelândia</span><span class="chip" tabindex="0">Guapó</span><span class="chip" tabindex="0">Guaraíta</span><span class="chip" tabindex="0">Guarani de Goiás</span><span class="chip" tabindex="0">Guarinos</span><span class="chip" tabindex="0">Heitoraí</span><span class="chip" tabindex="0">Hidrolândia</span><span class="chip" tabindex="0">Hidrolina</span><span class="chip" tabindex="0">Iaciara</span><span class="chip" tabindex="0">Inaciolândia</span><span class="chip" tabindex="0">Indiara</span><span class="chip" tabindex="0">Inhumas</span><span class="chip" tabindex="0">Ipameri</span><span class="chip" tabindex="0">Ipiranga de Goiás</span><span class="chip" tabindex="0">Iporá</span><span class="chip" tabindex="0">Israelândia</span><span class="chip" tabindex="0">Itaberaí</span><span class="chip" tabindex="0">Itaguari</span><span class="chip" tabindex="0">Itaguaru</span><span class="chip" tabindex="0">Itajá</span><span class="chip" tabindex="0">Itapaci</span><span class="chip" tabindex="0">Itapirapuã</span><span class="chip" tabindex="0">Itapuranga</span><span class="chip" tabindex="0">Itarumã</span><span class="chip" tabindex="0">Itauçu</span><span class="chip" tabindex="0">Itumbiara</span><span class="chip" tabindex="0">Ivolândia</span><span class="chip" tabindex="0">Jandaia</span><span class="chip" tabindex="0">Jaraguá</span><span class="chip" tabindex="0">Jataí</span><span class="chip" tabindex="0">Jaupaci</span><span class="chip" tabindex="0">Jesúpolis</span><span class="chip" tabindex="0">Joviânia</span><span class="chip" tabindex="0">Jussara</span><span class="chip" tabindex="0">Lagoa Santa</span><span class="chip" tabindex="0">Leopoldo de Bulhões</span><span class="chip" tabindex="0">Luziânia</span><span class="chip" tabindex="0">Mairipotaba</span><span class="chip" tabindex="0">Mambaí</span><span class="chip" tabindex="0">Mara Rosa</span><span class="chip" tabindex="0">Marzagão</span><span class="chip" tabindex="0">Matrinchã</span><span class="chip" tabindex="0">Maurilândia</span><span class="chip" tabindex="0">Mimoso de Goiás</span><span class="chip" tabindex="0">Minaçu</span><span class="chip" tabindex="0">Mineiros</span><span class="chip" tabindex="0">Moiporá</span><span class="chip" tabindex="0">Monte Alegre de Goiás</span><span class="chip" tabindex="0">Montes Claros de Goiás</span><span class="chip" tabindex="0">Montividiu</span><span class="chip" tabindex="0">Montividiu do Norte</span><span class="chip" tabindex="0">Morrinhos</span><span class="chip" tabindex="0">Morro Agudo de Goiás</span><span class="chip" tabindex="0">Mossâmedes</span><span class="chip" tabindex="0">Mozarlândia</span><span class="chip" tabindex="0">Mundo Novo</span><span class="chip" tabindex="0">Mutunópolis</span><span class="chip" tabindex="0">Nazário</span><span class="chip" tabindex="0">Nerópolis</span><span class="chip" tabindex="0">Niquelândia</span><span class="chip" tabindex="0">Nova América</span><span class="chip" tabindex="0">Nova Aurora</span><span class="chip" tabindex="0">Nova Crixás</span><span class="chip" tabindex="0">Nova Glória</span><span class="chip" tabindex="0">Nova Iguaçu de Goiás</span><span class="chip" tabindex="0">Nova Roma</span><span class="chip" tabindex="0">Nova Veneza</span><span class="chip" tabindex="0">Novo Brasil</span><span class="chip" tabindex="0">Novo Gama</span><span class="chip" tabindex="0">Novo Planalto</span><span class="chip" tabindex="0">Orizona</span><span class="chip" tabindex="0">Ouro Verde de Goiás</span><span class="chip" tabindex="0">Ouvidor</span><span class="chip" tabindex="0">Padre Bernardo</span><span class="chip" tabindex="0">Palestina de Goiás</span><span class="chip" tabindex="0">Palmeiras de Goiás</span><span class="chip" tabindex="0">Palmelo</span><span class="chip" tabindex="0">Palminópolis</span><span class="chip" tabindex="0">Panamá</span><span class="chip" tabindex="0">Paranaiguara</span><span class="chip" tabindex="0">Paraúna</span><span class="chip" tabindex="0">Perolândia</span><span class="chip" tabindex="0">Petrolina de Goiás</span><span class="chip" tabindex="0">Pilar de Goiás</span><span class="chip" tabindex="0">Piracanjuba</span><span class="chip" tabindex="0">Piranhas</span><span class="chip" tabindex="0">Pirenópolis</span><span class="chip" tabindex="0">Pires do Rio</span><span class="chip" tabindex="0">Planaltina</span><span class="chip" tabindex="0">Pontalina</span><span class="chip" tabindex="0">Porangatu</span><span class="chip" tabindex="0">Porteirão</span><span class="chip" tabindex="0">Portelândia</span><span class="chip" tabindex="0">Posse</span><span class="chip" tabindex="0">Professor Jamil</span><span class="chip" tabindex="0">Quirinópolis</span><span class="chip" tabindex="0">Rialma</span><span class="chip" tabindex="0">Rianápolis</span><span class="chip" tabindex="0">Rio Quente</span><span class="chip" tabindex="0">Rio Verde</span><span class="chip" tabindex="0">Rubiataba</span><span class="chip" tabindex="0">Sanclerlândia</span><span class="chip" tabindex="0">Santa Bárbara de Goiás</span><span class="chip" tabindex="0">Santa Cruz de Goiás</span><span class="chip" tabindex="0">Santa Fé de Goiás</span><span class="chip" tabindex="0">Santa Helena de Goiás</span><span class="chip" tabindex="0">Santa Isabel</span><span class="chip" tabindex="0">Santa Rita do Araguaia</span><span class="chip" tabindex="0">Santa Rita do Novo Destino</span><span class="chip" tabindex="0">Santa Rosa de Goiás</span><span class="chip" tabindex="0">Santa Tereza de Goiás</span><span class="chip" tabindex="0">Santa Terezinha de Goiás</span><span class="chip" tabindex="0">Santo Antônio da Barra</span><span class="chip" tabindex="0">Santo Antônio de Goiás</span><span class="chip" tabindex="0">Santo Antônio do Descoberto</span><span class="chip" tabindex="0">São Domingos</span><span class="chip" tabindex="0">São Francisco de Goiás</span><span class="chip" tabindex="0">São João da Paraúna</span><span class="chip" tabindex="0">São João d'Aliança</span><span class="chip" tabindex="0">São Luís de Montes Belos</span><span class="chip" tabindex="0">São Luiz do Norte</span><span class="chip" tabindex="0">São Miguel do Araguaia</span><span class="chip" tabindex="0">São Miguel do Passa-Quatro</span><span class="chip" tabindex="0">São Patrício</span><span class="chip" tabindex="0">São Simão</span><span class="chip" tabindex="0">Senador Canedo</span><span class="chip" tabindex="0">Serranópolis</span><span class="chip" tabindex="0">Silvânia</span><span class="chip" tabindex="0">Simolândia</span><span class="chip" tabindex="0">Sítio d'Abadia</span><span class="chip" tabindex="0">Taquaral de Goiás</span><span class="chip" tabindex="0">Teresina de Goiás</span><span class="chip" tabindex="0">Terezópolis de Goiás</span><span class="chip" tabindex="0">Três Ranchos</span><span class="chip" tabindex="0">Trindade</span><span class="chip" tabindex="0">Trombas</span><span class="chip" tabindex="0">Turvânia</span><span class="chip" tabindex="0">Turvelândia</span><span class="chip" tabindex="0">Uirapuru</span><span class="chip" tabindex="0">Uruaçu</span><span class="chip" tabindex="0">Uruana</span><span class="chip" tabindex="0">Urutaí</span><span class="chip" tabindex="0">Valparaíso de Goiás</span><span class="chip" tabindex="0">Varjão</span><span class="chip" tabindex="0">Vianópolis</span><span class="chip" tabindex="0">Vicentinópolis</span><span class="chip" tabindex="0">Vila Boa</span><span class="chip" tabindex="0">Vila Propício</span></div>
+      </div>
+    </section>
+
+    <footer>
+      Offline • site simples para localizar a abrangência de um município listado. <br>
+      Última atualização: 21/01/2026
+    </footer>
+  </main>
+  <div class="credit">by renapsi</div>
+
+  <script>
+    // Listas (mantidas como no arquivo original para Anápolis/Brasília)
+    const anapolis = ['anapolis', 'barro alto', 'campo limpo de goias', 'carmo do rio verde', 'ceres', 'goianapolis', 'guaraita', 'guarinos', 'hidrolina', 'ipiranga de goias', 'itapaci', 'itapuranga', 'jaraguá', 'morro agudo de goiás', 'nova america', 'nova gloria', 'pilar de goias', 'rialma', 'rianapolis', 'rubiataba', 'santa isabel', 'santa rita do novo destino', 'sao luis do norte', 'sao miguel do araguaia', 'sao patricio', 'uruaçu', 'uruana', 'vila propicio'];
+    const brasilia = ['abadiania', 'agua fria de goias', 'aguas lindas de goias', 'alexania', 'cabeceiras', 'cidade ocidental', 'cocalzinho de goias', 'corumba de goias', 'cristalina', 'formosa', 'luziania', 'mimoso de goias', 'novo gama', 'padre bernado', 'pirenopolis', 'planaltina', 'santo antonio do descoberto', 'valparaiso de goias', 'vila boa'];
+
+    // Terceira lista: Nossa Abrangência (fornecida pelo usuário)
+    const cobertura = ["Abadia de Goiás", "Abadiânia", "Acreúna", "Adelândia", "Água Fria de Goiás", "Água Limpa", "Águas Lindas de Goiás", "Alexânia", "Aloândia", "Alto Horizonte", "Alto Paraíso de Goiás", "Alvorada do Norte", "Amaralina", "Americano do Brasil", "Amorinópolis", "Anhanguera", "Anicuns", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aporé", "Araçu", "Aragarças", "Aragoiânia", "Araguapaz", "Arenópolis", "Aruanã", "Aurilândia", "Avelinópolis", "Baliza", "Bela Vista de Goiás", "Bom Jardim de Goiás", "Bom Jesus de Goiás", "Bonfinópolis", "Bonópolis", "Brazabrantes", "Britânia", "Buriti Alegre", "Buriti de Goiás", "Buritinópolis", "Cabeceiras", "Cachoeira Alta", "Cachoeira de Goiás", "Cachoeira Dourada", "Caçu", "Caiapônia", "Caldas Novas", "Caldazinha", "Campestre de Goiás", "Campinaçu", "Campinorte", "Campo Alegre de Goiás", "Campos Belos", "Campos Verdes", "Carmo do Rio Verde", "Castelândia", "Catalão", "Caturaí", "Cavalcante", "Ceres", "Cezarina", "Chapadão do Céu", "Cidade Ocidental", "Cocalzinho de Goiás", "Colinas do Sul", "Córrego do Ouro", "Corumbá de Goiás", "Corumbaíba", "Cristalina", "Cristianópolis", "Crixás", "Cromínia", "Cumari", "Damianópolis", "Damolândia", "Davinópolis", "Diorama", "Divinópolis de Goiás", "Doverlândia", "Edealina", "Edéia", "Estrela do Norte", "Faina", "Fazenda Nova", "Firminópolis", "Flores de Goiás", "Formosa", "Formoso", "Gameleira de Goiás", "Goianápolis", "Goiandira", "Goianésia", "Goiânia", "Goianira", "Goiás", "Goiatuba", "Gouvelândia", "Guapó", "Guaraíta", "Guarani de Goiás", "Guarinos", "Heitoraí", "Hidrolândia", "Hidrolina", "Iaciara", "Inaciolândia", "Indiara", "Inhumas", "Ipameri", "Ipiranga de Goiás", "Iporá", "Israelândia", "Itaberaí", "Itaguari", "Itaguaru", "Itajá", "Itapaci", "Itapirapuã", "Itapuranga", "Itarumã", "Itauçu", "Itumbiara", "Ivolândia", "Jandaia", "Jaraguá", "Jataí", "Jaupaci", "Jesúpolis", "Joviânia", "Jussara", "Lagoa Santa", "Leopoldo de Bulhões", "Luziânia", "Mairipotaba", "Mambaí", "Mara Rosa", "Marzagão", "Matrinchã", "Maurilândia", "Mimoso de Goiás", "Minaçu", "Mineiros", "Moiporá", "Monte Alegre de Goiás", "Montes Claros de Goiás", "Montividiu", "Montividiu do Norte", "Morrinhos", "Morro Agudo de Goiás", "Mossâmedes", "Mozarlândia", "Mundo Novo", "Mutunópolis", "Nazário", "Nerópolis", "Niquelândia", "Nova América", "Nova Aurora", "Nova Crixás", "Nova Glória", "Nova Iguaçu de Goiás", "Nova Roma", "Nova Veneza", "Novo Brasil", "Novo Gama", "Novo Planalto", "Orizona", "Ouro Verde de Goiás", "Ouvidor", "Padre Bernardo", "Palestina de Goiás", "Palmeiras de Goiás", "Palmelo", "Palminópolis", "Panamá", "Paranaiguara", "Paraúna", "Perolândia", "Petrolina de Goiás", "Pilar de Goiás", "Piracanjuba", "Piranhas", "Pirenópolis", "Pires do Rio", "Planaltina", "Pontalina", "Porangatu", "Porteirão", "Portelândia", "Posse", "Professor Jamil", "Quirinópolis", "Rialma", "Rianápolis", "Rio Quente", "Rio Verde", "Rubiataba", "Sanclerlândia", "Santa Bárbara de Goiás", "Santa Cruz de Goiás", "Santa Fé de Goiás", "Santa Helena de Goiás", "Santa Isabel", "Santa Rita do Araguaia", "Santa Rita do Novo Destino", "Santa Rosa de Goiás", "Santa Tereza de Goiás", "Santa Terezinha de Goiás", "Santo Antônio da Barra", "Santo Antônio de Goiás", "Santo Antônio do Descoberto", "São Domingos", "São Francisco de Goiás", "São João da Paraúna", "São João d'Aliança", "São Luís de Montes Belos", "São Luiz do Norte", "São Miguel do Araguaia", "São Miguel do Passa-Quatro", "São Patrício", "São Simão", "Senador Canedo", "Serranópolis", "Silvânia", "Simolândia", "Sítio d'Abadia", "Taquaral de Goiás", "Teresina de Goiás", "Terezópolis de Goiás", "Três Ranchos", "Trindade", "Trombas", "Turvânia", "Turvelândia", "Uirapuru", "Uruaçu", "Uruana", "Urutaí", "Valparaíso de Goiás", "Varjão", "Vianópolis", "Vicentinópolis", "Vila Boa", "Vila Propício"];
+
+    // Normalização (remove acentos, caixa e espaços extras)
+    const normalize = (s) => s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
+    function extractCity(raw) {
+      if (!raw) return '';
+      const dashes = ['-', '–', '—'];
+      let part = String(raw);
+      let lastIdx = -1; let dashLen = 0;
+      for (const d of dashes) {
+        const i = part.lastIndexOf(d);
+        if (i > lastIdx) { lastIdx = i; dashLen = d.length; }
+      }
+      if (lastIdx !== -1) part = part.slice(lastIdx + dashLen);
+      const slashIdx = part.indexOf('/');
+      if (slashIdx !== -1) part = part.slice(0, slashIdx);
+      part = part.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}\s]+$/gu, '')
+                 .replace(/\s+/g, ' ')
+                 .trim();
+      return part;
+    }
+
+    // Conjuntos normalizados
+    const setAna = new Set(anapolis.map(normalize));
+    const setBra = new Set(brasilia.map(normalize));
+    const setCob = new Set(cobertura.map(normalize));
+
+    // Mapa normalizado -> original (todas as listas)
+    const allCities = [...anapolis, ...brasilia, ...cobertura];
+    const normToOriginal = new Map(allCities.map(c => [normalize(c), c]));
+
+    // Aliases úteis (abreviações/variações comuns)
+    const aliases = new Map([
+      [normalize('agua fria'), normalize('agua fria de goias')],
+      [normalize('agua fria de go'), normalize('agua fria de goias')],
+      [normalize('aguas lindas'), normalize('aguas lindas de goias')],
+      [normalize('aguas lindas de go'), normalize('aguas lindas de goias')],
+      [normalize('campo limpo'), normalize('campo limpo de goias')],
+      [normalize('campo limpo de go'), normalize('campo limpo de goias')],
+      [normalize('cid ocidental'), normalize('cidade ocidental')],
+      [normalize('cid. ocidental'), normalize('cidade ocidental')],
+      [normalize('cocalzinho'), normalize('cocalzinho de goias')],
+      [normalize('cocalzinho de go'), normalize('cocalzinho de goias')],
+      [normalize('corumba'), normalize('corumba de goias')],
+      [normalize('corumba de go'), normalize('corumba de goias')],
+      [normalize('ipiranga'), normalize('ipiranga de goias')],
+      [normalize('ipiranga de go'), normalize('ipiranga de goias')],
+      [normalize('mimoso'), normalize('mimoso de goias')],
+      [normalize('mimoso de go'), normalize('mimoso de goias')],
+      [normalize('morro agudo'), normalize('morro agudo de goiás')],
+      [normalize('morro agudo de go'), normalize('morro agudo de goiás')],
+      [normalize('morro agudo de goias'), normalize('morro agudo de goiás')],
+      [normalize('pilar'), normalize('pilar de goias')],
+      [normalize('pilar de go'), normalize('pilar de goias')],
+      [normalize('s. luis do norte'), normalize('sao luis do norte')],
+      [normalize('s. miguel do araguaia'), normalize('sao miguel do araguaia')],
+      [normalize('s. patricio'), normalize('sao patricio')],
+      [normalize('sta isabel'), normalize('santa isabel')],
+      [normalize('sta rita do novo destino'), normalize('santa rita do novo destino')],
+      [normalize('sta. isabel'), normalize('santa isabel')],
+      [normalize('sta. rita do novo destino'), normalize('santa rita do novo destino')],
+      [normalize('sto antonio do descoberto'), normalize('santo antonio do descoberto')],
+      [normalize('sto. antonio do descoberto'), normalize('santo antonio do descoberto')],
+      [normalize('v. boa'), normalize('vila boa')],
+      [normalize('v. propicio'), normalize('vila propicio')],
+      [normalize('valparaiso'), normalize('valparaiso de goias')],
+      [normalize('valparaiso de go'), normalize('valparaiso de goias')],
+      // Correção de digitação comum: Padre Bernardo (lista original tinha 'padre bernado')
+      [normalize('padre bernardo'), normalize('padre bernado')],
+    ]);
+
+    // Distância de Levenshtein (para sugestões)
+    function levenshtein(a, b) {
+      const m = a.length, n = b.length;
+      if (!m) return n; if (!n) return m;
+      const dp = Array.from({length: m + 1}, () => Array(n + 1).fill(0));
+      for (let i = 0; i <= m; i++) dp[i][0] = i;
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          const cost = a[i-1] === b[j-1] ? 0 : 1;
+          dp[i][j] = Math.min(
+            dp[i-1][j] + 1,
+            dp[i][j-1] + 1,
+            dp[i-1][j-1] + cost
+          );
+        }
+      }
+      return dp[m][n];
+    }
+
+    function topSuggestions(v, limit = 2) {
+      if (!v) return [];
+      const all = [...anapolis, ...brasilia, ...cobertura];
+      const allN = all.map(normalize);
+      const scored = [];
+      for (let i = 0; i < allN.length; i++) {
+        const n = allN[i];
+        let score;
+        if (n.startsWith(v)) score = 0; else if (n.includes(v)) score = 1; else score = levenshtein(v, n) + 2;
+        scored.push({ s: all[i], n, score });
+      }
+      scored.sort((a,b)=> a.score - b.score);
+      const thr = v.length <= 6 ? 2 : v.length <= 12 ? 3 : 4;
+      const picks = [];
+      for (const it of scored) {
+        if (picks.length >= limit) break;
+        if (it.score <= 1 || (it.score - 2) <= thr) {
+          if (!picks.find(p => normalize(p) === it.n)) picks.push(it.s);
+        }
+      }
+      return picks;
+    }
+
+    // UI refs
+    const q = document.getElementById('q');
+    const btn = document.getElementById('btn');
+    const out = document.getElementById('out');
+    const chipsAna = document.getElementById('chips-ana');
+    const chipsBra = document.getElementById('chips-bra');
+    const chipsCob = document.getElementById('chips-cob');
+
+    // Render chips
+    function tag(text) { const s = document.createElement('span'); s.className='chip'; s.textContent=text; s.tabIndex=0; s.addEventListener('click', ()=>{ q.value = text; buscar(); }); s.addEventListener('keydown', (e)=>{ if(e.key==='Enter') { q.value=text; buscar(); } }); return s; }
+    function renderLists() { anapolis.forEach(c => chipsAna.appendChild(tag(c))); brasilia.forEach(c => chipsBra.appendChild(tag(c))); cobertura.forEach(c => chipsCob.appendChild(tag(c))); }
+
+    // Resultado + sugestão
+    function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], aliasCanonico = null) {
+      out.innerHTML = '';
+      if (status === 'ana')      { out.appendChild(line(`<div class="badge ana">✖ Núcleo Anápolis</div>`)); }
+      else if (status === 'bra') { out.appendChild(line(`<div class="badge bra">✖ Núcleo Brasília</div>`)); }
+      else if (status === 'nossa') { out.appendChild(line(`<div class="badge ok">✔ Nossa abrangência</div>`)); }
+      else                        { out.appendChild(line(`<div class="badge nao">⚠ Não localizado</div>`)); }
+
+      const labelCidade = aliasCanonico
+        ? `${focoCidade} <span class="hint">→</span> <strong>${aliasCanonico}</strong>`
+        : (focoCidade || '<i>não identificado</i>');
+
+      out.appendChild(line(`<div>Entrada: <strong>${termOriginal}</strong></div>`));
+      out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
+
+      if (status === 'nao' && sugestoes && sugestoes.length) {
+        const sug = document.createElement('div');
+        sug.className = 'suggest';
+        sug.setAttribute('role','status');
+        sug.innerHTML = `
+          <div class="sug-icon">💡</div>
+          <div>
+            <div class="sug-title">Você quis dizer</div>
+            <div class="sug-sub">Selecione uma opção para aplicar</div>
+          </div>
+          <div class="sug-actions"></div>
+        `;
+        const actions = sug.querySelector('.sug-actions');
+        sugestoes.forEach((sText) => {
+          const b = document.createElement('button');
+          b.className = 'sug-pill';
+          b.textContent = sText;
+          b.setAttribute('aria-label', `Usar sugestão ${sText}`);
+          b.addEventListener('click', ()=>{ q.value = sText; buscar(); });
+          actions.appendChild(b);
+        });
+        out.appendChild(sug);
+      }
+    }
+    function line(html) { const d = document.createElement('div'); d.innerHTML = html; return d; }
+
+    // Buscar
+    function buscar() {
+      const raw = q.value || '';
+      if (!raw.trim()) { out.innerHTML = '<div class="hint">Cole ou digite um texto contendo a cidade (de preferência após um traço).</div>'; return; }
+
+      const cidadeBruta = extractCity(raw);
+      let key = normalize(cidadeBruta);
+      let aliasCanonico = null;
+
+      if (aliases.has(key)) {
+        const canonicalKey = aliases.get(key);
+        aliasCanonico = normToOriginal.get(canonicalKey) || null;
+        key = canonicalKey;
+      }
+
+      if (setAna.has(key)) return mostrarResultado(raw, cidadeBruta, 'ana', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
+      if (setBra.has(key)) return mostrarResultado(raw, cidadeBruta, 'bra', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
+      if (setCob.has(key)) return mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico);
+
+      const sugs = topSuggestions(key, 2);
+      if (sugs.length) return mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico);
+      mostrarResultado(raw, cidadeBruta, 'nao', [], aliasCanonico);
+    }
+
+    // Atalhos
+    document.addEventListener('keydown', (e)=>{
+      if (e.altKey && e.key === 'Enter') {
+        const first = out.querySelector('.sug-actions .sug-pill');
+        if (first) { first.click(); }
+      }
+    });
+
+    // Autocomplete leve
+    q.addEventListener('input', () => {
+      const cidade = extractCity(q.value);
+      const v = normalize(cidade);
+      if (!v) { q.removeAttribute('title'); return; }
+      const all = [...anapolis, ...brasilia, ...cobertura];
+      const found = all.find(c => normalize(c).startsWith(v));
+      if (found && cidade.length > 1) { q.title = `Sugestão: ${found}`; } else { q.removeAttribute('title'); }
+    });
+
+    btn.addEventListener('click', buscar);
+    q.addEventListener('keydown', (e) => { if (e.key === 'Enter') buscar(); });
+
+    // Render na carga
+    window.addEventListener('DOMContentLoaded', renderLists);
+  </script>
+
+
+</body></html>
