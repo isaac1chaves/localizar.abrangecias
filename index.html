@@ -87,7 +87,7 @@
       Última atualização: 22/01/2026
     </footer>
   </main>
-  <div class="credit">V1.80-----by renapsi</div>
+  <div class="credit">V1.81-----by renapsi</div>
 
   <script>
     // Listas (mantidas como no arquivo original para Anápolis/Brasília)
@@ -218,6 +218,11 @@
 
     // UI refs
     const q = document.getElementById('q');
+    q.addEventListener('focus', () => {
+      q.select();
+    });
+
+
     const btn = document.getElementById('btn');
     const out = document.getElementById('out');
     const chipsAna = document.getElementById('chips-ana');
