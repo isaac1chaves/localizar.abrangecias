@@ -59,7 +59,37 @@
     .sug-pill { padding:6px 10px; border-radius:999px; border:1px solid #1b4a3d; background:#0e241f; color:#bff6e4; cursor:pointer; font-weight:600; }
     .sug-pill:hover { background:#123228; }
     .linklike { background:none; color:#7df7c8; border:none; padding:0; font:inherit; cursor:pointer; text-decoration:underline; }
-  </style>
+  
+
+/* Destaque da cidade encontrada (scroll + cor diferente) */
+.chip.is-highlight {
+  background: linear-gradient(180deg, #7df7c8, #1fbf8d);
+  color: #062016;
+  border-color: #2de3b0;
+  box-shadow: 0 0 0 3px rgba(125, 247, 200, 0.18), 0 10px 26px rgba(125, 247, 200, 0.18);
+  transform: translateY(-1px);
+}
+
+@keyframes pulseHighlight {
+  0%   { box-shadow: 0 0 0 0 rgba(125, 247, 200, 0.45); }
+  100% { box-shadow: 0 0 0 10px rgba(125, 247, 200, 0); }
+}
+
+.chip.is-highlight {
+  animation: pulseHighlight 900ms ease-out 1;
+}
+
+html { scroll-behavior: smooth; }
+
+
+
+/* Easter egg: clique no crédito para revelar */
+.credit { position: fixed; bottom: 6px; right: 10px; font-size: 10px; letter-spacing: .3px; color: #9bb4c7; opacity: .65; user-select: none; cursor: pointer; pointer-events: auto; }
+.credit .credit-hidden { display: inline-block; max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transform: translateX(0); transition: max-width .35s ease, opacity .25s ease, transform .35s ease; margin-left: 0; }
+.credit.is-revealed .credit-main { display: inline-block; transform: translateX(-10px); transition: transform .35s ease; }
+.credit.is-revealed .credit-hidden { max-width: 260px; opacity: 1; transform: translateX(-8px); margin-left: 8px; }
+
+</style>
 </head>
 <body>
   <main class="app">
@@ -95,7 +125,7 @@
       Última atualização: 26/01/2026
     </footer>
   </main>
-  <div class="credit">V1.90 - by renapsi</div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.00 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // Listas (mantidas como no arquivo original para Anápolis/Brasília)
@@ -237,6 +267,34 @@
     const chipsBra = document.getElementById('chips-bra');
     const chipsCob = document.getElementById('chips-cob');
 
+// ===== Destaque na lista (rolar até a cidade encontrada) =====
+function clearHighlights() {
+  document.querySelectorAll('.chip.is-highlight')
+    .forEach(el => el.classList.remove('is-highlight'));
+}
+
+function highlightCityByKey(cityKeyNormalized) {
+  if (!cityKeyNormalized) return false;
+
+  clearHighlights();
+
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const matches = chips.filter(chip => normalize(chip.textContent) === cityKeyNormalized);
+  if (!matches.length) return false;
+
+  // Destaca TODAS as ocorrências
+  matches.forEach(el => el.classList.add('is-highlight'));
+
+  // Rola até a primeira ocorrência
+  const first = matches[0];
+  first.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+  first.focus({ preventScroll: true });
+
+  return true;
+}
+// ============================================================
+
+
     // Render chips
     function tag(text) { const s = document.createElement('span'); s.className='chip'; s.textContent=text; s.tabIndex=0; s.addEventListener('click', ()=>{ q.value = text; buscar(); }); s.addEventListener('keydown', (e)=>{ if(e.key==='Enter') { q.value=text; buscar(); } }); return s; }
     function renderLists() {
@@ -297,7 +355,9 @@
       const raw = q.value || '';
       if (!raw.trim()) { out.innerHTML = '<div class="hint">Cole ou digite um texto contendo a cidade (de preferência após um traço).</div>'; return; }
 
-      const cidadeBruta = extractCity(raw);
+      
+  clearHighlights();
+const cidadeBruta = extractCity(raw);
       let key = normalize(cidadeBruta);
       let aliasCanonico = null;
 
@@ -307,9 +367,18 @@
         key = canonicalKey;
       }
 
-      if (setAna.has(key)) return mostrarResultado(raw, cidadeBruta, 'ana', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
-      if (setBra.has(key)) return mostrarResultado(raw, cidadeBruta, 'bra', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
-      if (setCob.has(key)) return mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico);
+      if (setAna.has(key)) {
+  highlightCityByKey(key);
+  return mostrarResultado(raw, cidadeBruta, 'ana', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
+}
+if (setBra.has(key)) {
+  highlightCityByKey(key);
+  return mostrarResultado(raw, cidadeBruta, 'bra', aliasCanonico ? [aliasCanonico] : [], aliasCanonico);
+}
+if (setCob.has(key)) {
+  highlightCityByKey(key);
+  return mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico);
+}
 
       const sugs = topSuggestions(key, 2);
       if (sugs.length) return mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico);
@@ -339,7 +408,36 @@
 
     // Render na carga
     window.addEventListener('DOMContentLoaded', renderLists);
-  </script>
+  
+
+// ===== Easter egg: múltiplos cliques no crédito =====
+(function() {
+  const credit = document.getElementById('credit');
+  if (!credit) return;
+
+  let clicks = 0;
+  let timer = null;
+  const REQUIRED = 7;      // quantos cliques para ativar
+  const WINDOW_MS = 2500;  // janela de tempo entre cliques
+
+  function resetSoon() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => { clicks = 0; }, WINDOW_MS);
+  }
+
+  credit.addEventListener('click', () => {
+    clicks++;
+    resetSoon();
+
+    if (clicks >= REQUIRED) {
+      credit.classList.toggle('is-revealed');
+      clicks = 0;
+    }
+  });
+})();
+// ================================================
+
+</script>
 
 
 </body></html>
