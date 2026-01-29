@@ -393,81 +393,95 @@ footer{ opacity:.9; }
 
 
 
-/* === Tema leve + Fix Edge (evita bug de render no Vercel) === */
+/* === Tema SUPER estável (cor sólida, sem shaders/blur/gradientes) === */
 :root{
   --bg:#070b22;
-  --card:#0d1330;
+  --panel:#0e1433;
+  --panel2:#0b1028;
+  --border: rgba(115,150,255,.18);
   --text:#e9f1ff;
   --muted:#a7b6d6;
   --accent:#3aa7ff;
   --accent-2:#7df7c8;
-  --ring:#2a6ea1;
 }
+
 body{
-  background:
-    radial-gradient(850px 520px at 14% 0%, rgba(16,26,69,.80) 0%, rgba(7,11,34,0) 60%),
-    radial-gradient(720px 520px at 86% 12%, rgba(6,42,76,.72) 0%, rgba(7,11,34,0) 52%),
-    var(--bg);
-  color: var(--text);
+  background: var(--bg) !important;
+  color: var(--text) !important;
 }
 
-/* padrão: leve */
+/* remove qualquer blur/backdrop */
 .app{
-  background: rgba(13,19,48,.86);
-  border: 1px solid rgba(115,150,255,.16);
-  box-shadow: 0 16px 42px rgba(0,0,0,.42);
-  /* blur pequeno (não tão pesado) */
-  -webkit-backdrop-filter: saturate(112%) blur(5px);
-  backdrop-filter: saturate(112%) blur(5px);
-}
-.search, .result, .card{
-  background: rgba(8,12,34,.60);
-  border: 1px solid rgba(115,150,255,.16);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 18px rgba(0,0,0,.22);
-}
-.search input[type="text"]{
-  background: rgba(9,16,50,.70);
-  border: 1px solid rgba(115,150,255,.18);
-  color: var(--text);
-}
-.search input[type="text"]::placeholder{ color: rgba(167,182,214,.70); }
-.search button{
-  background: linear-gradient(180deg, #3aa7ff, #2b7dd7);
-  color:#021a2e;
-  box-shadow: 0 8px 18px rgba(58,167,255,.30);
-}
-.chip{
-  background: rgba(10,16,46,.70);
-  border: 1px solid rgba(233,241,255,.26);
-  color: rgba(233,241,255,.92);
-  box-shadow: none;
-}
-.chip:hover{ border-color: rgba(58,167,255,.45); background: rgba(15,26,74,.75); }
-
-/* Sem bolha azulada no foco (só borda) */
-:where(input, button, .chip):focus,
-:where(input, button, .chip):focus-visible{ outline: none; box-shadow: none !important; }
-.search input[type="text"]:focus,
-.search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.55); }
-
-/* === FIX ESPECÍFICO EDGE === */
-/* O bug do Edge costuma aparecer com backdrop-filter/sombras na primeira composição. */
-html.is-edge .app{
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  background: linear-gradient(180deg, rgba(13,19,48,.96), rgba(10,14,38,.94)) !important;
-  box-shadow: 0 14px 36px rgba(0,0,0,.45) !important;
-}
-html.is-edge .search, html.is-edge .result, html.is-edge .card{
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 6px 14px rgba(0,0,0,.20) !important;
-}
-/* remove "promoção" agressiva de camada no Edge */
-html.is-edge .app, html.is-edge .search, html.is-edge .card{
-  transform: none !important;
-  will-change: auto !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.38) !important;
 }
 
-/* === fim tema leve + fix Edge === */
+.search, .result, .card{
+  background: var(--panel2) !important;
+  border: 1px solid rgba(115,150,255,.16) !important;
+  box-shadow: none !important; /* zero sombra interna para evitar glitches */
+}
+
+.search input[type="text"]{
+  background: rgba(9,16,50,.55) !important;
+  border: 1px solid rgba(115,150,255,.18) !important;
+  color: var(--text) !important;
+}
+.search input[type="text"]::placeholder{ color: rgba(167,182,214,.70) !important; }
+
+.search button{
+  background: linear-gradient(180deg, #3aa7ff, #2b7dd7) !important;
+  color:#021a2e !important;
+  box-shadow: none !important;
+}
+
+.card h3{ color: rgba(200,220,255,.92) !important; }
+.hint, footer{ color: rgba(167,182,214,.82) !important; }
+
+/* chips com borda nítida */
+.chip{
+  background: rgba(10,16,46,.55) !important;
+  border: 1px solid rgba(233,241,255,.26) !important;
+  color: rgba(233,241,255,.92) !important;
+  box-shadow: none !important;
+}
+.chip:hover{
+  border-color: rgba(58,167,255,.45) !important;
+  background: rgba(15,26,74,.60) !important;
+}
+
+/* sugestão: simples */
+.suggest{
+  background: rgba(9,39,33,.92) !important;
+  border: 1px solid rgba(125,247,200,.22) !important;
+  box-shadow: none !important;
+}
+.suggest .sug-pill{
+  background: rgba(7,31,26,.92) !important;
+  border: 1px solid rgba(233,241,255,.18) !important;
+}
+
+/* Sem bolha azulada de foco (só borda ao interagir) */
+:where(input, button, .chip):focus,
+:where(input, button, .chip):focus-visible{ outline: none !important; box-shadow: none !important; }
+.search input[type="text"]:focus,
+.search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.60) !important; }
+
+/* Scrollbar simples */
+.chips::-webkit-scrollbar-thumb{ background: rgba(115,150,255,.22) !important; }
+
+/* === fim tema super estável === */
+
+
+/* === Gradiente simples (somente gradiente) — mantém tema estável === */
+body{
+  /* gradiente leve, sem múltiplas camadas, sem blur */
+  background: linear-gradient(135deg, #070b22 0%, #0b163d 55%, #070b22 100%) !important;
+}
+/* === fim gradiente simples === */
 </style>
 </head>
 <body>
@@ -840,24 +854,10 @@ function buscar() {
 
 
 
-// === Detecta Edge e aplica classe para correções específicas ===
-(function(){
-  try{
-    var ua = navigator.userAgent || '';
-    if (ua.indexOf('Edg/') !== -1) {
-      document.documentElement.classList.add('is-edge');
-    }
-  }catch(e){}
-})();
-
-// === Repaint leve (ajuda o Edge a compor corretamente no primeiro paint) ===
+// === Repaint mínimo (evita primeiro paint inconsistente no Edge/Chromium) ===
 (function(){
   function repaint(){
-    try{
-      document.body.style.zoom = '1';
-      void document.body.offsetHeight;
-      document.body.style.zoom = '';
-    }catch(e){}
+    try{ void document.body.offsetHeight; }catch(e){}
   }
   requestAnimationFrame(repaint);
   window.addEventListener('load', repaint, {once:true});
