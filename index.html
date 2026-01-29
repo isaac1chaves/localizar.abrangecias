@@ -393,40 +393,42 @@ footer{ opacity:.9; }
 
 
 
-/* === Tema SUPER estável (cor sólida, sem shaders/blur/gradientes) === */
+/* === Blur + sombras (de volta) SEM gradiente no fundo === */
 :root{
-  --bg:#070b22;
-  --panel:#0e1433;
-  --panel2:#0b1028;
+  --bg-solid:#070b22;
+  --panel: rgba(13,19,48,.78);
+  --panel-2: rgba(8,12,34,.70);
   --border: rgba(115,150,255,.18);
   --text:#e9f1ff;
   --muted:#a7b6d6;
   --accent:#3aa7ff;
   --accent-2:#7df7c8;
+  --ring:#2a6ea1;
 }
 
+/* Fundo 100% sólido (remove qualquer gradiente) */
 body{
-  background: var(--bg) !important;
+  background: var(--bg-solid) !important;
   color: var(--text) !important;
 }
 
-/* remove qualquer blur/backdrop */
+/* Glass/blur novamente (mas só no painel, não no body) */
 .app{
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
   background: var(--panel) !important;
   border: 1px solid var(--border) !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,.38) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,.52) !important;
+  -webkit-backdrop-filter: saturate(120%) blur(10px) !important;
+  backdrop-filter: saturate(120%) blur(10px) !important;
 }
 
 .search, .result, .card{
-  background: var(--panel2) !important;
+  background: var(--panel-2) !important;
   border: 1px solid rgba(115,150,255,.16) !important;
-  box-shadow: none !important; /* zero sombra interna para evitar glitches */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 12px 28px rgba(0,0,0,.30) !important;
 }
 
 .search input[type="text"]{
-  background: rgba(9,16,50,.55) !important;
+  background: rgba(9,16,50,.70) !important;
   border: 1px solid rgba(115,150,255,.18) !important;
   color: var(--text) !important;
 }
@@ -435,53 +437,72 @@ body{
 .search button{
   background: linear-gradient(180deg, #3aa7ff, #2b7dd7) !important;
   color:#021a2e !important;
-  box-shadow: none !important;
+  box-shadow: 0 10px 24px rgba(58,167,255,.30) !important;
 }
 
-.card h3{ color: rgba(200,220,255,.92) !important; }
-.hint, footer{ color: rgba(167,182,214,.82) !important; }
-
-/* chips com borda nítida */
+/* Chips com borda e sombra suave */
 .chip{
-  background: rgba(10,16,46,.55) !important;
+  background: rgba(10,16,46,.72) !important;
   border: 1px solid rgba(233,241,255,.26) !important;
   color: rgba(233,241,255,.92) !important;
-  box-shadow: none !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18) !important;
 }
 .chip:hover{
   border-color: rgba(58,167,255,.45) !important;
-  background: rgba(15,26,74,.60) !important;
+  background: rgba(15,26,74,.78) !important;
 }
 
-/* sugestão: simples */
+/* Sugestão (bolha verde) com sombra de volta */
 .suggest{
-  background: rgba(9,39,33,.92) !important;
-  border: 1px solid rgba(125,247,200,.22) !important;
-  box-shadow: none !important;
-}
-.suggest .sug-pill{
-  background: rgba(7,31,26,.92) !important;
-  border: 1px solid rgba(233,241,255,.18) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.04) !important;
 }
 
-/* Sem bolha azulada de foco (só borda ao interagir) */
+/* Mantém sem "bolha azulada" no foco (apenas borda ao interagir) */
 :where(input, button, .chip):focus,
 :where(input, button, .chip):focus-visible{ outline: none !important; box-shadow: none !important; }
 .search input[type="text"]:focus,
 .search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.60) !important; }
 
-/* Scrollbar simples */
-.chips::-webkit-scrollbar-thumb{ background: rgba(115,150,255,.22) !important; }
-
-/* === fim tema super estável === */
+/* === fim blur + sombras sem gradiente === */
 
 
-/* === Gradiente simples (somente gradiente) — mantém tema estável === */
-body{
-  /* gradiente leve, sem múltiplas camadas, sem blur */
-  background: linear-gradient(135deg, #070b22 0%, #0b163d 55%, #070b22 100%) !important;
+/* Edge: compositor pode engasgar com blur. Se ainda houver glitch, mantenha sem blur apenas no Edge. */
+html.is-edge .app{
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(13,19,48,.92) !important;
 }
-/* === fim gradiente simples === */
+
+
+/* === Ajuste: lista "Nossa Abrangência" não invadir o título === */
+/* Dá um respiro entre o h3 e a lista de chips, especialmente no card 3 */
+#chips-cob{ 
+  margin-top: 10px !important; 
+  padding-top: 2px !important;
+}
+/* Garante que o título reserve espaço e não seja sobreposto */
+#chips-cob{ position: relative; z-index: 0; }
+#chips-cob, #chips-cob .chip{ transform: none; }
+/* Opcional: pequena correção no h3 deste card */
+#chips-cob{ scroll-margin-top: 10px; }
+#chips-cob{ line-height: normal; }
+/* Se o browser colapsar margens, força o fluxo */
+.card h3{ position: relative; z-index: 1; }
+/* === fim ajuste === */
+
+
+/* === Fix: destaque das cidades não some ao focar (focus removia o box-shadow) === */
+/* O script dá focus no chip encontrado; como removemos box-shadow no :focus, o destaque desaparecia. */
+.chip.is-highlight,
+.chip.is-highlight:focus,
+.chip.is-highlight:focus-visible{
+  background: linear-gradient(180deg, var(--accent-2), #1fbf8d) !important;
+  color: #062016 !important;
+  border-color: #2de3b0 !important;
+  box-shadow: 0 0 0 3px rgba(125,247,200,.18), 0 12px 28px rgba(125,247,200,.22) !important;
+}
+/* mantém sem "bolha" nos demais focos */
+/* === fim fix destaque === */
 </style>
 </head>
 <body>
@@ -854,13 +875,12 @@ function buscar() {
 
 
 
-// === Repaint mínimo (evita primeiro paint inconsistente no Edge/Chromium) ===
+// === Edge fallback: se necessário, desliga blur só no Edge (mantém fundo sólido) ===
 (function(){
-  function repaint(){
-    try{ void document.body.offsetHeight; }catch(e){}
-  }
-  requestAnimationFrame(repaint);
-  window.addEventListener('load', repaint, {once:true});
+  try{
+    var ua = navigator.userAgent || '';
+    if (ua.indexOf('Edg/') !== -1) document.documentElement.classList.add('is-edge');
+  }catch(e){}
 })();
 </script>
 
