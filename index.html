@@ -393,15 +393,15 @@ footer{ opacity:.9; }
 
 
 
-/* === Ultra estável (remove backdrop-filter e "shaders" pesados) === */
+/* === Tema leve + Fix Edge (evita bug de render no Vercel) === */
 :root{
   --bg:#070b22;
-  --panel:#0d1330;
-  --panel2:#0b1028;
+  --card:#0d1330;
   --text:#e9f1ff;
   --muted:#a7b6d6;
   --accent:#3aa7ff;
   --accent-2:#7df7c8;
+  --ring:#2a6ea1;
 }
 body{
   background:
@@ -411,53 +411,63 @@ body{
   color: var(--text);
 }
 
-/* Sem blur. Visual semelhante usando transparência sólida + borda */
+/* padrão: leve */
 .app{
-  background: linear-gradient(180deg, rgba(13,19,48,.96), rgba(10,14,38,.94));
+  background: rgba(13,19,48,.86);
   border: 1px solid rgba(115,150,255,.16);
-  box-shadow: 0 14px 36px rgba(0,0,0,.45);
+  box-shadow: 0 16px 42px rgba(0,0,0,.42);
+  /* blur pequeno (não tão pesado) */
+  -webkit-backdrop-filter: saturate(112%) blur(5px);
+  backdrop-filter: saturate(112%) blur(5px);
 }
-
 .search, .result, .card{
-  background: rgba(8,12,34,.72);
-  border: 1px solid rgba(115,150,255,.14);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 8px 18px rgba(0,0,0,.22);
-}
-
-.search input[type="text"]{
-  background: rgba(9,16,50,.60);
+  background: rgba(8,12,34,.60);
   border: 1px solid rgba(115,150,255,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 18px rgba(0,0,0,.22);
+}
+.search input[type="text"]{
+  background: rgba(9,16,50,.70);
+  border: 1px solid rgba(115,150,255,.18);
   color: var(--text);
 }
 .search input[type="text"]::placeholder{ color: rgba(167,182,214,.70); }
-
 .search button{
   background: linear-gradient(180deg, #3aa7ff, #2b7dd7);
   color:#021a2e;
-  box-shadow: 0 8px 18px rgba(58,167,255,.26);
+  box-shadow: 0 8px 18px rgba(58,167,255,.30);
 }
-
 .chip{
-  background: rgba(10,16,46,.66);
+  background: rgba(10,16,46,.70);
   border: 1px solid rgba(233,241,255,.26);
   color: rgba(233,241,255,.92);
+  box-shadow: none;
 }
-.chip:hover{ border-color: rgba(58,167,255,.45); background: rgba(15,26,74,.70); }
+.chip:hover{ border-color: rgba(58,167,255,.45); background: rgba(15,26,74,.75); }
 
-/* Sugestão */
-.suggest{
-  background: linear-gradient(180deg, rgba(9,39,33,.92), rgba(10,52,42,.90));
-  border-color: rgba(125,247,200,.20);
-  box-shadow: 0 10px 22px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* Sem bolha azulada de foco */
+/* Sem bolha azulada no foco (só borda) */
 :where(input, button, .chip):focus,
 :where(input, button, .chip):focus-visible{ outline: none; box-shadow: none !important; }
 .search input[type="text"]:focus,
 .search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.55); }
 
-/* === fim ultra estável === */
+/* === FIX ESPECÍFICO EDGE === */
+/* O bug do Edge costuma aparecer com backdrop-filter/sombras na primeira composição. */
+html.is-edge .app{
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: linear-gradient(180deg, rgba(13,19,48,.96), rgba(10,14,38,.94)) !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,.45) !important;
+}
+html.is-edge .search, html.is-edge .result, html.is-edge .card{
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 6px 14px rgba(0,0,0,.20) !important;
+}
+/* remove "promoção" agressiva de camada no Edge */
+html.is-edge .app, html.is-edge .search, html.is-edge .card{
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* === fim tema leve + fix Edge === */
 </style>
 </head>
 <body>
@@ -830,18 +840,27 @@ function buscar() {
 
 
 
-// === Hardening: garante renderização das listas no deploy (Vercel) ===
+// === Detecta Edge e aplica classe para correções específicas ===
 (function(){
-  function safeRender(){
-    try{ if (typeof renderLists === 'function') renderLists(); }catch(e){}
+  try{
+    var ua = navigator.userAgent || '';
+    if (ua.indexOf('Edg/') !== -1) {
+      document.documentElement.classList.add('is-edge');
+    }
+  }catch(e){}
+})();
+
+// === Repaint leve (ajuda o Edge a compor corretamente no primeiro paint) ===
+(function(){
+  function repaint(){
+    try{
+      document.body.style.zoom = '1';
+      void document.body.offsetHeight;
+      document.body.style.zoom = '';
+    }catch(e){}
   }
-  // executa cedo e de novo no load
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', safeRender, {once:true});
-  } else {
-    safeRender();
-  }
-  window.addEventListener('load', safeRender, {once:true});
+  requestAnimationFrame(repaint);
+  window.addEventListener('load', repaint, {once:true});
 })();
 </script>
 
