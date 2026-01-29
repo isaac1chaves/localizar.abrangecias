@@ -391,6 +391,77 @@ footer{ opacity:.9; }
 /* Edge/Firefox: garantir curvatura visual nos pseudo-elementos */
 .search input[type="text"]::-moz-focus-inner{ border:0; padding:0; }
 
+
+
+/* === Tema leve (menos "shaders") — ideal para GitHub + Vercel === */
+:root{
+  --bg:#070b22;
+  --card:#0d1330;
+  --text:#e9f1ff;
+  --muted:#a7b6d6;
+  --accent:#3aa7ff;
+  --accent-2:#7df7c8;
+  --ring:#2a6ea1;
+}
+body{
+  background:
+    radial-gradient(900px 560px at 14% 0%, rgba(16,26,69,.85) 0%, rgba(7,11,34,0) 58%),
+    radial-gradient(720px 520px at 86% 12%, rgba(6,42,76,.78) 0%, rgba(7,11,34,0) 48%),
+    var(--bg);
+  color: var(--text);
+}
+
+.app{
+  /* blur menor (menos custo) + fallback sólido */
+  -webkit-backdrop-filter: saturate(112%) blur(5px);
+  backdrop-filter: saturate(112%) blur(5px);
+  background: rgba(13,19,48,.86);
+  border: 1px solid rgba(115,150,255,.16);
+  box-shadow: 0 16px 42px rgba(0,0,0,.42);
+}
+
+.search, .result, .card{
+  background: rgba(8,12,34,.60);
+  border: 1px solid rgba(115,150,255,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 18px rgba(0,0,0,.22);
+}
+
+.search input[type="text"]{
+  background: rgba(9,16,50,.70);
+  border: 1px solid rgba(115,150,255,.18);
+  color: var(--text);
+}
+.search input[type="text"]::placeholder{ color: rgba(167,182,214,.70); }
+
+.search button{
+  background: linear-gradient(180deg, #3aa7ff, #2b7dd7);
+  color:#021a2e;
+  box-shadow: 0 8px 18px rgba(58,167,255,.30);
+}
+
+/* chips com borda (sem sombra pesada) */
+.chip{
+  background: rgba(10,16,46,.70);
+  border: 1px solid rgba(233,241,255,.26);
+  color: rgba(233,241,255,.92);
+  box-shadow: none;
+}
+.chip:hover{ border-color: rgba(58,167,255,.45); background: rgba(15,26,74,.75); }
+
+/* badges levemente transparentes */
+.badge{ box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 4px 10px rgba(0,0,0,.18); }
+
+/* sugestão mais leve */
+.suggest{ box-shadow: 0 10px 22px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04); border-color: rgba(125,247,200,.22); }
+.suggest .sug-pill{ border-color: rgba(233,241,255,.18); }
+
+/* === Sem bolha azulada de foco — apenas borda ao interagir === */
+:where(input, button, .chip):focus,
+:where(input, button, .chip):focus-visible{ outline: none; box-shadow: none !important; }
+.search input[type="text"]:focus,
+.search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.55); }
+
+/* === fim tema leve === */
 </style>
 </head>
 <body>
@@ -761,6 +832,21 @@ function buscar() {
 })();
 // ================================================
 
+
+
+// === Repaint leve (corrige glitches de blur no deploy sem esconder a UI) ===
+(function(){
+  function repaint(){
+    try{
+      document.documentElement.style.transform='translateZ(0)';
+      // força reflow
+      void document.body.offsetHeight;
+      document.documentElement.style.transform='';
+    }catch(e){}
+  }
+  window.addEventListener('load', repaint, {once:true});
+  requestAnimationFrame(repaint);
+})();
 </script>
 
 </body></html>
