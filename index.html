@@ -470,6 +470,20 @@ html.is-edge .app{
 @media (prefers-reduced-motion: reduce){ .badge{ animation:none !important; } }
 
 /* === fim pacote final === */
+
+
+/* --- Fix: evita cortar o destaque (glow) dos chips selecionados (3 listas) --- */
+.chips{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  scroll-padding-top: 14px;
+}
+
+/* Ajuste: dá um respiro entre o título do card e os chips */
+.card h3{
+  margin-bottom: 10px;
+}
+
 </style>
 </head>
 <body>
