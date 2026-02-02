@@ -492,6 +492,171 @@ html.is-edge .app{
   scroll-padding-top: 18px;
 }
 
+
+
+/* === Patch (Copilot): Centralização + respiro + tema degradê (opção 1) === */
+.chips{ justify-content: center; }
+.grid{ align-items: stretch; gap: 14px; }
+.card{ display:flex; flex-direction:column; min-height: 320px; padding: 14px; }
+.card .chips{ flex: 1 1 auto; padding: 10px 6px; }
+.card h3{ margin-bottom: 12px; }
+@media (max-width: 720px){ .card{ min-height: unset; } }
+
+:root{
+  --bg0:#060922;
+  --bg1:#070b22;
+  --border: rgba(115,150,255,.20);
+  --border2: rgba(115,150,255,.30);
+  --text:#e9f1ff;
+  --shadow1: 0 18px 55px rgba(0,0,0,.50);
+  --shadow2: 0 10px 28px rgba(0,0,0,.34);
+  --glow: 0 0 0 3px rgba(58,167,255,.16);
+}
+body{
+  color: var(--text) !important;
+  background:
+    radial-gradient(900px 560px at 10% 0%, rgba(58,167,255,.16), transparent 60%),
+    radial-gradient(920px 600px at 90% 12%, rgba(125,247,200,.12), transparent 62%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 55%, var(--bg0) 100%) !important;
+}
+.app{
+  border-radius: 20px;
+  border: 1px solid var(--border2) !important;
+  background: linear-gradient(180deg, rgba(13,19,48,.86), rgba(8,12,34,.78)) !important;
+  box-shadow: var(--shadow1) !important;
+}
+.search{
+  background: linear-gradient(180deg, rgba(15,21,40,.86), rgba(8,12,34,.78)) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), var(--shadow2) !important;
+  border-radius: 16px;
+}
+.search input[type="text"]{
+  background: linear-gradient(180deg, rgba(9,16,50,.85), rgba(7,12,38,.82)) !important;
+  border: 1px solid rgba(115,150,255,.20) !important;
+  border-radius: 12px;
+}
+.search button{
+  background: linear-gradient(180deg, rgba(58,167,255,1), rgba(43,125,215,1)) !important;
+  border-radius: 14px;
+  box-shadow: 0 12px 26px rgba(58,167,255,.28) !important;
+}
+.result, .card{
+  background: linear-gradient(180deg, rgba(15,21,40,.84), rgba(8,12,34,.76)) !important;
+  border: 1px solid rgba(115,150,255,.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), var(--shadow2) !important;
+}
+.badge{ box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 22px rgba(0,0,0,.22); }
+.badge.ok{ background: linear-gradient(180deg, rgba(125,247,200,.22), rgba(13,42,31,.92)); }
+.badge.ana{ background: linear-gradient(180deg, rgba(255,107,107,.22), rgba(43,17,21,.92)); }
+.badge.bra{ background: linear-gradient(180deg, rgba(199,178,255,.22), rgba(35,25,51,.92)); }
+.badge.nao{ background: linear-gradient(180deg, rgba(255,184,107,.20), rgba(42,26,13,.92)); }
+
+:where(button,.chip,input):focus-visible{ box-shadow: var(--glow) !important; }
+/* === fim Patch (Copilot) === */
+
+
+
+/* === Liquid Glass (Apple-like) — aplicado SOMENTE no quadradão principal (.app) e nos cards (.card) === */
+/* Base (fallback seguro) */
+.app, .card{
+  background: rgba(13, 19, 48, 0.62) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.48),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+  position: relative;
+  overflow: hidden; /* mantém brilho dentro */
+}
+
+/* Reflexo/realce (o "brilho" do vidro) */
+.app::before, .card::before{
+  content: "";
+  position: absolute;
+  inset: -60% -40% auto -40%;
+  height: 140%;
+  background: radial-gradient(circle at top, rgba(255,255,255,.18), transparent 55%);
+  pointer-events: none;
+}
+
+/* Borda luminosa sutil */
+.app::after, .card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(58,167,255,.14);
+  pointer-events: none;
+}
+
+/* O blur real acontece só quando suportado */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app, .card{
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    background: rgba(13, 19, 48, 0.38) !important;
+  }
+}
+
+/* Glow discreto nos cantos do quadradão principal */
+.app{
+  background-image:
+    radial-gradient(260px 170px at 0% 0%, rgba(58,167,255,.20), transparent 62%),
+    radial-gradient(260px 170px at 100% 0%, rgba(125,247,200,.16), transparent 62%);
+  background-blend-mode: screen;
+}
+
+/* Acessibilidade: reduz efeitos se o usuário pedir */
+@media (prefers-reduced-motion: reduce){
+  .app, .card{ backdrop-filter: none !important; -webkit-backdrop-filter:none !important; }
+}
+/* === fim Liquid Glass === */
+
+
+
+/* === Suaviza corte ao rolar (fade/blur nas bordas do scroll das cidades) === */
+/* Ideia: mascara (mask-image) cria um degradê nas bordas superior/inferior para não parecer "cortado". */
+.chips{
+  /* mantém o comportamento atual */
+  overflow: auto;
+  /* fade nas bordas (compatível com WebKit e padrões modernos) */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0px,
+    #000 14px,
+    #000 calc(100% - 14px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom,
+    transparent 0px,
+    #000 14px,
+    #000 calc(100% - 14px),
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Fallback caso mask-image não exista: coloca uma "névoa" suave no topo/rodapé com pseudo-elementos */
+@supports not ((-webkit-mask-image: linear-gradient(#000,#000)) or (mask-image: linear-gradient(#000,#000))) {
+  .chips{ position: relative; }
+  .chips::before,
+  .chips::after{
+    content: "";
+    position: sticky;
+    left: 0; right: 0;
+    height: 14px;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+    /* dá um blur leve no que passa por baixo */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .chips::before{ top: 0; background: linear-gradient(to bottom, rgba(8,12,34,.95), rgba(8,12,34,0)); }
+  .chips::after{ bottom: 0; background: linear-gradient(to top, rgba(8,12,34,.95), rgba(8,12,34,0)); }
+}
+/* === fim suavização === */
+
 </style>
 </head>
 <body>
@@ -537,7 +702,7 @@ html.is-edge .app{
       Última atualização: 29/01/2026
     </footer>
   </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.23.1 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.50.3 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // ====== DADOS (listas) ======
@@ -551,31 +716,34 @@ html.is-edge .app{
     
 // ====== NORMALIZAÇÃO / PARSING ======
 // Normalização (remove acentos, caixa e espaços extras)
-    const normalize = (s) => s
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
+    const normalize = (s) => String(s)
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/\s+/g, ' ')
+  .trim();
 
     // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
     function extractCity(raw) {
-      if (!raw) return '';
-      const dashes = ['-', '–', '—'];
-      let part = String(raw);
-      let lastIdx = -1; let dashLen = 0;
-      for (const d of dashes) {
-        const i = part.lastIndexOf(d);
-        if (i > lastIdx) { lastIdx = i; dashLen = d.length; }
-      }
-      if (lastIdx !== -1) part = part.slice(lastIdx + dashLen);
-      const slashIdx = part.indexOf('/');
-      if (slashIdx !== -1) part = part.slice(0, slashIdx);
-      part = part.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}\s]+$/gu, '')
-                 .replace(/\s+/g, ' ')
-                 .trim();
-      return part;
-    }
+  if (!raw) return '';
+  const dashes = ['-', '–', '—'];
+  let part = String(raw);
+  let lastIdx = -1; let dashLen = 0;
+  for (const d of dashes) {
+    const i = part.lastIndexOf(d);
+    if (i > lastIdx) { lastIdx = i; dashLen = d.length; }
+  }
+  if (lastIdx !== -1) part = part.slice(lastIdx + dashLen);
+  const slashIdx = part.indexOf('/');
+  if (slashIdx !== -1) part = part.slice(0, slashIdx);
+  // Remove pontuação apenas nas pontas (compatível): mantém letras com acentos latinos, números e espaços.
+  part = part
+    .replace(/^[^0-9A-Za-zÀ-ÿ]+/g, '')
+    .replace(/[^0-9A-Za-zÀ-ÿ\s]+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return part;
+}
 
     // Conjuntos normalizados
     const setAna = new Set(anapolis.map(normalize));
@@ -649,30 +817,42 @@ html.is-edge .app{
     }
 
     function topSuggestions(v, limit = 2) {
-      if (!v) return [];
-      const all = [...anapolis, ...brasilia, ...cobertura];
-      const allN = all.map(normalize);
-      const scored = [];
-      for (let i = 0; i < allN.length; i++) {
-        const n = allN[i];
-        let score;
-        if (n.startsWith(v)) score = 0; else if (n.includes(v)) score = 1; else score = levenshtein(v, n) + 2;
-        scored.push({ s: all[i], n, score });
-      }
-      scored.sort((a,b)=> a.score - b.score);
-      const thr = v.length <= 6 ? 2 : v.length <= 12 ? 3 : 4;
-      const picks = [];
-      for (const it of scored) {
-        if (picks.length >= limit) break;
-        if (it.score <= 1 || (it.score - 2) <= thr) {
-          if (!picks.find(p => normalize(p) === it.n)) picks.push(it.s);
-        }
-      }
-      return picks;
+  if (!v) return [];
+  const all = [...anapolis, ...brasilia, ...cobertura];
+  const allN = all.map(normalize);
+  const scored = [];
+  for (let i = 0; i < allN.length; i++) {
+    const n = allN[i];
+    let score;
+    if (n.startsWith(v)) score = 0;
+    else if (n.includes(v)) score = 1;
+    else score = levenshtein(v, n) + 2;
+    scored.push({ s: all[i], n, score });
+  }
+  scored.sort((a, b) => a.score - b.score);
+  const thr = v.length <= 6 ? 2 : v.length <= 12 ? 3 : 4;
+  const picks = [];
+  for (const it of scored) {
+    if (picks.length >= limit) break;
+    const ok = (it.score <= 1) || ((it.score - 2) <= thr);
+    if (ok) {
+      if (!picks.find(p => normalize(p) === it.n)) picks.push(it.s);
     }
+  }
+  return picks;
+}
 
     
 // ====== UI / ELEMENTOS ======
+// Helper: debounce para estabilizar eventos de digitação
+function debounce(fn, wait=120){
+  let t;
+  return (...args)=>{
+    clearTimeout(t);
+    t=setTimeout(()=>fn.apply(null,args), wait);
+  };
+}
+
     const q = document.getElementById('q');
     q.addEventListener('focus', () => {
       q.select();
@@ -687,11 +867,13 @@ html.is-edge .app{
 // Helper: ensure external suggestion container exists
 function ensureOutSuggest(){
   var el = document.getElementById('outSuggest');
-  if(!el){ out.insertAdjacentHTML('afterend','<section id="outSuggest" class="result-suggest-wrap" aria-live="polite" aria-atomic="true"></section>'); el = document.getElementById('outSuggest'); }
+  if (!el) {
+    if (!out) return null;
+    out.insertAdjacentHTML('afterend','<section id="outSuggest" class="result-suggest-wrap" aria-live="polite" aria-atomic="true"></section>');
+    el = document.getElementById('outSuggest');
+  }
   return el;
 }
-
-
 // ====== DESTAQUE NA LISTA ======
 function clearHighlights() {
   document.querySelectorAll('.chip.is-highlight')
@@ -722,16 +904,14 @@ function highlightCityByKey(cityKeyNormalized) {
     // Render chips
     function tag(text) { const s = document.createElement('span'); s.className='chip'; s.textContent=text; s.tabIndex=0; s.addEventListener('click', ()=>{ q.value = text; buscar(); }); s.addEventListener('keydown', (e)=>{ if(e.key==='Enter') { q.value=text; buscar(); } }); return s; }
     function renderLists() {
-    // Evita duplicação: o HTML já pode conter chips pré-renderizados.
-    // Limpamos os containers antes de adicionar via JS.
-    chipsAna.innerHTML = '';
-    chipsBra.innerHTML = '';
-    chipsCob.innerHTML = '';
-
-    anapolis.forEach(c => chipsAna.appendChild(tag(c)));
-    brasilia.forEach(c => chipsBra.appendChild(tag(c)));
-    cobertura.forEach(c => chipsCob.appendChild(tag(c)));
-  }
+  if (!chipsAna || !chipsBra || !chipsCob) return;
+  chipsAna.innerHTML = '';
+  chipsBra.innerHTML = '';
+  chipsCob.innerHTML = '';
+  anapolis.forEach(c => chipsAna.appendChild(tag(c)));
+  brasilia.forEach(c => chipsBra.appendChild(tag(c)));
+  cobertura.forEach(c => chipsCob.appendChild(tag(c)));
+}
 
   
 // ====== RENDERIZAÇÃO DE RESULTADO & DICAS ======
@@ -741,33 +921,55 @@ function highlightCityByKey(cityKeyNormalized) {
 function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], aliasCanonico = null, listasEncontradas = []) {
   out.innerHTML = '';
   const outSug = ensureOutSuggest();
-  outSug.classList.remove("is-open");
-  outSug.innerHTML = '';
-  if (status === 'ana') { out.appendChild(line(`<div class=\"badge ana\">✖ Núcleo Anápolis</div>`)); }
-  else if (status === 'bra') { out.appendChild(line(`<div class=\"badge bra\">✖ Núcleo Brasília</div>`)); }
-  else if (status === 'nossa') { out.appendChild(line(`<div class=\"badge ok\">✔ Nossa abrangência</div>`)); }
+  if (outSug) { outSug.classList.remove('is-open'); outSug.innerHTML = ''; }
+
+  if (status === 'ana') out.appendChild(line(`<div class="badge ana">✖ Núcleo Anápolis</div>`));
+  else if (status === 'bra') out.appendChild(line(`<div class="badge bra">✖ Núcleo Brasília</div>`));
+  else if (status === 'nossa') out.appendChild(line(`<div class="badge ok">✔ Nossa abrangência</div>`));
   else if (status === 'dup') {
-    out.appendChild(line(`<div class=\"badge nao\">! erro — cidade presente em ${listasEncontradas.length} listas</div>`));
-    const etiquetas = listasEncontradas.map(k => { if (k === 'ana') return 'Núcleos Anápolis'; if (k === 'bra') return 'Núcleos Brasília'; if (k === 'nossa') return 'Nossa Abrangência'; return k; });
-    out.appendChild(line(`<div class=\"hint\">Conflito detectado em: <strong>${etiquetas.join(' · ')}</strong></div>`));
-  } else { out.appendChild(line(`<div class=\"badge nao\">⚠ Não localizado</div>`)); }
-  const labelCidade = aliasCanonico ? `${focoCidade} <span class=\"hint\">→</span> <strong>${aliasCanonico}</strong>` : (focoCidade || '<i>não identificado</i>');  out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
-  if (status === 'nao' && sugestoes && sugestoes.length) {
-  const sug = document.createElement('div');
-  sug.className = 'suggest anim-drop';
-  sug.setAttribute('role','status');
-  sug.innerHTML = `
-    <div class="sug-icon">💡</div>
-    <div>
-      <div class="sug-title">Você quis dizer</div>
-      <div class="sug-sub">Selecione uma opção para aplicar</div>
-    </div>
-    <div class="sug-actions"></div>
-  `;
-  const actions = sug.querySelector('.sug-actions');
-  sugestoes.forEach((sText) => { const b = document.createElement('button'); b.className = 'sug-pill'; b.textContent = sText; b.setAttribute('aria-label', `Usar sugestão ${sText}`); b.addEventListener('click', () => { q.value = sText; buscar(); }); actions.appendChild(b); });
-  outSug.appendChild(sug); outSug.classList.add("is-open");
-}
+    out.appendChild(line(`<div class="badge nao">! erro — cidade presente em ${listasEncontradas.length} listas</div>`));
+    const etiquetas = listasEncontradas.map(k => {
+      if (k === 'ana') return 'Núcleos Anápolis';
+      if (k === 'bra') return 'Núcleos Brasília';
+      if (k === 'nossa') return 'Nossa Abrangência';
+      return k;
+    });
+    out.appendChild(line(`<div class="hint">Conflito detectado em: <strong>${etiquetas.join(' · ')}</strong></div>`));
+  } else {
+    out.appendChild(line(`<div class="badge nao">⚠ Não localizado</div>`));
+  }
+
+  const labelCidade = aliasCanonico
+    ? `${focoCidade} <span class="hint">→</span> <strong>${aliasCanonico}</strong>`
+    : (focoCidade || '<i>não identificado</i>');
+
+  out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
+
+  if (status === 'nao' && Array.isArray(sugestoes) && sugestoes.length && outSug) {
+    const sug = document.createElement('div');
+    sug.className = 'suggest anim-drop';
+    sug.setAttribute('role', 'status');
+    sug.innerHTML = `
+      <div class="sug-icon">💡</div>
+      <div>
+        <div class="sug-title">Você quis dizer</div>
+        <div class="sug-sub">Selecione uma opção para aplicar</div>
+      </div>
+      <div class="sug-actions"></div>
+    `;
+    const actions = sug.querySelector('.sug-actions');
+    sugestoes.forEach((sText) => {
+      const b = document.createElement('button');
+      b.className = 'sug-pill';
+      b.type = 'button';
+      b.textContent = sText;
+      b.setAttribute('aria-label', `Usar sugestão ${sText}`);
+      b.addEventListener('click', () => { q.value = sText; buscar(); });
+      actions.appendChild(b);
+    });
+    outSug.appendChild(sug);
+    outSug.classList.add('is-open');
+  }
 }
 function triggerBugNudge(msg = 'Cidade apareceu em mais de uma lista. Toque para reportar o bug.') {
   const rb = document.querySelector('.report-bugs a'); if (!rb) return; rb.classList.add('is-pulsing'); setTimeout(() => rb.classList.remove('is-pulsing'), 3000);
@@ -781,18 +983,57 @@ function line(html) { const d = document.createElement('div'); d.innerHTML = htm
 // ====== BUSCA / AÇÕES ======
 
 function buscar() {
-  const raw = q.value || '';
-  if (!raw.trim()) { const outSug = ensureOutSuggest(); outSug.innerHTML=''; out.innerHTML = '<div class=\"hint\">Cole ou digite um texto contendo a cidade.</div>'; return; }
-  clearHighlights();
-  const cidadeBruta = extractCity(raw); let key = normalize(cidadeBruta); let aliasCanonico = null;
-  if (aliases.has(key)) { const canonicalKey = aliases.get(key); aliasCanonico = normToOriginal.get(canonicalKey) || null; key = canonicalKey; }
-  const inAna = setAna.has(key), inBra = setBra.has(key), inCob = setCob.has(key);
-  const listasEncontradas = []; if (inAna) listasEncontradas.push('ana'); if (inBra) listasEncontradas.push('bra'); if (inCob) listasEncontradas.push('nossa');
-  if (listasEncontradas.length >= 2) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'dup', [], aliasCanonico, listasEncontradas); triggerBugNudge('Cidade em múltiplas listas. Clique para reportar o bug.'); return; }
-  if (inAna) { highlightCityByKey(key); return mostrarResultado(raw, cidadeBruta, 'ana', aliasCanonico ? [aliasCanonico] : [], aliasCanonico); }
-  if (inBra) { highlightCityByKey(key); return mostrarResultado(raw, cidadeBruta, 'bra', aliasCanonico ? [aliasCanonico] : [], aliasCanonico); }
-  if (inCob) { highlightCityByKey(key); return mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico); }
-  const sugs = topSuggestions(key, 2); if (sugs.length) return mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico); mostrarResultado(raw, cidadeBruta, 'nao', [], aliasCanonico);
+  try {
+    const raw = q.value || '';
+    if (!raw.trim()) {
+      const outSug = ensureOutSuggest();
+      if (outSug) outSug.innerHTML = '';
+      out.innerHTML = '<div class=\"hint\">Cole ou digite um texto contendo a cidade.</div>';
+      return;
+    }
+
+    clearHighlights();
+
+    const cidadeBruta = extractCity(raw);
+    let key = normalize(cidadeBruta);
+    let aliasCanonico = null;
+
+    if (aliases.has(key)) {
+      const canonicalKey = aliases.get(key);
+      aliasCanonico = normToOriginal.get(canonicalKey) || null;
+      key = canonicalKey;
+    }
+
+    const inAna = setAna.has(key);
+    const inBra = setBra.has(key);
+    const inCob = setCob.has(key);
+
+    const listasEncontradas = [];
+    if (inAna) listasEncontradas.push('ana');
+    if (inBra) listasEncontradas.push('bra');
+    if (inCob) listasEncontradas.push('nossa');
+
+    if (listasEncontradas.length >= 2) {
+      highlightCityByKey(key);
+      mostrarResultado(raw, cidadeBruta, 'dup', [], aliasCanonico, listasEncontradas);
+      triggerBugNudge('Cidade em múltiplas listas. Clique para reportar o bug.');
+      return;
+    }
+
+    if (inAna) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'ana', [], aliasCanonico); return; }
+    if (inBra) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'bra', [], aliasCanonico); return; }
+    if (inCob) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico); return; }
+
+    const sugs = topSuggestions(key, 2);
+    mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico);
+  } catch (err) {
+    console.error('Erro no buscar():', err);
+    try {
+      const outSug = ensureOutSuggest();
+      if (outSug) { outSug.classList.remove('is-open'); outSug.innerHTML = ''; }
+      if (out) out.innerHTML = "<div class=\"hint\">\u26a0 Ocorreu um erro ao processar o texto. Tente novamente.</div>";
+    } catch (_) {}
+  }
 }
 
 
@@ -806,7 +1047,7 @@ function buscar() {
 
     
 // ====== AUTOCOMPLETE LEVE ======
-    q.addEventListener('input', () => {
+    q.addEventListener('input', debounce(() => {
   const cidade = extractCity(q.value);
   const v = normalize(cidade);
 
@@ -826,14 +1067,18 @@ function buscar() {
   } else {
     q.removeAttribute('title');
   }
-});
+}, 120));
 
     btn.addEventListener('click', buscar);
     q.addEventListener('keydown', (e) => { if (e.key === 'Enter') buscar(); });
 
     
 // ====== INICIALIZAÇÃO ======
-    window.addEventListener('DOMContentLoaded', renderLists);
+    if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', renderLists);
+} else {
+  renderLists();
+}
 
 // ===== Easter egg: múltiplos cliques no crédito =====
 (function() {
