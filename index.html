@@ -702,7 +702,7 @@ body{
       Última atualização: 02/02/2026
     </footer>
   </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.50.3 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.80.3 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // ====== DADOS (listas) ======
@@ -1046,20 +1046,25 @@ function buscar() {
     });
 
     
-// ====== AUTOCOMPLETE LEVE ======
-    q.addEventListener('input', debounce(() => {
+// ====== BUSCA AO DIGITAR (opção 2) ======
+// Não exibe "Não localizado" com poucas letras; só busca a partir de 2 caracteres.
+const AUTOSEARCH_MIN_CHARS = 2;
+
+q.addEventListener('input', debounce(() => {
   const cidade = extractCity(q.value);
   const v = normalize(cidade);
 
+  // Se apagou tudo, volta ao estado inicial
   if (!v) {
-    // V2.15: limpar qualquer destaque ao apagar o conteúdo do campo
     q.removeAttribute('title');
     clearHighlights();
-    const outSug = ensureOutSuggest(); outSug.innerHTML = '';
+    const outSug = ensureOutSuggest();
+    if (outSug) outSug.innerHTML = '';
     out.innerHTML = '<div class="hint">Cole ou digite um texto contendo a cidade.</div>';
     return;
   }
 
+  // Mantém o title de sugestão (como antes)
   const all = [...anapolis, ...brasilia, ...cobertura];
   const found = all.find(c => normalize(c).startsWith(v));
   if (found && cidade.length > 1) {
@@ -1067,7 +1072,20 @@ function buscar() {
   } else {
     q.removeAttribute('title');
   }
-}, 120));
+
+  // Opção 2: só começa a avaliar após 2 letras
+  if (v.length < AUTOSEARCH_MIN_CHARS) {
+    clearHighlights();
+    const outSug = ensureOutSuggest();
+    if (outSug) { outSug.classList.remove('is-open'); outSug.innerHTML = ''; }
+    out.innerHTML = '<div class="hint">Digite pelo menos ' + AUTOSEARCH_MIN_CHARS + ' letras da cidade para localizar.</div>';
+    return;
+  }
+
+  // Busca automática enquanto digita
+  buscar();
+}, 180));
+
 
     btn.addEventListener('click', buscar);
     q.addEventListener('keydown', (e) => { if (e.key === 'Enter') buscar(); });
