@@ -702,7 +702,7 @@ body{
       Última atualização: 02/02/2026
     </footer>
   </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.80.3 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.90 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // ====== DADOS (listas) ======
@@ -719,9 +719,25 @@ body{
     const normalize = (s) => String(s)
   .toLowerCase()
   .normalize('NFD')
-  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/[̀-ͯ]/g, '')
+  .replace(/[’'´`]/g, ' ')
+  .replace(/[^0-9a-z\s]/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
+
+// Normalização tolerante para entradas abreviadas/incompletas
+const normalizeKey = (s) => {
+  let v = normalize(s);
+  v = v
+    .replace(/ap/g, 'aparecida')
+    .replace(/aparec/g, 'aparecida')
+    .replace(/cid/g, 'cidade')
+    .replace(/sta/g, 'santa')
+    .replace(/sto/g, 'santo');
+  v = v.replace(/\s+/g, ' ').trim();
+  return v;
+};
+
 
     // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
     function extractCity(raw) {
@@ -746,52 +762,56 @@ body{
 }
 
     // Conjuntos normalizados
-    const setAna = new Set(anapolis.map(normalize));
-    const setBra = new Set(brasilia.map(normalize));
-    const setCob = new Set(cobertura.map(normalize));
+    const setAna = new Set(anapolis.map(normalizeKey));
+    const setBra = new Set(brasilia.map(normalizeKey));
+    const setCob = new Set(cobertura.map(normalizeKey));
 
     // Mapa normalizado -> original (todas as listas)
     const allCities = [...anapolis, ...brasilia, ...cobertura];
-    const normToOriginal = new Map(allCities.map(c => [normalize(c), c]));
+    const normToOriginal = new Map(allCities.map(c => [normalizeKey(c), c]));
 
     // Aliases úteis (abreviações/variações comuns)
     const aliases = new Map([
-      [normalize('agua fria'), normalize('agua fria de goias')],
-      [normalize('agua fria de go'), normalize('agua fria de goias')],
-      [normalize('aguas lindas'), normalize('aguas lindas de goias')],
-      [normalize('aguas lindas de go'), normalize('aguas lindas de goias')],
-      [normalize('campo limpo'), normalize('campo limpo de goias')],
-      [normalize('campo limpo de go'), normalize('campo limpo de goias')],
-      [normalize('cid ocidental'), normalize('cidade ocidental')],
-      [normalize('cid. ocidental'), normalize('cidade ocidental')],
-      [normalize('cocalzinho'), normalize('cocalzinho de goias')],
-      [normalize('cocalzinho de go'), normalize('cocalzinho de goias')],
-      [normalize('corumba'), normalize('corumba de goias')],
-      [normalize('corumba de go'), normalize('corumba de goias')],
-      [normalize('ipiranga'), normalize('ipiranga de goias')],
-      [normalize('ipiranga de go'), normalize('ipiranga de goias')],
-      [normalize('mimoso'), normalize('mimoso de goias')],
-      [normalize('mimoso de go'), normalize('mimoso de goias')],
-      [normalize('morro agudo'), normalize('morro agudo de goiás')],
-      [normalize('morro agudo de go'), normalize('morro agudo de goiás')],
-      [normalize('morro agudo de goias'), normalize('morro agudo de goiás')],
-      [normalize('pilar'), normalize('pilar de goias')],
-      [normalize('pilar de go'), normalize('pilar de goias')],
-      [normalize('s. luis do norte'), normalize('sao luis do norte')],
-      [normalize('s. miguel do araguaia'), normalize('sao miguel do araguaia')],
-      [normalize('s. patricio'), normalize('sao patricio')],
-      [normalize('sta isabel'), normalize('santa isabel')],
-      [normalize('sta rita do novo destino'), normalize('santa rita do novo destino')],
-      [normalize('sta. isabel'), normalize('santa isabel')],
-      [normalize('sta. rita do novo destino'), normalize('santa rita do novo destino')],
-      [normalize('sto antonio do descoberto'), normalize('santo antonio do descoberto')],
-      [normalize('sto. antonio do descoberto'), normalize('santo antonio do descoberto')],
-      [normalize('v. boa'), normalize('vila boa')],
-      [normalize('v. propicio'), normalize('vila propicio')],
-      [normalize('valparaiso'), normalize('valparaiso de goias')],
-      [normalize('valparaiso de go'), normalize('valparaiso de goias')],
+  [normalizeKey('ap. de goiania'), normalizeKey('aparecida de goiania')],
+  [normalizeKey('ap de goiania'), normalizeKey('aparecida de goiania')],
+  [normalizeKey('morro agudo'), normalizeKey('morro agudo de goias')],
+  [normalizeKey('montes claros'), normalizeKey('montes claros de goias')],
+      [normalizeKey('agua fria'), normalizeKey('agua fria de goias')],
+      [normalizeKey('agua fria de go'), normalizeKey('agua fria de goias')],
+      [normalizeKey('aguas lindas'), normalizeKey('aguas lindas de goias')],
+      [normalizeKey('aguas lindas de go'), normalizeKey('aguas lindas de goias')],
+      [normalizeKey('campo limpo'), normalizeKey('campo limpo de goias')],
+      [normalizeKey('campo limpo de go'), normalizeKey('campo limpo de goias')],
+      [normalizeKey('cid ocidental'), normalizeKey('cidade ocidental')],
+      [normalizeKey('cid. ocidental'), normalizeKey('cidade ocidental')],
+      [normalizeKey('cocalzinho'), normalizeKey('cocalzinho de goias')],
+      [normalizeKey('cocalzinho de go'), normalizeKey('cocalzinho de goias')],
+      [normalizeKey('corumba'), normalizeKey('corumba de goias')],
+      [normalizeKey('corumba de go'), normalizeKey('corumba de goias')],
+      [normalizeKey('ipiranga'), normalizeKey('ipiranga de goias')],
+      [normalizeKey('ipiranga de go'), normalizeKey('ipiranga de goias')],
+      [normalizeKey('mimoso'), normalizeKey('mimoso de goias')],
+      [normalizeKey('mimoso de go'), normalizeKey('mimoso de goias')],
+      [normalizeKey('morro agudo'), normalizeKey('morro agudo de goiás')],
+      [normalizeKey('morro agudo de go'), normalizeKey('morro agudo de goiás')],
+      [normalizeKey('morro agudo de goias'), normalizeKey('morro agudo de goiás')],
+      [normalizeKey('pilar'), normalizeKey('pilar de goias')],
+      [normalizeKey('pilar de go'), normalizeKey('pilar de goias')],
+      [normalizeKey('s. luis do norte'), normalizeKey('sao luis do norte')],
+      [normalizeKey('s. miguel do araguaia'), normalizeKey('sao miguel do araguaia')],
+      [normalizeKey('s. patricio'), normalizeKey('sao patricio')],
+      [normalizeKey('sta isabel'), normalizeKey('santa isabel')],
+      [normalizeKey('sta rita do novo destino'), normalizeKey('santa rita do novo destino')],
+      [normalizeKey('sta. isabel'), normalizeKey('santa isabel')],
+      [normalizeKey('sta. rita do novo destino'), normalizeKey('santa rita do novo destino')],
+      [normalizeKey('sto antonio do descoberto'), normalizeKey('santo antonio do descoberto')],
+      [normalizeKey('sto. antonio do descoberto'), normalizeKey('santo antonio do descoberto')],
+      [normalizeKey('v. boa'), normalizeKey('vila boa')],
+      [normalizeKey('v. propicio'), normalizeKey('vila propicio')],
+      [normalizeKey('valparaiso'), normalizeKey('valparaiso de goias')],
+      [normalizeKey('valparaiso de go'), normalizeKey('valparaiso de goias')],
       // Correção de digitação comum: Padre Bernardo (lista original tinha 'padre bernado')
-      [normalize('padre bernardo'), normalize('padre bernado')],
+      [normalizeKey('padre bernardo'), normalizeKey('padre bernado')],
     ]);
 
     
@@ -816,10 +836,34 @@ body{
       return dp[m][n];
     }
 
-    function topSuggestions(v, limit = 2) {
+    
+// Sugestão por tokens (abreviações / partes do nome)
+function tokenSuggestions(v, limit = 2) {
+  v = normalizeKey(v);
+  if (!v) return [];
+  const tokens = v.split(' ').filter(Boolean);
+  if (!tokens.length) return [];
+  const all = [...anapolis, ...brasilia, ...cobertura];
+  const scored = [];
+  for (const city of all) {
+    const n = normalizeKey(city);
+    let hit = 0;
+    for (const t of tokens) if (n.includes(t)) hit++;
+    if (hit) scored.push({city, hit});
+  }
+  scored.sort((a,b)=> b.hit-a.hit);
+  const out = [];
+  for (const it of scored) {
+    if (out.length>=limit) break;
+    if (!out.includes(it.city)) out.push(it.city);
+  }
+  return out;
+}
+
+function topSuggestions(v, limit = 2) {
   if (!v) return [];
   const all = [...anapolis, ...brasilia, ...cobertura];
-  const allN = all.map(normalize);
+  const allN = all.map(normalizeKey);
   const scored = [];
   for (let i = 0; i < allN.length; i++) {
     const n = allN[i];
@@ -945,7 +989,7 @@ function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], alia
 
   out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
 
-  if (status === 'nao' && Array.isArray(sugestoes) && sugestoes.length && outSug) {
+  if (Array.isArray(sugestoes) && sugestoes.length && outSug) {
     const sug = document.createElement('div');
     sug.className = 'suggest anim-drop';
     sug.setAttribute('role', 'status');
@@ -995,12 +1039,15 @@ function buscar() {
     clearHighlights();
 
     const cidadeBruta = extractCity(raw);
-    let key = normalize(cidadeBruta);
+    let key = normalizeKey(cidadeBruta);
     let aliasCanonico = null;
+ let aliasApplied = false;
 
     if (aliases.has(key)) {
+  aliasApplied = true;
       const canonicalKey = aliases.get(key);
       aliasCanonico = normToOriginal.get(canonicalKey) || null;
+  aliasApplied = aliasApplied && !!aliasCanonico;
       key = canonicalKey;
     }
 
@@ -1020,11 +1067,36 @@ function buscar() {
       return;
     }
 
-    if (inAna) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'ana', [], aliasCanonico); return; }
-    if (inBra) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'bra', [], aliasCanonico); return; }
-    if (inCob) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico); return; }
+    if (inAna) {
+  if (aliasApplied) {
+    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
+    return;
+  }
+  highlightCityByKey(key);
+  mostrarResultado(raw, cidadeBruta, 'ana', [], aliasCanonico);
+  return;
+ }
+    if (inBra) {
+  if (aliasApplied) {
+    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
+    return;
+  }
+  highlightCityByKey(key);
+  mostrarResultado(raw, cidadeBruta, 'bra', [], aliasCanonico);
+  return;
+ }
+    if (inCob) {
+  if (aliasApplied) {
+    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
+    return;
+  }
+  highlightCityByKey(key);
+  mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico);
+  return;
+ }
 
-    const sugs = topSuggestions(key, 2);
+    let sugs = topSuggestions(key, 2);
+ if (!sugs || !sugs.length) sugs = tokenSuggestions(cidadeBruta, 2);
     mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico);
   } catch (err) {
     console.error('Erro no buscar():', err);
@@ -1047,14 +1119,13 @@ function buscar() {
 
     
 // ====== BUSCA AO DIGITAR (opção 2) ======
-// Não exibe "Não localizado" com poucas letras; só busca a partir de 2 caracteres.
+// Não exibe "Não localizado" com poucas letras: só busca a partir de 2 caracteres
 const AUTOSEARCH_MIN_CHARS = 2;
 
 q.addEventListener('input', debounce(() => {
   const cidade = extractCity(q.value);
-  const v = normalize(cidade);
+  const v = normalizeKey(cidade);
 
-  // Se apagou tudo, volta ao estado inicial
   if (!v) {
     q.removeAttribute('title');
     clearHighlights();
@@ -1064,16 +1135,12 @@ q.addEventListener('input', debounce(() => {
     return;
   }
 
-  // Mantém o title de sugestão (como antes)
+  // Title de sugestão
   const all = [...anapolis, ...brasilia, ...cobertura];
-  const found = all.find(c => normalize(c).startsWith(v));
-  if (found && cidade.length > 1) {
-    q.title = `Sugestão: ${found}`;
-  } else {
-    q.removeAttribute('title');
-  }
+  const found = all.find(c => normalizeKey(c).startsWith(v));
+  if (found && cidade.length > 1) q.title = `Sugestão: ${found}`;
+  else q.removeAttribute('title');
 
-  // Opção 2: só começa a avaliar após 2 letras
   if (v.length < AUTOSEARCH_MIN_CHARS) {
     clearHighlights();
     const outSug = ensureOutSuggest();
@@ -1082,7 +1149,6 @@ q.addEventListener('input', debounce(() => {
     return;
   }
 
-  // Busca automática enquanto digita
   buscar();
 }, 180));
 
