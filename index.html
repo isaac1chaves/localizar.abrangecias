@@ -739,6 +739,114 @@ html.is-edge .app, html.is-edge .card{
   background: rgba(13, 19, 48, 0.92) !important;
 }
 
+
+
+/* ====== Fundo animado (Windows 11 Glow - random corners) IMPORTADO da V3.5 ====== */
+/* === V3.5: Glow estilo Windows 11 — aparece em cantos aleatórios (loop fluido) === */
+:root{
+  --w11-bg0:#05081b;
+  --w11-bg1:#070b22;
+
+  /* Controle do glow (JS altera suavemente) */
+  --gX: 0vw;
+  --gY: 0vh;
+  --gS: 1.02;
+  --gO: 0;   /* opacidade do blob */
+  --hO: 0;   /* opacidade do halo */
+}
+
+/* Base estável, bem parecida com a tela do Windows 11 */
+body{
+  background:
+    radial-gradient(1200px 700px at 50% 10%, rgba(255,255,255,.06), transparent 55%),
+    linear-gradient(180deg, var(--w11-bg0) 0%, var(--w11-bg1) 65%, var(--w11-bg0) 100%) !important;
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Blob principal (luz azul) — MOVE o pseudo-elemento (mais fluido que animar gradients) */
+body::before{
+  content:"";
+  position: fixed;
+  inset: -18%;
+  pointer-events:none;
+  z-index: -1;
+
+  /* Blob com múltiplos radiais (visual) */
+  background:
+    radial-gradient(520px 420px at 30% 34%, rgba(64,154,255,.75), transparent 62%),
+    radial-gradient(620px 520px at 58% 46%, rgba(20,105,255,.55), transparent 64%),
+    radial-gradient(780px 600px at 48% 62%, rgba(140,210,255,.35), transparent 68%),
+    radial-gradient(900px 700px at 52% 44%, rgba(15,70,210,.22), transparent 70%);
+
+  filter: blur(34px) saturate(128%);
+  mix-blend-mode: screen;
+
+  opacity: var(--gO);
+  transform: translate3d(var(--gX), var(--gY), 0) scale(var(--gS));
+  transform-origin: 50% 50%;
+
+  /* transições suaves: “aparece -> desliza -> some” */
+  transition:
+    opacity 3.6s ease,
+    transform 11s cubic-bezier(.22, .9, .18, 1),
+    filter 7s ease;
+
+  /* respiração sutil (não muda posição) */
+  animation: w11Breath 9.5s ease-in-out infinite;
+}
+
+/* Halo secundário (profundidade) */
+body::after{
+  content:"";
+  position: fixed;
+  inset: -12%;
+  pointer-events:none;
+  z-index: -1;
+
+  background:
+    radial-gradient(1000px 780px at 48% 40%, rgba(80, 170, 255, .18), transparent 68%),
+    radial-gradient(900px 740px at 56% 52%, rgba(35, 120, 255, .12), transparent 70%);
+
+  filter: blur(18px);
+  opacity: var(--hO);
+  transform: translate3d(calc(var(--gX) * .55), calc(var(--gY) * .55), 0) scale(calc(var(--gS) * 1.01));
+
+  transition:
+    opacity 4.4s ease,
+    transform 13s cubic-bezier(.22, .9, .18, 1);
+
+  animation: w11Breath2 12.5s ease-in-out infinite;
+}
+
+@keyframes w11Breath{
+  0%,100%{ filter: blur(34px) saturate(126%); }
+  50%    { filter: blur(38px) saturate(132%); }
+}
+@keyframes w11Breath2{
+  0%,100%{ filter: blur(18px); }
+  50%    { filter: blur(20px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  body::before, body::after{
+    animation: none !important;
+    transition: none !important;
+    opacity: .75;
+    transform: none !important;
+  }
+}
+/* === fim V3.5 Glow Windows 11 (random corners) === */
+/* ====== fim do fundo importado ====== */
+
+
+/* =========================================================
+   PATCH — Ajuste de espaçamento da dica (subir a barrinha)
+   Motivo: espaçamento duplicado (margin-top na .suggest + margin-top no wrapper)
+   ========================================================= */
+.suggest{ margin-top: 0 !important; }
+.result-suggest-wrap.is-open{ margin-top: 6px !important; }
+
 </style>
 </head>
 <body>
@@ -784,7 +892,7 @@ html.is-edge .app, html.is-edge .card{
       Última atualização: 02/02/2026
     </footer>
   </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V3.00 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V3.5.1 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // ====== DADOS (listas) ======
@@ -1303,6 +1411,84 @@ q.addEventListener('input', debounce(() => {
     var ua = navigator.userAgent || '';
     if (ua.indexOf('Edg/') !== -1) document.documentElement.classList.add('is-edge');
   }catch(e){}
+})();
+</script>
+
+
+
+<script>
+// V3.5: Glow aleatório (cantos) — sem seguir mouse
+(function(){
+  try{
+    // respeita reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var root = document.documentElement;
+
+    // Âncoras (cantos + laterais) em vw/vh — com jitter leve
+    var anchors = [
+      [-18, -12], [18, -12],
+      [-18,  14], [18,  14],
+      [-22,   2], [22,   2],
+      [  0, -14], [ 0,  16]
+    ];
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function pickAnchor(prevIdx){
+      var idx;
+      do { idx = Math.floor(Math.random() * anchors.length); }
+      while (idx === prevIdx);
+      var a = anchors[idx];
+      // jitter suave para não parecer "teleporte" para o mesmo ponto
+      var x = a[0] + rand(-3.2, 3.2);
+      var y = a[1] + rand(-2.2, 2.2);
+      var s = rand(0.98, 1.08);
+      return { idx: idx, x: x, y: y, s: s };
+    }
+
+    function setVars(x, y, s, glow, halo){
+      root.style.setProperty('--gX', x.toFixed(2) + 'vw');
+      root.style.setProperty('--gY', y.toFixed(2) + 'vh');
+      root.style.setProperty('--gS', s.toFixed(3));
+      root.style.setProperty('--gO', glow.toFixed(3));
+      root.style.setProperty('--hO', halo.toFixed(3));
+    }
+
+    // estado inicial (invisível)
+    setVars(0, 18, 0.98, 0.0, 0.0);
+
+    var prev = -1;
+
+    function cycle(){
+      var spot = pickAnchor(prev);
+      prev = spot.idx;
+
+      // Move para o próximo ponto ainda apagado
+      setVars(spot.x, spot.y, spot.s, 0.0, 0.0);
+
+      // Fade in
+      setTimeout(function(){
+        setVars(spot.x, spot.y, spot.s, 0.82, 0.68);
+      }, 220);
+
+      // Tempo aceso (lento)
+      var onTime = rand(5200, 7800);
+
+      // Fade out
+      setTimeout(function(){
+        setVars(spot.x, spot.y, spot.s, 0.0, 0.0);
+      }, 220 + onTime);
+
+      // Intervalo apagado e repete
+      var offTime = rand(1800, 2600);
+      setTimeout(cycle, 220 + onTime + 3600 + offTime);
+    }
+
+    // inicia
+    setTimeout(cycle, 520);
+
+  } catch(e){}
 })();
 </script>
 
