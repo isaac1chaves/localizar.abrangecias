@@ -784,7 +784,7 @@ html.is-edge .app, html.is-edge .card{
       Última atualização: 02/02/2026
     </footer>
   </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.90 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
+  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V2.92 - By Renapsi</span><span class="credit-hidden" id="creditHidden">Created by Isaac Freitas Chaves</span></div>
 
   <script>
     // ====== DADOS (listas) ======
@@ -1152,18 +1152,22 @@ function buscar() {
 
     const cidadeBruta = extractCity(raw);
     let key = normalizeKey(cidadeBruta);
-    let aliasCanonico = null;
- let aliasApplied = false;
-
-    if (aliases.has(key)) {
-  aliasApplied = true;
-      const canonicalKey = aliases.get(key);
-      aliasCanonico = normToOriginal.get(canonicalKey) || null;
-  aliasApplied = aliasApplied && !!aliasCanonico;
-      key = canonicalKey;
-    }
-
-    const inAna = setAna.has(key);
+        let aliasCanonico = null; 
+    let aliasApplied = false; 
+    // Aplica alias APENAS quando ele realmente muda a chave normalizada.
+    // (Evita bug de "alias para ele mesmo" que prende em "Não localizado".)
+    if (aliases.has(key)) { 
+      const canonicalKey = aliases.get(key); 
+      if (canonicalKey && canonicalKey !== key) { 
+        const maybeOriginal = normToOriginal.get(canonicalKey) || null; 
+        if (maybeOriginal) { 
+          aliasApplied = true; 
+          aliasCanonico = maybeOriginal; 
+          key = canonicalKey; 
+        } 
+      } 
+    } 
+const inAna = setAna.has(key);
     const inBra = setBra.has(key);
     const inCob = setCob.has(key);
 
@@ -1180,28 +1184,16 @@ function buscar() {
     }
 
     if (inAna) {
-  if (aliasApplied) {
-    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
-    return;
-  }
   highlightCityByKey(key);
   mostrarResultado(raw, cidadeBruta, 'ana', [], aliasCanonico);
   return;
  }
     if (inBra) {
-  if (aliasApplied) {
-    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
-    return;
-  }
   highlightCityByKey(key);
   mostrarResultado(raw, cidadeBruta, 'bra', [], aliasCanonico);
   return;
  }
     if (inCob) {
-  if (aliasApplied) {
-    mostrarResultado(raw, cidadeBruta, 'nao', [aliasCanonico], aliasCanonico);
-    return;
-  }
   highlightCityByKey(key);
   mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico);
   return;
