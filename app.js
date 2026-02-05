@@ -173,6 +173,47 @@ function debounce(fn, wait=120){
 }
 
     const q = document.getElementById('q');
+
+// === V4.0+: Auto-foco no campo ao voltar para a aba/janela (foco + select) ===
+// Extra: não “rouba” foco se o usuário já estiver em outro campo editável.
+(function autoFocusOnReturn(){
+  const q = document.getElementById('q');
+  if(!q) return;
+
+  function isEditable(el){
+    if(!el) return false;
+    const tag = (el.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if(el.isContentEditable) return true;
+    if(el.closest){
+      const ce = el.closest('[contenteditable="true"], [contenteditable="plaintext-only"]');
+      if(ce) return true;
+    }
+    return false;
+  }
+
+  function shouldAutoFocus(){
+    const active = document.activeElement;
+    if(active === q) return true;
+    if(isEditable(active)) return false;
+    return true;
+  }
+
+  function focusAndSelect(){
+    if(!shouldAutoFocus()) return;
+    try{ q.focus({preventScroll:true}); }catch(e){ q.focus(); }
+    try{ q.select(); }catch(e){}
+    requestAnimationFrame(()=>{ try{ q.select(); }catch(e){} });
+  }
+
+  if(document.visibilityState === 'visible') setTimeout(focusAndSelect, 80);
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible') setTimeout(focusAndSelect, 80);
+  });
+  window.addEventListener('focus', ()=> setTimeout(focusAndSelect, 80));
+  window.addEventListener('pageshow', ()=> setTimeout(focusAndSelect, 80));
+})();
+
     q.addEventListener('focus', () => {
       q.select();
     });

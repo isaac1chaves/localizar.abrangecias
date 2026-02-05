@@ -1,31 +1,12 @@
-/* =========================
-   V4.0 — Base / Reset
-   ========================= */
-:root{
-  /* Tokens de cor (base) */
-  --text:#e9f1ff;
-  --muted:#a7b6d6;
-  --accent:#3aa7ff;
-  --accent-2:#7df7c8;
-  --ring:#2a6ea1;
-}
-*{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Noto Sans','Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji';
-  color:var(--text);
-  min-height:100dvh;
-  display:grid;
-  place-items:center;
-  padding:24px;
-  overflow-x:hidden;
-}
-
-/* =========================
-   Componentes / Layout
-   ========================= */
-.app { width:min(1120px,100%); background: color-mix(in oklab, var(--card), black 10%);
+:root { --bg:#0b1020; --card:#141a2f; --muted:#8aa1b1; --text:#e9f1f7; --accent:#4cc2ff; --accent-2:#7df7c8; --danger:#ff6b6b; --warn:#ffb86b; }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Noto Sans','Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji';
+      background: radial-gradient(1000px 600px at 10% 0%, #172042 0%, var(--bg) 45%),
+                  radial-gradient(800px 500px at 90% 10%, #0f2c3f 0%, transparent 40%), var(--bg);
+      color:var(--text); min-height:100dvh; display:grid; place-items:center; padding:24px;
+    }
+    .app { width:min(1120px,100%); background: color-mix(in oklab, var(--card), black 10%);
       border:1px solid color-mix(in oklab, var(--card), white 8%);
       border-radius:16px; padding:20px 20px 16px; box-shadow:0 20px 60px rgba(0,0,0,.35); }
     header { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
@@ -72,6 +53,15 @@ body{
   box-shadow: 0 0 0 3px rgba(125, 247, 200, 0.18), 0 10px 26px rgba(125, 247, 200, 0.18);
   transform: translateY(-1px);
 }
+
+100% { box-shadow: 0 0 0 10px rgba(125, 247, 200, 0); }
+}
+
+.chip.is-highlight {
+  }
+
+html { scroll-behavior: smooth; }
+
 /* Easter egg: clique no crédito para revelar */
 .credit { position: fixed; bottom: 6px; right: 10px; font-size: 10px; letter-spacing: .3px; color: #9bb4c7; opacity: .65; user-select: none; cursor: pointer; pointer-events:auto; display:flex; align-items:center; gap:12px; line-height:1; }
 .credit .credit-hidden { display: inline-block; max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transform: translateX(0); transition: max-width .35s ease, opacity .25s ease, transform .35s ease; margin-left: 0; }
@@ -237,6 +227,23 @@ body{
   .suggest.anim-drop{ animation: suggestDrop .18s ease-out 1; }
 }
 
+
+/* ==== V2.23.1: Suaviza a expansão vertical da área de dica ==== */
+@media (prefers-reduced-motion: no-preference){
+  .result-suggest-wrap{ 
+    overflow: hidden; 
+    max-height: 0; 
+    transition: max-height .22s ease, margin-top .22s ease; 
+    margin-top: 0; 
+  }
+  .result-suggest-wrap.is-open{ 
+    max-height: 480px; /* valor alto o suficiente para conter a .suggest */
+    margin-top: 12px;  /* reaplica o espaçamento quando aberto */
+  }
+  /* A própria .suggest mantém a anim-drop de V2.21.4 (descendo da caixa) */
+}
+
+
 /* ==== V2.23.1: Layout estável da linha de resultado ==== */
 @media (min-width: 721px){
   .result{
@@ -260,6 +267,7 @@ body{
 @media (max-width: 720px){
   .result{ height:auto; min-height:48px; }
 }
+
 
 /* ==== V2.23.1: Embelezamento visual (tema polido) ==== */
 :root{
@@ -349,6 +357,7 @@ header h1{
 /* rodapé mais sutil */
 footer{ opacity:.9; }
 
+
 /* ==== V2.23.1: Bordas arredondadas no campo de texto interno ==== */
 .search{
   border-radius: 16px; /* já arredonda o container */
@@ -364,9 +373,8 @@ footer{ opacity:.9; }
 /* Edge/Firefox: garantir curvatura visual nos pseudo-elementos */
 .search input[type="text"]::-moz-focus-inner{ border:0; padding:0; }
 
-/* =========================
-   Tema / Glass / Patches
-   ========================= */
+
+
 /* === Pacote final: Blur+Sombras (sem gradiente) + Ajuste Nossa Abrangência + Fix Destaque + Animação Badges === */
 :root{
   --bg-solid:#070b22;
@@ -445,6 +453,7 @@ html.is-edge .app{
 
 /* === fim pacote final === */
 
+
 /* --- Fix: evita cortar o destaque (glow) dos chips selecionados (3 listas) --- */
 .chips{
   padding-top: 10px;
@@ -457,12 +466,15 @@ html.is-edge .app{
   margin-bottom: 10px;
 }
 
+
 /* Ajuste fino: 'Nossa Abrangência' ainda estava levemente clipando o highlight */
 #chips-cob{
   padding-top: 14px !important;
   padding-bottom: 12px !important;
   scroll-padding-top: 18px;
 }
+
+
 
 /* === Patch (Copilot): Centralização + respiro + tema degradê (opção 1) === */
 .chips{ justify-content: center; }
@@ -525,6 +537,8 @@ body{
 :where(button,.chip,input):focus-visible{ box-shadow: var(--glow) !important; }
 /* === fim Patch (Copilot) === */
 
+
+
 /* === Liquid Glass (Apple-like) — aplicado SOMENTE no quadradão principal (.app) e nos cards (.card) === */
 /* Base (fallback seguro) */
 .app, .card{
@@ -580,6 +594,8 @@ body{
 }
 /* === fim Liquid Glass === */
 
+
+
 /* === Suaviza corte ao rolar (fade/blur nas bordas do scroll das cidades) === */
 /* Ideia: mascara (mask-image) cria um degradê nas bordas superior/inferior para não parecer "cortado". */
 .chips{
@@ -623,9 +639,8 @@ body{
 }
 /* === fim suavização === */
 
-/* =========================
-   Fundo animado (Windows 11 Glow V3.5)
-   ========================= */
+
+
 /* ====== Fundo animado (Windows 11 Glow - random corners) IMPORTADO da V3.5 ====== */
 /* === V3.5: Glow estilo Windows 11 — aparece em cantos aleatórios (loop fluido) === */
 :root{
@@ -745,14 +760,12 @@ body::after{
 }
 
 /* === Animações importadas da versão fluida (Edge/Goianésia) === */
-/* =====================================================
- PATCH (Copilot) — Animações mais fluidas (Edge)
- - Chips highlight: remove animação pesada de box-shadow/blur
- - Sugestão: expande por ALTURA real (JS) em vez de max-height
- - Edge: desliga mask-image e blur pesado no glass quando necessário
+PATCH (Copilot) — Animações mais fluidas (Edge)
    - Chips highlight: remove animação pesada de box-shadow/blur
    - Sugestão: expande por ALTURA real (JS) em vez de max-height
    - Edge: desliga mask-image e blur pesado no glass quando necessário
+   ===================================================== */
+
 /* --- CHIPS: composição mais suave --- */
 .chip{
   will-change: transform, opacity;
