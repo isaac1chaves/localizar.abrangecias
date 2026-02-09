@@ -859,26 +859,9 @@ html.is-edge .app, html.is-edge .card{
 }
 
 /* =====================================================
-   V4.1.2 - FIX: "barrinha branca" ao destacar chip (flash de scrollbar X)
-   Causa provável: durante scrollIntoView/focus + glow do highlight, o container
-   detecta overflow horizontal momentâneo e mostra a barra X rapidamente.
-   Correção: desabilita overflow-x no container e estabiliza gutters.
+   V4.1.2-min - FIX: remove a "barrinha branca" sem mudar o visual
+   Mantém exatamente o estilo atual; apenas impede overflow horizontal momentâneo.
    ===================================================== */
 
-/* Impede scrollbar horizontal piscando */
-.chips{
-  overflow-x: hidden !important;
-  scrollbar-gutter: stable both-edges; /* reduz layout shift onde suportado */
-}
-
-/* Garante que o conteúdo não force largura extra */
-.chips-inner{
-  overflow-x: hidden;
-}
-
-/* Evita que sombras/glow empurrem o layout */
-.chip{ box-sizing: border-box; }
-
-/* Se o navegador insistir em desenhar "corner" do scroll, mantém cor do tema */
-.chips{ scrollbar-color: rgba(31,45,82,.95) rgba(8,12,34,.35); }
-
+.chips{ overflow-x: hidden !important; }
+.chips-inner{ overflow-x: hidden; }
