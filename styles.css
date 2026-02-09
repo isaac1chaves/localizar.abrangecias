@@ -858,59 +858,33 @@ html.is-edge .app, html.is-edge .card{
   .report-bugs a.is-pulsing{ animation-duration: 1.15s !important; }
 }
 
-/* === Tipografia: Opção 1 — Modern UI (System + Segoe) === */
-:root{
-  --font-sans: system-ui, -apple-system, "Segoe UI Variable", "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Cascadia Mono", "Segoe UI Mono", monospace;
+/* =====================================================
+   V4.1 - FIX: Nivelar as listas (mesma altura inicial dos chips)
+   Motivo: havia ajustes específicos no #chips-cob (margin/padding-top)
+   e patches diferentes de padding nos .chips, causando uma lista começar
+   mais “embaixo” que as outras.
+   Cole no FINAL (já aplicado aqui).
+   ===================================================== */
 
-  --text-main: 15.5px;
-  --text-normal: 1.38;
-  --tracking: 0.18px;
+/* Garante que os cards comecem pelo topo e tenham espaçamento consistente */
+.grid{ align-items: start !important; }
+.card{ justify-content: flex-start; }
+
+/* Mesmo espaçamento entre o título e o início dos chips (todas as listas) */
+.card h3{ margin-bottom: 12px !important; }
+
+/* Padroniza o topo das listas e remove offsets que empurravam uma lista para baixo */
+.chips{
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  scroll-padding-top: 14px !important;
 }
 
-body{
-  font-family: var(--font-sans);
-  font-size: var(--text-main);
-  line-height: var(--text-normal);
-  letter-spacing: var(--tracking);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Remove ajustes exclusivos do "Nossa Abrangência" que criavam desalinhamento vertical */
+#chips-cob{
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  scroll-padding-top: 14px !important;
 }
-
-/* Título: mais “Microsoft UI” */
-header h1{
-  font-weight: 750;
-  letter-spacing: 0.30px;
-  text-transform: none;
-}
-
-/* Subtítulos dos cards */
-.card h3{
-  font-weight: 720;
-  letter-spacing: 0.22px;
-}
-
-/* Dicas e rodapé mais discretos e legíveis */
-.hint, footer{
-  font-size: 13px;
-  letter-spacing: 0.14px;
-}
-
-/* Badges com cara de sistema */
-.badge{
-  font-weight: 720;
-}
-
-/* Chips levemente mais “UI” */
-.chip{
-  font-weight: 620;
-  letter-spacing: 0.12px;
-}
-
-/* Opcional: quando quiser “cara de console” nos badges (comente se não curtir)
-.badge{
-  font-family: var(--font-mono);
-  letter-spacing: 0.25px;
-}
-*/
