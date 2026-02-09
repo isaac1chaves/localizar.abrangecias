@@ -859,32 +859,26 @@ html.is-edge .app, html.is-edge .card{
 }
 
 /* =====================================================
-   V4.1 - FIX: Nivelar as listas (mesma altura inicial dos chips)
-   Motivo: havia ajustes específicos no #chips-cob (margin/padding-top)
-   e patches diferentes de padding nos .chips, causando uma lista começar
-   mais “embaixo” que as outras.
-   Cole no FINAL (já aplicado aqui).
+   V4.1.2 - FIX: "barrinha branca" ao destacar chip (flash de scrollbar X)
+   Causa provável: durante scrollIntoView/focus + glow do highlight, o container
+   detecta overflow horizontal momentâneo e mostra a barra X rapidamente.
+   Correção: desabilita overflow-x no container e estabiliza gutters.
    ===================================================== */
 
-/* Garante que os cards comecem pelo topo e tenham espaçamento consistente */
-.grid{ align-items: start !important; }
-.card{ justify-content: flex-start; }
-
-/* Mesmo espaçamento entre o título e o início dos chips (todas as listas) */
-.card h3{ margin-bottom: 12px !important; }
-
-/* Padroniza o topo das listas e remove offsets que empurravam uma lista para baixo */
+/* Impede scrollbar horizontal piscando */
 .chips{
-  margin-top: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  scroll-padding-top: 14px !important;
+  overflow-x: hidden !important;
+  scrollbar-gutter: stable both-edges; /* reduz layout shift onde suportado */
 }
 
-/* Remove ajustes exclusivos do "Nossa Abrangência" que criavam desalinhamento vertical */
-#chips-cob{
-  margin-top: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  scroll-padding-top: 14px !important;
+/* Garante que o conteúdo não force largura extra */
+.chips-inner{
+  overflow-x: hidden;
 }
+
+/* Evita que sombras/glow empurrem o layout */
+.chip{ box-sizing: border-box; }
+
+/* Se o navegador insistir em desenhar "corner" do scroll, mantém cor do tema */
+.chips{ scrollbar-color: rgba(31,45,82,.95) rgba(8,12,34,.35); }
+
