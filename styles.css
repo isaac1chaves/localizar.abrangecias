@@ -857,3 +857,60 @@ html.is-edge .app, html.is-edge .card{
   .badge{ animation-duration: .26s, .70s !important; }
   .report-bugs a.is-pulsing{ animation-duration: 1.15s !important; }
 }
+
+/* === Tipografia: Opção 1 — Modern UI (System + Segoe) === */
+:root{
+  --font-sans: system-ui, -apple-system, "Segoe UI Variable", "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  --text-main: 15.5px;
+  --text-normal: 1.38;
+  --tracking: 0.18px;
+}
+
+body{
+  font-family: var(--font-sans);
+  font-size: var(--text-main);
+  line-height: var(--text-normal);
+  letter-spacing: var(--tracking);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Título: mais “Microsoft UI” */
+header h1{
+  font-weight: 750;
+  letter-spacing: 0.30px;
+  text-transform: none;
+}
+
+/* Subtítulos dos cards */
+.card h3{
+  font-weight: 720;
+  letter-spacing: 0.22px;
+}
+
+/* Dicas e rodapé mais discretos e legíveis */
+.hint, footer{
+  font-size: 13px;
+  letter-spacing: 0.14px;
+}
+
+/* Badges com cara de sistema */
+.badge{
+  font-weight: 720;
+}
+
+/* Chips levemente mais “UI” */
+.chip{
+  font-weight: 620;
+  letter-spacing: 0.12px;
+}
+
+/* Opcional: quando quiser “cara de console” nos badges (comente se não curtir)
+.badge{
+  font-family: var(--font-mono);
+  letter-spacing: 0.25px;
+}
+*/
