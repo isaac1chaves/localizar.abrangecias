@@ -54,12 +54,6 @@
   transform: translateY(-1px);
 }
 
-100% { box-shadow: 0 0 0 10px rgba(125, 247, 200, 0); }
-}
-
-.chip.is-highlight {
-  }
-
 html { scroll-behavior: smooth; }
 
 /* Easter egg: clique no crédito para revelar */
@@ -423,7 +417,6 @@ body{ background: var(--bg-solid) !important; color: var(--text) !important; }
 .search input[type="text"]:focus-visible{ border-color: rgba(58,167,255,.60) !important; }
 
 /* Ajuste: lista Nossa Abrangência não invadir o título */
-#chips-cob{ margin-top: 10px !important; padding-top: 2px !important; }
 .card h3{ position: relative; z-index: 1; }
 
 /* Fix: destaque das cidades não some ao focar */
@@ -468,14 +461,6 @@ html.is-edge .app{
 
 
 /* Ajuste fino: 'Nossa Abrangência' ainda estava levemente clipando o highlight */
-#chips-cob{
-  padding-top: 14px !important;
-  padding-bottom: 12px !important;
-  scroll-padding-top: 18px;
-}
-
-
-
 /* === Patch (Copilot): Centralização + respiro + tema degradê (opção 1) === */
 .chips{ justify-content: center; }
 .grid{ align-items: stretch; gap: 14px; }
@@ -602,21 +587,7 @@ body{
   /* mantém o comportamento atual */
   overflow: auto;
   /* fade nas bordas (compatível com WebKit e padrões modernos) */
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0px,
-    #000 14px,
-    #000 calc(100% - 14px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(to bottom,
-    transparent 0px,
-    #000 14px,
-    #000 calc(100% - 14px),
-    transparent 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
+  }
 
 /* Fallback caso mask-image não exista: coloca uma "névoa" suave no topo/rodapé com pseudo-elementos */
 @supports not ((-webkit-mask-image: linear-gradient(#000,#000)) or (mask-image: linear-gradient(#000,#000))) {
@@ -828,11 +799,6 @@ PATCH (Copilot) — Animações mais fluidas (Edge)
 }
 
 /* --- Edge: reduz custos (mask-image e blur) --- */
-html.is-edge .chips{
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
-}
-
 html.is-edge .app, html.is-edge .card{
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -865,3 +831,54 @@ html.is-edge .app, html.is-edge .card{
 
 .chips{ overflow-x: hidden !important; }
 .chips-inner{ overflow-x: hidden; }
+
+
+/* ============================================================
+   FIX DEFINITIVO — NIVELAMENTO DAS 3 LISTAS (sem mexer no visual)
+   ============================================================ */
+
+/* 1. Títulos alinhados igualmente */
+.card h3{
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    padding: 0 !important;
+}
+
+/* 2. Todos os cards começam EXACTAMENTE no mesmo ponto */
+.card{
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+}
+
+/* 3. Padroniza topo das áreas de chips */
+.chips{
+    margin-top: 0 !important;
+    padding-top: 10px !important;
+}
+
+/* 4. REMOVE qualquer ajuste somente da terceira lista */
+
+/* ============================================================
+   NIVELAMENTO CONSOLIDADO — manter alinhamento das 3 listas
+   ============================================================ */
+.card h3{ margin:0 0 12px !important; padding:0 !important; }
+.card{ display:flex !important; flex-direction:column !important; justify-content:flex-start !important; align-items:stretch !important; }
+.chips{ margin-top:0 !important; padding-top:10px !important; }
+#chips-cob{ margin-top:0 !important; padding-top:10px !important; padding-bottom:10px !important; }
+
+/* =====================================================
+   FADE REAL apenas no conteúdo (não desfoca a barra)
+   ===================================================== */
+:root{ --fade-edge: 18px; }
+/* Não aplicar máscara no container (scrollbar) */
+.chips{ -webkit-mask-image: none !important; mask-image: none !important; }
+/* Aplicar máscara no wrapper interno com as bolhas */
+.chips-inner{
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 var(--fade-edge), #000 calc(100% - var(--fade-edge)), transparent 100%) !important;
+  mask-image: linear-gradient(to bottom, transparent 0px, #000 var(--fade-edge), #000 calc(100% - var(--fade-edge)), transparent 100%) !important;
+  -webkit-mask-repeat: no-repeat !important; mask-repeat: no-repeat !important;
+}
+/* Edge: manter o fade */
+html.is-edge .chips-inner{ -webkit-mask-image: inherit !important; mask-image: inherit !important; }
