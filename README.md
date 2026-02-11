@@ -1,248 +1,45 @@
-**GUIA SIMPLES: COMO COLOCAR UM SITE ONLINE USANDO GITHUB + VERCEL**
 
+#  Pesquisa de Abrangência — Renapsi
+Site criado em: 17/01/2026  
+Autor: Isaac Freitas Chaves — Jovem Aprendiz
 
+---
 
-Este guia foi feito para quem nunca publicou um site antes.
+Sobre o Projeto
 
-Mesmo que você seja iniciante, seguindo estes passos com calma, seu site ficará online.
+O Pesquisa de Abrangência é um site desenvolvido para facilitar a consulta de cidades atendidas por diferentes núcleos da Renapsi.  
+Ele permite pesquisar rapidamente a abrangência de cada núcleo, visualizar listas organizadas por região e entender de forma clara onde a instituição atua.
 
+O foco do projeto é simplicidade, agilidade e acessibilidade, oferecendo uma interface moderna, responsiva e visualmente agradável.
 
+---
 
-==============================
+Tecnologias Utilizadas
 
-**O QUE VOCÊ VAI PRECISAR**
+- HTML5
+- CSS3
+- JavaScript 
+- Hospedagem na Vercel
 
-==============================
+---
 
+Objetivo
 
+Criar uma ferramenta prática para auxiliar equipes internas e usuários na identificação rápida das cidades pertencentes a cada núcleo, melhorando o fluxo de trabalho e reduzindo o tempo de consulta manual.
 
-\- Um site pronto (HTML, CSS e JS)
+---
 
-\- O site está em um arquivo compactado (.zip)
+Agradecimentos
 
-\- Uma conta no GitHub (gratuita)
+Eu, Isaac Freitas Chaves, gostaria de deixar aqui meu agradecimento especial pela oportunidade de trabalhar e aprender na Renapsi.
 
-\- Uma conta na Vercel (gratuita)
+Este projeto representa parte do meu crescimento como Jovem Aprendiz, e sou muito grato por poder contribuir e evoluir dentro desta instituição, que me acolheu e me permite adquirir experiência real no mundo profissional.
 
-\- Internet e um computador
+---
 
+Autor
 
-
-Não é obrigatório saber programar nem usar terminal.
-
-
-
-==============================
-
-**PASSO 1 – DESCOMPACTAR O SITE (.ZIP)**
-
-==============================
-
-
-
-o site vem em um arquivo .zip para facilitar o envio.
-
-Mas GitHub e Vercel NÃO usam o arquivo .zip diretamente.
-
-
-
-Você precisa EXTRAIR os arquivos.
-
-
-
-1\. Clique com o botão direito no arquivo .zip
-
-2\. Clique em "Extrair aqui" ou "Extrair para..."
-
-3\. Será criada uma pasta com vários arquivos dentro
-
-
-
-Dentro dessa pasta deve existir pelo menos:
-
-\- index.html (arquivo principal do site)
-
-\- pasta ou arquivo de CSS
-
-\- pasta ou arquivo de JavaScript (opcional)
-
-
-
-⚠️ Se não existir um arquivo chamado index.html, o site não abre.
-
-
-
-==============================
-
-**PASSO 2 – CRIAR UM REPOSITÓRIO NO GITHUB**
-
-==============================
-
-
-
-O GitHub é onde seu site ficará armazenado.
-
-A Vercel vai buscar o site diretamente do GitHub.
-
-
-
-1\. Acesse: https://github.com
-
-2\. Crie uma conta ou entre na sua
-
-3\. Clique no botão "New Repository"
-
-4\. Escolha um nome para o projeto
-
-5\. Marque a opção "Public"
-
-6\. Clique em "Create Repository"
-
-
-
-Pronto! O espaço do seu site foi criado.
-
-
-
-==============================
-
-**PASSO 3 – ENVIAR OS ARQUIVOS DO SITE**
-
-==============================
-
-
-
-IMPORTANTE:
-
-Você NÃO deve enviar o arquivo .zip
-
-Você deve enviar os ARQUIVOS QUE ESTÃO DENTRO DA PASTA
-
-
-
-FORMA MAIS SIMPLES (PELO NAVEGADOR):
-
-
-
-1\. Entre no repositório que você criou
-
-2\. Clique em "Add file" → "Upload files"
-
-3\. Arraste TODOS os arquivos do site
-
-4\. Confira se o index.html está aparecendo
-
-5\. Clique em "Commit changes"
-
-
-
-Agora seu site está salvo no GitHub.
-
-
-
-==============================
-
-**PASSO 4 – PUBLICAR O SITE NA VERCEL**
-
-==============================
-
-
-
-A Vercel é quem vai transformar seu site em um endereço da internet.
-
-
-
-1\. Acesse: https://vercel.com
-
-2\. Faça login usando sua conta do GitHub
-
-3\. Clique em "Add New" → "Project"
-
-4\. Selecione o repositório do site
-
-5\. Clique em "Deploy"
-
-
-
-Esse processo é automático.
-
-Em poucos segundos o site estará online.
-
-
-
-==============================
-
-**PASSO 5 – ACESSAR O SITE ONLINE**
-
-==============================
-
-
-
-Depois do deploy, a Vercel mostrará um link parecido com:
-
-https://nomedosite.vercel.app
-
-
-
-Basta clicar no link para acessar o site.
-
-Você já pode enviar esse link para qualquer pessoa.
-
-
-
-==============================
-
-**VANTAGENS DESSE MÉTODO**
-
-==============================
-
-
-
-✅ Gratis
-
-✅ Fácil para iniciantes
-
-✅ Não precisa de servidor próprio
-
-✅ Toda vez que atualizar o GitHub, o site atualiza sozinho
-
-✅ Pode ser usado para portfólio e projetos reais
-
-
-
-==============================
-
-**PROBLEMAS COMUNS E SOLUÇÕES**
-
-==============================
-
-
-
-❌ Site não abre
-
-✔ Verifique se existe index.html
-
-
-
-❌ Aparece tela em branco
-
-✔ Confira caminhos do CSS e JS
-
-
-
-❌ Enviei o zip e não funcionou
-
-✔ Extraia o zip e envie os arquivos internos
-
-
-
-==============================
-
-FIM DO GUIA
-
-==============================
-
-Este é o jeito mais simples de colocar um site online hoje.
-
-
+Isaac Freitas Chaves 
+Jovem Aprendiz — Desenvolvedor Front-end  
+2026
 
