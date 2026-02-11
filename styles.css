@@ -56,12 +56,6 @@
 
 html { scroll-behavior: smooth; }
 
-/* Easter egg: clique no crédito para revelar */
-.credit { position: fixed; bottom: 6px; right: 10px; font-size: 10px; letter-spacing: .3px; color: #9bb4c7; opacity: .65; user-select: none; cursor: pointer; pointer-events:auto; display:flex; align-items:center; gap:12px; line-height:1; }
-.credit .credit-hidden { display: inline-block; max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transform: translateX(0); transition: max-width .35s ease, opacity .25s ease, transform .35s ease; margin-left: 0; }
-.credit.is-revealed .credit-main { display: inline-block; transform: translateX(-4px); transition: transform .35s ease; }
-.credit.is-revealed .credit-hidden { max-width: 260px; opacity: 1; transform: translateX(-4px); margin-left: 8px; }
-
 /* Botão de bug (canto inferior esquerdo) */
 .report-bugs{
   position: fixed;
@@ -382,16 +376,13 @@ footer{ opacity:.9; }
   --ring:#2a6ea1;
 }
 
-/* Fundo 100% sólido (SEM gradiente) */
-body{ background: var(--bg-solid) !important; color: var(--text) !important; }
-
 /* Glass/blur + sombras */
 .app{
   background: var(--panel) !important;
   border: 1px solid var(--border) !important;
   box-shadow: 0 22px 70px rgba(0,0,0,.52) !important;
   -webkit-backdrop-filter: saturate(120%) blur(10px) !important;
-  backdrop-filter: saturate(120%) blur(10px) !important;
+  backdrop-filter: saturate(100%) blur(10px) !important;
 }
 .search, .result, .card{
   background: var(--panel-2) !important;
@@ -429,12 +420,6 @@ body{ background: var(--bg-solid) !important; color: var(--text) !important; }
   box-shadow: 0 0 0 3px rgba(125,247,200,.18), 0 12px 28px rgba(125,247,200,.22) !important;
 }
 
-/* Edge: se blur ainda engasgar, desliga blur só no Edge */
-html.is-edge .app{
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  background: rgba(13,19,48,.92) !important;
-}
 
 /* Animação de entrada das "bolhinhas" (badges) */
 @media (prefers-reduced-motion: no-preference){
@@ -556,12 +541,6 @@ body{
   pointer-events: none;
 }
 
-/* O blur real acontece só quando suportado */
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .app, .card{
-    backdrop-filter: blur(14px) saturate(130%);
-    -webkit-backdrop-filter: blur(14px) saturate(130%);
-    background: rgba(13, 19, 48, 0.38) !important;
   }
 }
 
