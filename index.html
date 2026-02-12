@@ -1,60 +1,68 @@
 <!DOCTYPE html>
-<!-- saved from url=(0088)file:///C:/Users/isaac.chaves/Downloads/Pesquisa_de_Abrangencia_3_listas_atualizado.html -->
-<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pesquisa de Abrangência (Núcleos Anápolis / Brasília / Nossa Abrangência)</title>
 
-<!-- Favicon / App Icons -->
-<link rel="icon" href="./favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180">
+  <!-- Favicon (mantém simples para evitar arquivos inexistentes) -->
+  <link rel="icon" type="image/ico" href="./favicon.ico" />
+  <meta name="theme-color" content="#0b1020" />
 
-<meta name="theme-color" content="#0b1020">
-
-<link rel="stylesheet" href="./styles.css">
+  <!-- Mantém o CSS ORIGINAL (visual idêntico) -->
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="report-bugs" id="reportBugs">
-    <a href="https://teams.microsoft.com/l/chat/0/0?users=isaac.chaves@renapsi.org.br" target="_blank" rel="noopener noreferrer" title="Reportar bugs" data-tooltip="Reportar bugs" aria-label="Reportar bug no Teams">
+    <a href="https://teams.microsoft.com/l/chat/0/0?users=isaac.chaves@renapsi.org.br"
+       target="_blank" rel="noopener noreferrer"
+       title="Reportar bugs" data-tooltip="Reportar bugs" aria-label="Reportar bug no Teams">
       <svg class="bug-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-  <path d="M20 8h-2.81c-.45-.78-1.07-1.46-1.82-2H17V4h-2v1.09C14.34 5.03 13.68 5 13 5h-2c-.68 0-1.34.03-2 .09V4H7v2h1.63c-.75.54-1.37 1.22-1.82 2H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3h2c2.22 0 4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zM16 16c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2V11c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v5z"/>
-  <path d="M11 12h2v5h-2zm0-3h2v2h-2z"/>
-</svg>
+        <path d="M20 8h-2.81c-.45-.78-1.07-1.46-1.82-2H17V4h-2v1.09C14.34 5.03 13.68 5 13 5h-2c-.68 0-1.34.03-2 .09V4H7v2h1.63c-.75.54-1.37 1.22-1.82 2H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3h2c2.22 0 4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zM16 16c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2V11c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v5z"/>
+        <path d="M11 12h2v5h-2zm0-3h2v2h-2z"/>
+      </svg>
     </a>
   </div>
 
   <main class="app">
     <header>
       <h1>Pesquisa de Abrangência</h1>
-
     </header>
 
     <section class="search" role="search">
-      <input id="q" type="text" placeholder="Cole aqui: ex. &#39;SEDS - SEC MUN ASSISTENCIA SOCIAL - CIDADE OCIDENTAL&#39;" aria-label="Pesquisar município">
-      <button id="btn">Buscar</button>
+      <input id="q" type="text" placeholder="Cole aqui: ex. 'SEDS - SEC MUN ASSISTENCIA SOCIAL - CIDADE OCIDENTAL'" aria-label="Pesquisar município" />
+      <button id="btn" type="button">Buscar</button>
     </section>
 
-    <section id="out" class="result" aria-live="polite" aria-atomic="true"><div class="hint">Cole ou digite um texto contendo a cidade.</div></section>
-  <section id="outSuggest" class="result-suggest-wrap" aria-live="polite" aria-atomic="true"></section>
-  <section class="grid" aria-label="Listas rápidas">
+    <section id="out" class="result" aria-live="polite" aria-atomic="true">
+      <div class="hint">Cole ou digite um texto contendo a cidade.</div>
+    </section>
+
+    <section id="outSuggest" class="result-suggest-wrap" aria-live="polite" aria-atomic="true"></section>
+
+    <section class="grid" aria-label="Listas rápidas">
       <div class="card">
         <h3>Núcleos Anápolis</h3>
-        <div class="chips" id="chips-ana"><span class="chip" tabindex="0">anapolis</span><span class="chip" tabindex="0">barro alto</span><span class="chip" tabindex="0">campo limpo de goias</span><span class="chip" tabindex="0">carmo do rio verde</span><span class="chip" tabindex="0">ceres</span><span class="chip" tabindex="0">goianesia</span><span class="chip" tabindex="0">guaraita</span><span class="chip" tabindex="0">guarinos</span><span class="chip" tabindex="0">goianapolis</span><span class="chip" tabindex="0">hidrolina</span><span class="chip" tabindex="0">ipiranga de goias</span><span class="chip" tabindex="0">itapaci</span><span class="chip" tabindex="0">itapuranga</span><span class="chip" tabindex="0">jaraguá</span><span class="chip" tabindex="0">morro agudo de goiás</span><span class="chip" tabindex="0">nova america</span><span class="chip" tabindex="0">nova gloria</span><span class="chip" tabindex="0">pilar de goias</span><span class="chip" tabindex="0">rialma</span><span class="chip" tabindex="0">rianapolis</span><span class="chip" tabindex="0">rubiataba</span><span class="chip" tabindex="0">santa isabel</span><span class="chip" tabindex="0">santa rita do novo destino</span><span class="chip" tabindex="0">sao luis do norte</span><span class="chip" tabindex="0">sao miguel do araguaia</span><span class="chip" tabindex="0">sao patricio</span><span class="chip" tabindex="0">uruaçu</span><span class="chip" tabindex="0">uruana</span><span class="chip" tabindex="0">vila propicio</span></div>
+        <div class="chips" id="chips-ana"></div>
       </div>
+
       <div class="card">
         <h3>Núcleos Brasília</h3>
-        <div class="chips" id="chips-bra"><span class="chip" tabindex="0">abadiania</span><span class="chip" tabindex="0">alexania</span><span class="chip" tabindex="0">agua fria de goias</span><span class="chip" tabindex="0">aguas lindas de goias</span><span class="chip" tabindex="0">cabeceiras</span><span class="chip" tabindex="0">cidade ocidental</span><span class="chip" tabindex="0">cristalina</span><span class="chip" tabindex="0">cocalzinho de goias</span><span class="chip" tabindex="0">corumba de goias</span><span class="chip" tabindex="0">formosa</span><span class="chip" tabindex="0">luziania</span><span class="chip" tabindex="0">mimoso de goias</span><span class="chip" tabindex="0">novo gama</span><span class="chip" tabindex="0">padre bernado</span><span class="chip" tabindex="0">planaltina</span><span class="chip" tabindex="0">pirenopolis</span><span class="chip" tabindex="0">santo antonio do descoberto</span><span class="chip" tabindex="0">valparaiso</span><span class="chip" tabindex="0">vila boa</span></div>
+        <div class="chips" id="chips-bra"></div>
       </div>
+
       <div class="card">
         <h3>Nossa Abrangência</h3>
-        <div class="chips" id="chips-cob"><span class="chip" tabindex="0">Abadiânia</span><span class="chip" tabindex="0">Acreúna</span><span class="chip" tabindex="0">Adelândia</span><span class="chip" tabindex="0">Água Fria de Goiás</span><span class="chip" tabindex="0">Água Limpa</span><span class="chip" tabindex="0">Águas Lindas de Goiás</span><span class="chip" tabindex="0">Alexânia</span><span class="chip" tabindex="0">Aloândia</span><span class="chip" tabindex="0">Alto Horizonte</span><span class="chip" tabindex="0">Alto Paraíso de Goiás</span><span class="chip" tabindex="0">Alvorada do Norte</span><span class="chip" tabindex="0">Amaralina</span><span class="chip" tabindex="0">Americano do Brasil</span><span class="chip" tabindex="0">Amorinópolis</span><span class="chip" tabindex="0">Anhanguera</span><span class="chip" tabindex="0">Anicuns</span><span class="chip" tabindex="0">Aparecida de Goiânia</span><span class="chip" tabindex="0">Aparecida do Rio Doce</span><span class="chip" tabindex="0">Aporé</span><span class="chip" tabindex="0">Araçu</span><span class="chip" tabindex="0">Aragarças</span><span class="chip" tabindex="0">Aragoiânia</span><span class="chip" tabindex="0">Araguapaz</span><span class="chip" tabindex="0">Arenópolis</span><span class="chip" tabindex="0">Aruanã</span><span class="chip" tabindex="0">Aurilândia</span><span class="chip" tabindex="0">Avelinópolis</span><span class="chip" tabindex="0">Baliza</span><span class="chip" tabindex="0">Bela Vista de Goiás</span><span class="chip" tabindex="0">Bom Jardim de Goiás</span><span class="chip" tabindex="0">Bom Jesus de Goiás</span><span class="chip" tabindex="0">Bonfinópolis</span><span class="chip" tabindex="0">Bonópolis</span><span class="chip" tabindex="0">Brazabrantes</span><span class="chip" tabindex="0">Britânia</span><span class="chip" tabindex="0">Buriti Alegre</span><span class="chip" tabindex="0">Buriti de Goiás</span><span class="chip" tabindex="0">Buritinópolis</span><span class="chip" tabindex="0">Cachoeira Alta</span><span class="chip" tabindex="0">Cachoeira de Goiás</span><span class="chip" tabindex="0">Cachoeira Dourada</span><span class="chip" tabindex="0">Caçu</span><span class="chip" tabindex="0">Caiapônia</span><span class="chip" tabindex="0">Caldas Novas</span><span class="chip" tabindex="0">Caldazinha</span><span class="chip" tabindex="0">Campestre de Goiás</span><span class="chip" tabindex="0">Campinaçu</span><span class="chip" tabindex="0">Campinorte</span><span class="chip" tabindex="0">Campo Alegre de Goiás</span><span class="chip" tabindex="0">Campos Belos</span><span class="chip" tabindex="0">Campos Verdes</span><span class="chip" tabindex="0">Castelândia</span><span class="chip" tabindex="0">Catalão</span><span class="chip" tabindex="0">Caturaí</span><span class="chip" tabindex="0">Cavalcante</span><span class="chip" tabindex="0">Cezarina</span><span class="chip" tabindex="0">Chapadão do Céu</span><span class="chip" tabindex="0">Cidade Ocidental</span><span class="chip" tabindex="0">Cocalzinho de Goiás</span><span class="chip" tabindex="0">Colinas do Sul</span><span class="chip" tabindex="0">Córrego do Ouro</span><span class="chip" tabindex="0">Corumbá de Goiás</span><span class="chip" tabindex="0">Corumbaíba</span><span class="chip" tabindex="0">Cristalina</span><span class="chip" tabindex="0">Cristianópolis</span><span class="chip" tabindex="0">Crixás</span><span class="chip" tabindex="0">Cromínia</span><span class="chip" tabindex="0">Cumari</span><span class="chip" tabindex="0">Damianópolis</span><span class="chip" tabindex="0">Damolândia</span><span class="chip" tabindex="0">Davinópolis</span><span class="chip" tabindex="0">Diorama</span><span class="chip" tabindex="0">Divinópolis de Goiás</span><span class="chip" tabindex="0">Doverlândia</span><span class="chip" tabindex="0">Edealina</span><span class="chip" tabindex="0">Edéia</span><span class="chip" tabindex="0">Estrela do Norte</span><span class="chip" tabindex="0">Faina</span><span class="chip" tabindex="0">Fazenda Nova</span><span class="chip" tabindex="0">Firminópolis</span><span class="chip" tabindex="0">Flores de Goiás</span><span class="chip" tabindex="0">Formoso</span><span class="chip" tabindex="0">Gameleira de Goiás</span><span class="chip" tabindex="0">Goiandira</span><span class="chip" tabindex="0">Goiânia</span><span class="chip" tabindex="0">Goianira</span><span class="chip" tabindex="0">Goiás</span><span class="chip" tabindex="0">Goiatuba</span><span class="chip" tabindex="0">Gouvelândia</span><span class="chip" tabindex="0">Guapó</span><span class="chip" tabindex="0">Guaraíta</span><span class="chip" tabindex="0">Guarani de Goiás</span><span class="chip" tabindex="0">Heitoraí</span><span class="chip" tabindex="0">Hidrolândia</span><span class="chip" tabindex="0">Iaciara</span><span class="chip" tabindex="0">Inaciolândia</span><span class="chip" tabindex="0">Indiara</span><span class="chip" tabindex="0">Inhumas</span><span class="chip" tabindex="0">Ipameri</span><span class="chip" tabindex="0">Ipiranga de Goiás</span><span class="chip" tabindex="0">Iporá</span><span class="chip" tabindex="0">Israelândia</span><span class="chip" tabindex="0">Itaberaí</span><span class="chip" tabindex="0">Itaguari</span><span class="chip" tabindex="0">Itaguaru</span><span class="chip" tabindex="0">Itajá</span><span class="chip" tabindex="0">Itapirapuã</span><span class="chip" tabindex="0">Itarumã</span><span class="chip" tabindex="0">Itauçu</span><span class="chip" tabindex="0">Itumbiara</span><span class="chip" tabindex="0">Ivolândia</span><span class="chip" tabindex="0">Jandaia</span><span class="chip" tabindex="0">Jataí</span><span class="chip" tabindex="0">Jaupaci</span><span class="chip" tabindex="0">Jesúpolis</span><span class="chip" tabindex="0">Joviânia</span><span class="chip" tabindex="0">Jussara</span><span class="chip" tabindex="0">Lagoa Santa</span><span class="chip" tabindex="0">Leopoldo de Bulhões</span><span class="chip" tabindex="0">Luziânia</span><span class="chip" tabindex="0">Mairipotaba</span><span class="chip" tabindex="0">Mambaí</span><span class="chip" tabindex="0">Mara Rosa</span><span class="chip" tabindex="0">Marzagão</span><span class="chip" tabindex="0">Matrinchã</span><span class="chip" tabindex="0">Maurilândia</span><span class="chip" tabindex="0">Mimoso de Goiás</span><span class="chip" tabindex="0">Minaçu</span><span class="chip" tabindex="0">Mineiros</span><span class="chip" tabindex="0">Moiporá</span><span class="chip" tabindex="0">Monte Alegre de Goiás</span><span class="chip" tabindex="0">Montes Claros de Goiás</span><span class="chip" tabindex="0">Montividiu</span><span class="chip" tabindex="0">Montividiu do Norte</span><span class="chip" tabindex="0">Morrinhos</span><span class="chip" tabindex="0">Mossâmedes</span><span class="chip" tabindex="0">Mozarlândia</span><span class="chip" tabindex="0">Mundo Novo</span><span class="chip" tabindex="0">Mutunópolis</span><span class="chip" tabindex="0">Nazário</span><span class="chip" tabindex="0">Nerópolis</span><span class="chip" tabindex="0">Niquelândia</span><span class="chip" tabindex="0">Nova Aurora</span><span class="chip" tabindex="0">Nova Crixás</span><span class="chip" tabindex="0">Nova Glória</span><span class="chip" tabindex="0">Nova Iguaçu de Goiás</span><span class="chip" tabindex="0">Nova Roma</span><span class="chip" tabindex="0">Nova Veneza</span><span class="chip" tabindex="0">Novo Brasil</span><span class="chip" tabindex="0">Novo Planalto</span><span class="chip" tabindex="0">Orizona</span><span class="chip" tabindex="0">Ouro Verde de Goiás</span><span class="chip" tabindex="0">Ouvidor</span><span class="chip" tabindex="0">Padre Bernardo</span><span class="chip" tabindex="0">Palestina de Goiás</span><span class="chip" tabindex="0">Palmeiras de Goiás</span><span class="chip" tabindex="0">Palmelo</span><span class="chip" tabindex="0">Palminópolis</span><span class="chip" tabindex="0">Panamá</span><span class="chip" tabindex="0">Paranaiguara</span><span class="chip" tabindex="0">Paraúna</span><span class="chip" tabindex="0">Perolândia</span><span class="chip" tabindex="0">Petrolina de Goiás</span><span class="chip" tabindex="0">Pilar de Goiás</span><span class="chip" tabindex="0">Piracanjuba</span><span class="chip" tabindex="0">Piranhas</span><span class="chip" tabindex="0">Pirenópolis</span><span class="chip" tabindex="0">Pires do Rio</span><span class="chip" tabindex="0">Pontalina</span><span class="chip" tabindex="0">Porangatu</span><span class="chip" tabindex="0">Porteirão</span><span class="chip" tabindex="0">Portelândia</span><span class="chip" tabindex="0">Posse</span><span class="chip" tabindex="0">Professor Jamil</span><span class="chip" tabindex="0">Quirinópolis</span><span class="chip" tabindex="0">Rianápolis</span><span class="chip" tabindex="0">Rio Quente</span><span class="chip" tabindex="0">Rio Verde</span><span class="chip" tabindex="0">Sanclerlândia</span><span class="chip" tabindex="0">Santa Bárbara de Goiás</span><span class="chip" tabindex="0">Santa Cruz de Goiás</span><span class="chip" tabindex="0">Santa Fé de Goiás</span><span class="chip" tabindex="0">Santa Helena de Goiás</span><span class="chip" tabindex="0">Santa Rita do Araguaia</span><span class="chip" tabindex="0">Santa Rosa de Goiás</span><span class="chip" tabindex="0">Santa Tereza de Goiás</span><span class="chip" tabindex="0">Santa Terezinha de Goiás</span><span class="chip" tabindex="0">Santo Antônio da Barra</span><span class="chip" tabindex="0">Santo Antônio de Goiás</span><span class="chip" tabindex="0">Santo Antônio do Descoberto</span><span class="chip" tabindex="0">São Domingos</span><span class="chip" tabindex="0">São Francisco de Goiás</span><span class="chip" tabindex="0">São João da Paraúna</span><span class="chip" tabindex="0">São João d'Aliança</span><span class="chip" tabindex="0">São Luís de Montes Belos</span><span class="chip" tabindex="0">São Luiz do Norte</span><span class="chip" tabindex="0">São Miguel do Araguaia</span><span class="chip" tabindex="0">São Miguel do Passa-Quatro</span><span class="chip" tabindex="0">São Patrício</span><span class="chip" tabindex="0">São Simão</span><span class="chip" tabindex="0">Senador Canedo</span><span class="chip" tabindex="0">Serranópolis</span><span class="chip" tabindex="0">Silvânia</span><span class="chip" tabindex="0">Simolândia</span><span class="chip" tabindex="0">Sítio d'Abadia</span><span class="chip" tabindex="0">Taquaral de Goiás</span><span class="chip" tabindex="0">Teresina de Goiás</span><span class="chip" tabindex="0">Terezópolis de Goiás</span><span class="chip" tabindex="0">Três Ranchos</span><span class="chip" tabindex="0">Trindade</span><span class="chip" tabindex="0">Trombas</span><span class="chip" tabindex="0">Turvânia</span><span class="chip" tabindex="0">Turvelândia</span><span class="chip" tabindex="0">Uirapuru</span><span class="chip" tabindex="0">Urutaí</span><span class="chip" tabindex="0">Valparaíso de Goiás</span><span class="chip" tabindex="0">Varjão</span><span class="chip" tabindex="0">Vianópolis</span><span class="chip" tabindex="0">Vicentinópolis</span><span class="chip" tabindex="0">Vila Propício</span></div>
+        <div class="chips" id="chips-cob"></div>
       </div>
-   </section>
- </main>
-  <div class="credit" id="credit"><span class="credit-main" id="creditMain">V5.0 | 11-02-2025 | By Renapsi</span>
+    </section>
+  </main>
+
+  <div class="credit" id="credit">
+    <span class="credit-main" id="creditMain">V6.0 | 12-02-2025 | By Renapsi</span>
+  </div>
+
   <script defer src="./app.js"></script>
-
-<script defer src="./glow.js"></script>
-
-</body></html>
+  <script defer src="./glow.js"></script>
+</body>
+</html>

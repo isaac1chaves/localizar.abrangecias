@@ -2,7 +2,7 @@
 // Listas (mantidas como no arquivo original para Anápolis/Brasília)
     const anapolis = ['anapolis', 'barro alto', 'campo limpo de goias', 'carmo do rio verde', 'ceres', 'goianapolis', 'guaraita', 'guarinos', 'hidrolina', 'ipiranga de goias', 'itapaci', 'itapuranga', 'jaraguá', 'morro agudo de goiás', 'nova america', 'nova gloria', 'pilar de goias', 'rialma', 'rianapolis', 'rubiataba', 'santa isabel', 'santa rita do novo destino', 'sao luis do norte', 'sao miguel do araguaia', 'sao patricio', 'uruaçu', 'uruana', 'vila propicio'];
     
-    const brasilia = ['abadiania', 'agua fria de goias', 'aguas lindas de goias', 'alexania', 'cabeceiras', 'cidade ocidental', 'cocalzinho de goias', 'corumba de goias', 'cristalina', 'formosa', 'luziania', 'mimoso de goias', 'novo gama', 'padre bernado', 'pirenopolis', 'planaltina', 'santo antonio do descoberto', 'valparaiso de goias', 'vila boa'];
+    const brasilia = ['abadiania', 'agua fria de goias', 'aguas lindas de goias', 'alexania', 'cabeceiras', 'cidade ocidental', 'cocalzinho de goias', 'corumba de goias', 'cristalina', 'formosa', 'luziania', 'mimoso de goias', 'novo gama', 'padre bernardo', 'pirenopolis', 'planaltina', 'santo antonio do descoberto', 'valparaiso de goias', 'vila boa'];
 
     const cobertura = ["Acreúna", "Abadia de Goias", "Adelândia", "Água Limpa", "Aloândia", "Alto Horizonte", "Alto Paraíso de Goiás", "Alvorada do Norte", "Amaralina", "Americano do Brasil", "Amorinópolis", "Anhanguera", "Anicuns", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aporé", "Araçu", "Aragarças", "Aragoiânia", "Araguapaz", "Arenópolis", "Aruanã", "Aurilândia", "Avelinópolis", "Baliza", "Bela Vista de Goiás", "Bom Jardim de Goiás", "Bom Jesus de Goiás", "Bonfinópolis", "Bonópolis", "Brazabrantes", "Britânia", "Buriti Alegre", "Buriti de Goiás", "Buritinópolis", "Cachoeira Alta", "Cachoeira de Goiás", "Cachoeira Dourada", "Caçu", "Caiapônia", "Caldas Novas", "Caldazinha", "Campestre de Goiás", "Campinaçu", "Campinorte", "Campo Alegre de Goiás", "Campos Belos", "Campos Verdes", "Castelândia", "Catalão", "Caturaí", "Cavalcante", "Cezarina", "Chapadão do Céu", "Colinas do Sul", "Córrego do Ouro", "Corumbaíba", "Cristianópolis", "Crixás", "Cromínia", "Cumari", "Damianópolis", "Damolândia", "Davinópolis", "Diorama", "Divinópolis de Goiás", "Doverlândia", "Edealina", "Edéia", "Estrela do Norte", "Faina", "Fazenda Nova", "Firminópolis", "Flores de Goiás", "Gameleira de Goiás", "Goiandira", "Goiânia", "Goianira", "Goiás", "Goiatuba", "Gouvelândia", "Guapó", "Guarani de Goiás", "Heitoraí", "Hidrolândia", "Iaciara", "Inaciolândia", "Indiara", "Inhumas", "Ipameri", "Iporá", "Israelândia", "Itaberaí", "Itaguari", "Itaguaru", "Itajá", "Itapirapuã", "Itarumã", "Itauçu", "Itumbiara", "Ivolândia", "Jandaia", "Jataí", "Jaupaci", "Jesúpolis", "Joviânia", "Jussara", "Lagoa Santa", "Leopoldo de Bulhões", "Mairipotaba", "Mambaí", "Mara Rosa", "Marzagão", "Matrinchã", "Maurilândia", "Minaçu", "Mineiros", "Moiporá", "Monte Alegre de Goiás", "Montes Claros de Goiás", "Montividiu", "Montividiu do Norte", "Morrinhos", "Mossâmedes", "Mozarlândia", "Mundo Novo", "Mutunópolis", "Nazário", "Nerópolis", "Niquelândia", "Nova Aurora", "Nova Crixás", "Nova Roma", "Nova Veneza", "Novo Brasil", "Novo Planalto", "Orizona", "Ouro Verde de Goiás", "Ouvidor", "Palestina de Goiás", "Palmeiras de Goiás", "Palmelo", "Palminópolis", "Panamá", "Paranaiguara", "Paraúna", "Perolândia", "Petrolina de Goiás", "Piracanjuba", "Piranhas", "Pires do Rio", "Pontalina", "Porangatu", "Porteirão", "Portelândia", "Posse", "Professor Jamil", "Quirinópolis", "Rio Quente", "Rio Verde", "Sanclerlândia", "Santa Bárbara de Goiás", "Santa Cruz de Goiás", "Santa Fé de Goiás", "Santa Helena de Goiás", "Santa Rita do Araguaia", "Santa Tereza de Goiás", "Santa Terezinha de Goiás", "Santo Antônio da Barra", "Santo Antônio de Goiás", "São Domingos", "São Francisco de Goiás", "São João da Paraúna", "São João d'Aliança", "São Luís de Montes Belos", "São Simão", "Senador Canedo", "Serranópolis", "Silvânia", "Simolândia", "Sítio d'Abadia", "Taquaral de Goiás", "Teresina de Goiás", "Terezópolis de Goiás", "Três Ranchos", "Trindade", "Trombas", "Turvânia", "Turvelândia", "Uirapuru", "Urutaí", "Varjão", "Vianópolis", "Vicentinópolis"];
 
@@ -15,6 +15,9 @@
   .replace(/[\u0300-\u036f]/g, '')
   .replace(/\s+/g, ' ')
   .trim();
+
+
+
 
     // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
     function extractCity(raw) {
@@ -46,46 +49,26 @@
     // Mapa normalizado -> original (todas as listas)
     const allCities = [...anapolis, ...brasilia, ...cobertura];
     const normToOriginal = new Map(allCities.map(c => [normalize(c), c]));
+// Aliases manuais desativados (IA local faz sugestões)
+const aliases = new Map();
 
-    // Aliases úteis (abreviações/variações comuns)
-    const aliases = new Map([
-      [normalize('agua fria'), normalize('agua fria de goias')],
-      [normalize('agua fria de go'), normalize('agua fria de goias')],
-      [normalize('aguas lindas'), normalize('aguas lindas de goias')],
-      [normalize('aguas lindas de go'), normalize('aguas lindas de goias')],
-      [normalize('campo limpo'), normalize('campo limpo de goias')],
-      [normalize('campo limpo de go'), normalize('campo limpo de goias')],
-      [normalize('cid ocidental'), normalize('cidade ocidental')],
-      [normalize('cid. ocidental'), normalize('cidade ocidental')],
-      [normalize('cocalzinho'), normalize('cocalzinho de goias')],
-      [normalize('cocalzinho de go'), normalize('cocalzinho de goias')],
-      [normalize('corumba'), normalize('corumba de goias')],
-      [normalize('corumba de go'), normalize('corumba de goias')],
-      [normalize('ipiranga'), normalize('ipiranga de goias')],
-      [normalize('ipiranga de go'), normalize('ipiranga de goias')],
-      [normalize('mimoso'), normalize('mimoso de goias')],
-      [normalize('mimoso de go'), normalize('mimoso de goias')],
-      [normalize('morro agudo'), normalize('morro agudo de goiás')],
-      [normalize('morro agudo de go'), normalize('morro agudo de goiás')],
-      [normalize('morro agudo de goias'), normalize('morro agudo de goiás')],
-      [normalize('pilar'), normalize('pilar de goias')],
-      [normalize('pilar de go'), normalize('pilar de goias')],
-      [normalize('s. luis do norte'), normalize('sao luis do norte')],
-      [normalize('s. miguel do araguaia'), normalize('sao miguel do araguaia')],
-      [normalize('s. patricio'), normalize('sao patricio')],
-      [normalize('sta isabel'), normalize('santa isabel')],
-      [normalize('sta rita do novo destino'), normalize('santa rita do novo destino')],
-      [normalize('sta. isabel'), normalize('santa isabel')],
-      [normalize('sta. rita do novo destino'), normalize('santa rita do novo destino')],
-      [normalize('sto antonio do descoberto'), normalize('santo antonio do descoberto')],
-      [normalize('sto. antonio do descoberto'), normalize('santo antonio do descoberto')],
-      [normalize('v. boa'), normalize('vila boa')],
-      [normalize('v. propicio'), normalize('vila propicio')],
-      [normalize('valparaiso'), normalize('valparaiso de goias')],
-      [normalize('valparaiso de go'), normalize('valparaiso de goias')],
-      // Correção de digitação comum: Padre Bernardo (lista original tinha 'padre bernado')
-      [normalize('padre bernardo'), normalize('padre bernado')],
-    ]);
+// Aliases dinâmicos (aprendizado local) — usado SOMENTE para sugestão (não aplica automaticamente)
+const dynamicAliases = (()=>{
+  try{
+    const obj = JSON.parse(localStorage.getItem('aliases') || '{}');
+    return new Map(Object.entries(obj));
+  }catch(e){
+    return new Map();
+  }
+})();
+
+function rememberAlias(fromRaw, toCityText){
+  const k = iaNormalizeInput(fromRaw);
+  if(!k || !toCityText) return;
+  dynamicAliases.set(k, normalize(toCityText));
+  try{ localStorage.setItem('aliases', JSON.stringify(Object.fromEntries(dynamicAliases))); }catch(e){}
+}
+
 
     
 // ====== SUGESTÕES / DISTÂNCIA ======
@@ -136,6 +119,128 @@
 }
 
     
+// ====== IA LOCAL (afiada): sugere 1 quando óbvio, senão 3 ======
+const IA_STOPWORDS = new Set(['de','do','da','dos','das','d','e']);
+const IA_TOK_MAP = {
+  // santo/santa/são
+  'sto': 'santo', 'sant': 'santo', 'snt': 'santo', 'sta': 'santa', 'sn': 'sao',
+  // descoberto
+  'desc': 'descoberto', 'dsc': 'descoberto', 'descob': 'descoberto', 'descobr': 'descoberto',
+  // aparecida
+  'ap': 'aparecida',
+};
+
+function iaNormalizeInput(s){
+  return normalize(String(s||''))
+    .replace(/[^0-9a-z\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function iaTokenize(raw){
+  const qn = iaNormalizeInput(raw);
+  if(!qn) return [];
+  const parts = qn.split(' ');
+  const out = [];
+  for (let i=0;i<parts.length;i++){
+    let w = parts[i];
+    if(!w) continue;
+    if (IA_TOK_MAP[w]) w = IA_TOK_MAP[w];
+    if (!w || IA_STOPWORDS.has(w)) continue;
+    if (w.length < 2) continue; // ignora tokens curtos
+    out.push(w);
+  }
+  // Heurística: "ap de go" / "ap de goiania" => tende a "aparecida de goiania"
+  if(out.length >= 2 && out[0] === 'aparecida'){
+    for(let i=1;i<out.length;i++){
+      if(out[i] === 'go') out[i] = 'goiania';
+    }
+  }
+  return out;
+}
+
+// Cache das cidades
+const IA_ALL = (typeof allCities !== 'undefined' && Array.isArray(allCities)) ? allCities : [];
+const IA_ALL_N = IA_ALL.map(normalize);
+const IA_ALL_TOK = IA_ALL_N.map(s => s.split(' ').filter(t => t && !IA_STOPWORDS.has(t)));
+
+function iaTokenAlignScore(qTokens, cityTokens){
+  let pos=0, score=0, ok=0;
+  for(const qt of qTokens){
+    let found=-1;
+    for(let j=pos;j<cityTokens.length;j++){
+      if(cityTokens[j].startsWith(qt)) { found=j; break; }
+    }
+    if(found === -1){
+      score -= 2.2;
+      continue;
+    }
+    ok++;
+    score += Math.min(7, qt.length) + (qt.length >= 4 ? 2.2 : 0);
+    score -= (found - pos) * 0.35;
+    pos = found + 1;
+  }
+  score += ok * 0.9;
+  score -= Math.max(0, cityTokens.length - qTokens.length) * 0.15;
+  return { score, ok };
+}
+
+function rankSuggestions(inputRaw, limit=3){
+  if(!IA_ALL.length) return { picks: [], best:null, second:null };
+
+  const qNorm = iaNormalizeInput(inputRaw);
+  const qTokens = iaTokenize(inputRaw);
+
+  const scored = [];
+  for(let i=0;i<IA_ALL.length;i++){
+    const name = IA_ALL[i];
+    const n = IA_ALL_N[i];
+    let score = 0;
+
+    const ta = iaTokenAlignScore(qTokens, IA_ALL_TOK[i]);
+    score += ta.score;
+
+    // penaliza falta de cobertura de tokens
+    if (qTokens.length >= 2) score -= (qTokens.length - ta.ok) * 4.0;
+    if (qTokens.length >= 2 && ta.ok === qTokens.length) score += 7.0;
+
+    const d = levenshtein(qNorm, n);
+    const distBonus = Math.max(0, 12 - d*2.2);
+    score += distBonus;
+
+    if(n.startsWith(qNorm) && qNorm.length >= 4) score += 6;
+    else if(n.includes(qNorm) && qNorm.length >= 5) score += 2;
+
+    // penaliza candidatos sem match quando tem 2+ tokens
+    if(qTokens.length >= 2 && ta.ok === 0) score -= 8;
+
+    scored.push({ name, score, d, ok: ta.ok });
+  }
+
+  scored.sort((a,b)=> b.score - a.score);
+  const best = scored[0];
+  const second = scored[1];
+
+  const gap = (best && second) ? (best.score - second.score) : 999;
+  const obviousByDist = (best && best.d <= 1 && qNorm.length >= 6);
+  const fullCover = (best && qTokens.length >= 2 && best.ok === qTokens.length);
+  const manyTokens = (best && best.ok >= 3 && qTokens.length >= 3);
+  const obviousByTokens = fullCover || manyTokens;
+  const obviousGap = fullCover ? (gap >= 6) : (gap >= 10);
+  const single = (obviousByDist || obviousByTokens) && obviousGap;
+
+  const picks=[];
+  const seen=new Set();
+  for(const it of scored){
+    if(picks.length >= (single ? 1 : limit)) break;
+    const k = normalize(it.name);
+    if(seen.has(k)) continue;
+    seen.add(k);
+    picks.push(it.name);
+  }
+
+  return { picks, best, second };
+}
 // ====== UI / ELEMENTOS ======
 
 
@@ -162,6 +267,15 @@ function closeSuggestWrap(wrap){
   wrap.style.height = '0px';
   wrap.classList.remove('is-open');
 }
+
+// Força o wrapper de sugestões a fechar imediatamente (útil ao segurar Backspace)
+function hardResetSuggestWrap(wrap){
+  if(!wrap) return;
+  wrap.classList.remove('is-open');
+  wrap.style.height = '0px';
+  wrap.innerHTML = '';
+}
+
 
 // Helper: debounce para estabilizar eventos de digitação
 function debounce(fn, wait=120){
@@ -262,7 +376,7 @@ function highlightCityByKey(cityKeyNormalized) {
 // ============================================================
 
     // Render chips
-    function tag(text) { const s = document.createElement('span'); s.className='chip'; s.textContent=text; s.tabIndex=0; s.addEventListener('click', ()=>{ q.value = text; buscar(); }); s.addEventListener('keydown', (e)=>{ if(e.key==='Enter') { q.value=text; buscar(); } }); return s; }
+    function tag(text) { const s = document.createElement('span'); s.className='chip'; s.textContent=text; s.tabIndex=0; s.addEventListener('click', ()=>{ rememberAlias(q.value || text, normalize(text)); q.value = text; buscar(); }); s.addEventListener('keydown', (e)=>{ if(e.key==='Enter') { rememberAlias(q.value || text, normalize(text)); q.value=text; buscar(); } }); return s; }
     function renderLists() {
   if (!chipsAna || !chipsBra || !chipsCob) return;
   chipsAna.innerHTML = '';
@@ -299,9 +413,7 @@ function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], alia
     out.appendChild(line(`<div class="badge nao">⚠ Não localizado</div>`));
   }
 
-  const labelCidade = aliasCanonico
-    ? `${focoCidade} <span class="hint">→</span> <strong>${aliasCanonico}</strong>`
-    : (focoCidade || '<i>não identificado</i>');
+  const labelCidade = (focoCidade || '<i>não identificado</i>');
 
   out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
 
@@ -324,17 +436,12 @@ function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], alia
       b.type = 'button';
       b.textContent = sText;
       b.setAttribute('aria-label', `Usar sugestão ${sText}`);
-      b.addEventListener('click', () => { q.value = sText; buscar(); });
+      b.addEventListener('click', () => { rememberAlias(termOriginal, normalize(sText)); q.value = sText; buscar(); });
       actions.appendChild(b);
     });
     outSug.appendChild(sug);
     openSuggestWrap(outSug);
   }
-}
-function triggerBugNudge(msg = 'Cidade apareceu em mais de uma lista. Toque para reportar o bug.') {
-  const rb = document.querySelector('.report-bugs a'); if (!rb) return; rb.classList.add('is-pulsing'); setTimeout(() => rb.classList.remove('is-pulsing'), 3000);
-  const bubble = document.createElement('div'); bubble.className = 'report-bubble'; bubble.textContent = msg; document.body.appendChild(bubble);
-  requestAnimationFrame(() => bubble.classList.add('is-show')); setTimeout(() => { bubble.classList.remove('is-show'); setTimeout(() => bubble.remove(), 220); }, 3000);
 }
 
 function line(html) { const d = document.createElement('div'); d.innerHTML = html; return d; }
@@ -347,7 +454,7 @@ function buscar() {
     const raw = q.value || '';
     if (!raw.trim()) {
       const outSug = ensureOutSuggest();
-      if (outSug) outSug.innerHTML = '';
+      if (outSug) { closeSuggestWrap(outSug); outSug.innerHTML = ''; outSug.style.height = '0px'; }
       out.innerHTML = '<div class=\"hint\">Cole ou digite um texto contendo a cidade.</div>';
       return;
     }
@@ -355,18 +462,12 @@ function buscar() {
     clearHighlights();
 
     const cidadeBruta = extractCity(raw);
-    let key = normalize(cidadeBruta);
+    const keyRaw = normalize(cidadeBruta);
+    let key = keyRaw;
     let aliasCanonico = null;
-
-    if (aliases.has(key)) {
-      const canonicalKey = aliases.get(key);
-      aliasCanonico = normToOriginal.get(canonicalKey) || null;
-      key = canonicalKey;
-    }
-
-    const inAna = setAna.has(key);
-    const inBra = setBra.has(key);
-    const inCob = setCob.has(key);
+    const inAna = setAna.has(keyRaw);
+    const inBra = setBra.has(keyRaw);
+    const inCob = setCob.has(keyRaw);
 
     const listasEncontradas = [];
     if (inAna) listasEncontradas.push('ana');
@@ -374,18 +475,18 @@ function buscar() {
     if (inCob) listasEncontradas.push('nossa');
 
     if (listasEncontradas.length >= 2) {
-      highlightCityByKey(key);
-      mostrarResultado(raw, cidadeBruta, 'dup', [], aliasCanonico, listasEncontradas);
-      triggerBugNudge('Cidade em múltiplas listas. Clique para reportar o bug.');
-      return;
+      highlightCityByKey(keyRaw);
+      mostrarResultado(raw, cidadeBruta, 'dup', [], null, listasEncontradas);
+return;
     }
 
-    if (inAna) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'ana', [], aliasCanonico); return; }
-    if (inBra) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'bra', [], aliasCanonico); return; }
-    if (inCob) { highlightCityByKey(key); mostrarResultado(raw, cidadeBruta, 'nossa', [], aliasCanonico); return; }
+    if (inAna) { highlightCityByKey(keyRaw); mostrarResultado(raw, cidadeBruta, 'ana', [], null); return; }
+    if (inBra) { highlightCityByKey(keyRaw); mostrarResultado(raw, cidadeBruta, 'bra', [], null); return; }
+    if (inCob) { highlightCityByKey(keyRaw); mostrarResultado(raw, cidadeBruta, 'nossa', [], null); return; }
 
-    const sugs = topSuggestions(key, 2);
-    mostrarResultado(raw, cidadeBruta, 'nao', sugs, aliasCanonico);
+    const ranked = rankSuggestions(cidadeBruta, 3);
+    const sugs = ranked.picks;
+    mostrarResultado(raw, cidadeBruta, 'nao', sugs, null);
   } catch (err) {
     console.error('Erro no buscar():', err);
     try {
@@ -419,8 +520,9 @@ q.addEventListener('input', debounce(() => {
     q.removeAttribute('title');
     clearHighlights();
     const outSug = ensureOutSuggest();
-    if (outSug) outSug.innerHTML = '';
+    if (outSug) { closeSuggestWrap(outSug); outSug.innerHTML = ''; outSug.style.height = '0px'; }
     out.innerHTML = '<div class="hint">Cole ou digite um texto contendo a cidade.</div>';
+    if (outSug) hardResetSuggestWrap(outSug);
     return;
   }
 
