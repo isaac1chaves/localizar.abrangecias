@@ -43,3 +43,7 @@ Isaac Freitas Chaves
 Jovem Aprendiz — Desenvolvedor Front-end  
 2026
 
+
+
+---
+V7.1 (visual idêntico): correção de nomes de cidades (maiúsculas/acentos) + melhorias internas. Build: 18-02-2026.

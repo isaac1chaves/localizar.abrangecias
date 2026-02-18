@@ -1,8 +1,8 @@
 // ====== DADOS (listas) ======
 // Listas (mantidas como no arquivo original para Anápolis/Brasília)
-    const anapolis = ['anapolis', 'barro alto', 'campo limpo de goias', 'carmo do rio verde', 'ceres', 'goianapolis', 'guaraita', 'guarinos', 'hidrolina', 'ipiranga de goias', 'itapaci', 'itapuranga', 'jaraguá', 'morro agudo de goiás', 'nova america', 'nova gloria', 'pilar de goias', 'rialma', 'rianapolis', 'rubiataba', 'santa isabel', 'santa rita do novo destino', 'sao luis do norte', 'sao miguel do araguaia', 'sao patricio', 'uruaçu', 'uruana', 'vila propicio'];
+    const anapolis = [ 'Anápolis', 'Barro Alto', 'Campo Limpo de Goiás', 'Carmo do Rio Verde', 'Ceres', 'Goianápolis', 'Guaraíta', 'Guarinos', 'Hidrolina', 'Ipiranga de Goiás', 'Itapaci', 'Itapuranga', 'Jaraguá', 'Morro Agudo de Goiás', 'Nova América', 'Nova Glória', 'Pilar de Goiás', 'Rialma', 'Rianápolis', 'Rubiataba', 'Santa Isabel', 'Santa Rita do Novo Destino', 'São Luís do Norte', 'São Miguel do Araguaia', 'São Patrício', 'Uruaçu', 'Uruana', 'Vila Propício' ];
     
-    const brasilia = ['abadiania', 'agua fria de goias', 'aguas lindas de goias', 'alexania', 'cabeceiras', 'cidade ocidental', 'cocalzinho de goias', 'corumba de goias', 'cristalina', 'formosa', 'luziania', 'mimoso de goias', 'novo gama', 'padre bernardo', 'pirenopolis', 'planaltina', 'santo antonio do descoberto', 'valparaiso de goias', 'vila boa'];
+    const brasilia = [ 'Abadiânia', 'Água Fria de Goiás', 'Águas Lindas de Goiás', 'Alexânia', 'Cabeceiras', 'Cidade Ocidental', 'Cocalzinho de Goiás', 'Corumbá de Goiás', 'Cristalina', 'Formosa', 'Luziânia', 'Mimoso de Goiás', 'Novo Gama', 'Padre Bernardo', 'Pirenópolis', 'Planaltina', 'Santo Antônio do Descoberto', 'Valparaíso de Goiás', 'Vila Boa' ];
 
     const cobertura = ["Acreúna", "Abadia de Goias", "Adelândia", "Água Limpa", "Aloândia", "Alto Horizonte", "Alto Paraíso de Goiás", "Alvorada do Norte", "Amaralina", "Americano do Brasil", "Amorinópolis", "Anhanguera", "Anicuns", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aporé", "Araçu", "Aragarças", "Aragoiânia", "Araguapaz", "Arenópolis", "Aruanã", "Aurilândia", "Avelinópolis", "Baliza", "Bela Vista de Goiás", "Bom Jardim de Goiás", "Bom Jesus de Goiás", "Bonfinópolis", "Bonópolis", "Brazabrantes", "Britânia", "Buriti Alegre", "Buriti de Goiás", "Buritinópolis", "Cachoeira Alta", "Cachoeira de Goiás", "Cachoeira Dourada", "Caçu", "Caiapônia", "Caldas Novas", "Caldazinha", "Campestre de Goiás", "Campinaçu", "Campinorte", "Campo Alegre de Goiás", "Campos Belos", "Campos Verdes", "Castelândia", "Catalão", "Caturaí", "Cavalcante", "Cezarina", "Chapadão do Céu", "Colinas do Sul", "Córrego do Ouro", "Corumbaíba", "Cristianópolis", "Crixás", "Cromínia", "Cumari", "Damianópolis", "Damolândia", "Davinópolis", "Diorama", "Divinópolis de Goiás", "Doverlândia", "Edealina", "Edéia", "Estrela do Norte", "Faina", "Fazenda Nova", "Firminópolis", "Flores de Goiás", "Gameleira de Goiás", "Goiandira", "Goiânia", "Goianira", "Goiás", "Goiatuba", "Gouvelândia", "Guapó", "Guarani de Goiás", "Heitoraí", "Hidrolândia", "Iaciara", "Inaciolândia", "Indiara", "Inhumas", "Ipameri", "Iporá", "Israelândia", "Itaberaí", "Itaguari", "Itaguaru", "Itajá", "Itapirapuã", "Itarumã", "Itauçu", "Itumbiara", "Ivolândia", "Jandaia", "Jataí", "Jaupaci", "Jesúpolis", "Joviânia", "Jussara", "Lagoa Santa", "Leopoldo de Bulhões", "Mairipotaba", "Mambaí", "Mara Rosa", "Marzagão", "Matrinchã", "Maurilândia", "Minaçu", "Mineiros", "Moiporá", "Monte Alegre de Goiás", "Montes Claros de Goiás", "Montividiu", "Montividiu do Norte", "Morrinhos", "Mossâmedes", "Mozarlândia", "Mundo Novo", "Mutunópolis", "Nazário", "Nerópolis", "Niquelândia", "Nova Aurora", "Nova Crixás", "Nova Roma", "Nova Veneza", "Novo Brasil", "Novo Planalto", "Orizona", "Ouro Verde de Goiás", "Ouvidor", "Palestina de Goiás", "Palmeiras de Goiás", "Palmelo", "Palminópolis", "Panamá", "Paranaiguara", "Paraúna", "Perolândia", "Petrolina de Goiás", "Piracanjuba", "Piranhas", "Pires do Rio", "Pontalina", "Porangatu", "Porteirão", "Portelândia", "Posse", "Professor Jamil", "Quirinópolis", "Rio Quente", "Rio Verde", "Sanclerlândia", "Santa Bárbara de Goiás", "Santa Cruz de Goiás", "Santa Fé de Goiás", "Santa Helena de Goiás", "Santa Rita do Araguaia", "Santa Tereza de Goiás", "Santa Terezinha de Goiás", "Santo Antônio da Barra", "Santo Antônio de Goiás", "São Domingos", "São Francisco de Goiás", "São João da Paraúna", "São João d'Aliança", "São Luís de Montes Belos", "São Simão", "Senador Canedo", "Serranópolis", "Silvânia", "Simolândia", "Sítio d'Abadia", "Taquaral de Goiás", "Teresina de Goiás", "Terezópolis de Goiás", "Três Ranchos", "Trindade", "Trombas", "Turvânia", "Turvelândia", "Uirapuru", "Urutaí", "Varjão", "Vianópolis", "Vicentinópolis"];
 
@@ -19,6 +19,16 @@
 
 
 
+
+// Escapa HTML (para manter render via innerHTML sem risco)
+function escapeHtml(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
     // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
     function extractCity(raw) {
   if (!raw) return '';
@@ -38,6 +48,7 @@
     .replace(/[^0-9A-Za-zÀ-ÿ\s]+$/g, '')
     .replace(/\s+/g, ' ')
     .trim();
+  part = part.replace(/[<>]/g, '');
   return part;
 }
 
@@ -185,11 +196,14 @@ function iaTokenAlignScore(qTokens, cityTokens){
   return { score, ok };
 }
 
+const RANK_MEMO = new Map();
 function rankSuggestions(inputRaw, limit=3){
   if(!IA_ALL.length) return { picks: [], best:null, second:null };
 
   const qNorm = iaNormalizeInput(inputRaw);
   const qTokens = iaTokenize(inputRaw);
+  const memoKey = qNorm + '|' + limit;
+  if (RANK_MEMO.has(memoKey)) return RANK_MEMO.get(memoKey);
 
   const scored = [];
   for(let i=0;i<IA_ALL.length;i++){
@@ -239,8 +253,11 @@ function rankSuggestions(inputRaw, limit=3){
     picks.push(it.name);
   }
 
-  return { picks, best, second };
+    const out = { picks, best, second };
+  RANK_MEMO.set(memoKey, out);
+  return out;
 }
+
 // ====== UI / ELEMENTOS ======
 
 
@@ -338,6 +355,18 @@ function debounce(fn, wait=120){
     const chipsBra = document.getElementById('chips-bra');
     const chipsCob = document.getElementById('chips-cob');
 
+// ====== ÍNDICE DE CHIPS (performance) ======
+let CHIP_INDEX = null;
+function buildChipIndex(){
+  CHIP_INDEX = new Map();
+  document.querySelectorAll('.chip').forEach((el)=>{
+    const k = normalize(el.textContent);
+    if(!CHIP_INDEX.has(k)) CHIP_INDEX.set(k, []);
+    CHIP_INDEX.get(k).push(el);
+  });
+}
+
+
 // Helper: ensure external suggestion container exists
 function ensureOutSuggest(){
   var el = document.getElementById('outSuggest');
@@ -356,21 +385,17 @@ function clearHighlights() {
 
 function highlightCityByKey(cityKeyNormalized) {
   if (!cityKeyNormalized) return false;
-
   clearHighlights();
 
-  const chips = Array.from(document.querySelectorAll('.chip'));
-  const matches = chips.filter(chip => normalize(chip.textContent) === cityKeyNormalized);
+  // Índice O(1) (reconstrói quando necessário)
+  if (!CHIP_INDEX) buildChipIndex();
+  const matches = CHIP_INDEX ? (CHIP_INDEX.get(cityKeyNormalized) || []) : [];
   if (!matches.length) return false;
 
-  // Destaca TODAS as ocorrências
   matches.forEach(el => el.classList.add('is-highlight'));
-
-  // Rola até a primeira ocorrência
   const first = matches[0];
   first.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
   requestAnimationFrame(() => { try { first.focus({ preventScroll: true }); } catch(e) {} });
-
   return true;
 }
 // ============================================================
@@ -385,6 +410,7 @@ function highlightCityByKey(cityKeyNormalized) {
   anapolis.forEach(c => chipsAna.appendChild(tag(c)));
   brasilia.forEach(c => chipsBra.appendChild(tag(c)));
   cobertura.forEach(c => chipsCob.appendChild(tag(c)));
+  buildChipIndex();
 }
 
   
@@ -413,7 +439,7 @@ function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], alia
     out.appendChild(line(`<div class="badge nao">⚠ Não localizado</div>`));
   }
 
-  const labelCidade = (focoCidade || '<i>não identificado</i>');
+  const labelCidade = (focoCidade ? escapeHtml(focoCidade) : '<i>não identificado</i>');
 
   out.appendChild(line(`<div>Cidade analisada: <strong>${labelCidade}</strong></div>`));
 
@@ -556,8 +582,10 @@ q.addEventListener('input', debounce(() => {
 // ====== INICIALIZAÇÃO ======
     if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', renderLists);
+  window.addEventListener('DOMContentLoaded', buildChipIndex);
 } else {
   renderLists();
+  buildChipIndex();
 }
 
 // ===== Easter egg: múltiplos cliques no crédito =====
