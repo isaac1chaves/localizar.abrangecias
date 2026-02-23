@@ -59,3 +59,7 @@ V7.1.8.3: Higienização segura SEM alterar visual: corrigido texto solto fora d
 
 ---
 V7.1.9.0: CSS organizado com limpeza segura (remoção de blocos antigos que podiam causar conflitos) + mantém fade e scrollbar custom thumb-only. Build: 23-02-2026.
+
+
+---
+V7.2: Busca rápida (Ctrl+K) com sugestões e seleção por teclado + botão Copiar resultado (Ctrl+Shift+C) + toast. Build: 23-02-2026.

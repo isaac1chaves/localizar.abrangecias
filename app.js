@@ -675,6 +675,7 @@ q.addEventListener('input', debounce(() => {
     if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', renderLists);
   window.addEventListener('DOMContentLoaded', buildChipIndex);
+  window.addEventListener('DOMContentLoaded', initCustomScrollbars);
 } else {
   renderLists();
   buildChipIndex();
@@ -716,4 +717,251 @@ q.addEventListener('input', debounce(() => {
     var ua = navigator.userAgent || '';
     if (ua.indexOf('Edg/') !== -1) document.documentElement.classList.add('is-edge');
   }catch(e){}
+})();
+
+
+// =====================================================
+// V7.2 — Command Palette (Ctrl+K) + Copiar resultado (Ctrl+Shift+C)
+// =====================================================
+(function(){
+  const overlay = document.getElementById('paletteOverlay');
+  const pal = document.getElementById('palette');
+  const palClose = document.getElementById('paletteClose');
+  const palInput = document.getElementById('paletteInput');
+  const palList = document.getElementById('paletteList');
+  const toast = document.getElementById('toast');
+
+  // util: toast
+  let toastTimer = null;
+  function showToast(msg, ms=1800){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.hidden = false;
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{ toast.hidden = true; }, ms);
+  }
+
+  function statusLabel(status){
+    if(status === 'ana') return 'Núcleo Anápolis';
+    if(status === 'bra') return 'Núcleo Brasília';
+    if(status === 'nossa') return 'Nossa Abrangência';
+    if(status === 'dup') return 'Conflito (cidade em mais de uma lista)';
+    return 'Não localizado';
+  }
+
+  async function copyText(text){
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    }catch(e){}
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position='fixed';
+      ta.style.opacity='0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // expõe para o escopo do arquivo (usado pelo botão)
+  window.__PA_SHOW_TOAST__ = showToast;
+  window.__PA_COPY__ = copyText;
+  window.__PA_STATUS_LABEL__ = statusLabel;
+
+  // palette open/close
+  let activeIndex = 0;
+  let items = [];
+
+  function openPalette(){
+    if(!overlay || !pal || !palInput || !palList) return;
+    overlay.hidden = false;
+    overlay.setAttribute('aria-hidden','false');
+    pal.hidden = false;
+    activeIndex = 0;
+    palInput.value = '';
+    renderList('');
+    setTimeout(()=>{ try{ palInput.focus(); }catch(e){} }, 10);
+  }
+  function closePalette(){
+    if(!overlay || !pal) return;
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden','true');
+    pal.hidden = true;
+    // devolve foco para a busca principal
+    try{ q && q.focus({preventScroll:true}); }catch(e){}
+  }
+
+  function cityListLabel(city){
+    const k = normalize(city);
+    const inAna = (typeof setAna !== 'undefined') && setAna.has(k);
+    const inBra = (typeof setBra !== 'undefined') && setBra.has(k);
+    const inCob = (typeof setCob !== 'undefined') && setCob.has(k);
+    if(inAna) return 'Anápolis';
+    if(inBra) return 'Brasília';
+    if(inCob) return 'Abrangência';
+    return '';
+  }
+
+  function pick(city){
+    if(!city) return;
+    q.value = city;
+    try{ buscar(); }catch(e){}
+    closePalette();
+  }
+
+  function renderList(query){
+    if(!palList) return;
+    const v = normalize(query || '');
+    const all = (typeof allCities !== 'undefined' && Array.isArray(allCities)) ? allCities : [];
+    // ranking simples e rápido: startsWith primeiro, depois includes
+    let res = [];
+    if(!v){
+      // sugestões iniciais: últimas 8 pesquisadas (dynamicAliases) se existirem
+      try{
+        const recent = Array.from(dynamicAliases.values ? dynamicAliases.values() : []);
+        const unique = [];
+        for(const n of recent){
+          const orig = normToOriginal && normToOriginal.get(n);
+          if(orig && !unique.includes(orig)) unique.push(orig);
+          if(unique.length>=8) break;
+        }
+        res = unique;
+      }catch(e){}
+      if(!res.length) res = all.slice(0, 8);
+    }else{
+      const starts = [];
+      const contains = [];
+      for(const c of all){
+        const n = normalize(c);
+        if(n.startsWith(v)) starts.push(c);
+        else if(n.includes(v)) contains.push(c);
+        if(starts.length + contains.length >= 12) break;
+      }
+      res = starts.concat(contains).slice(0, 12);
+    }
+
+    items = res;
+    if(activeIndex >= items.length) activeIndex = 0;
+    palList.innerHTML = '';
+
+    if(!items.length){
+      palList.innerHTML = '<div class="hint">Nenhum resultado.</div>';
+      return;
+    }
+
+    items.forEach((city, idx) => {
+      const b = document.createElement('div');
+      b.className = 'palette-item' + (idx === activeIndex ? ' is-active' : '');
+      b.setAttribute('role','option');
+      b.setAttribute('aria-selected', idx === activeIndex ? 'true' : 'false');
+      b.innerHTML = `<div>${escapeHtml(city)}</div><div class="meta">${escapeHtml(cityListLabel(city))}</div>`;
+      b.addEventListener('click', () => pick(city));
+      palList.appendChild(b);
+    });
+  }
+
+  // key handling
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+
+    // Ctrl+K abre
+    if((e.ctrlKey || e.metaKey) && key.toLowerCase() === 'k'){
+      e.preventDefault();
+      openPalette();
+      return;
+    }
+
+    // Ctrl+Shift+C copia o resultado atual (último render)
+    if((e.ctrlKey || e.metaKey) && e.shiftKey && key.toLowerCase() === 'c'){
+      // tenta ler o texto do resultado
+      try{
+        const cidade = (typeof extractCity === 'function') ? extractCity(q.value || '') : (q.value || '');
+        const badge = document.querySelector('#out .badge');
+        let status = 'nao';
+        if(badge){
+          if(badge.classList.contains('ana')) status='ana';
+          else if(badge.classList.contains('bra')) status='bra';
+          else if(badge.classList.contains('ok')) status='nossa';
+          else if(badge.classList.contains('nao')) status='nao';
+        }
+        const txt = `Pesquisa de Abrangência — ${statusLabel(status)}
+Cidade: ${cidade || ''}`;
+        copyText(txt).then(ok => showToast(ok ? 'Resultado copiado!' : 'Não foi possível copiar.'));
+      }catch(err){
+        showToast('Não foi possível copiar.');
+      }
+      return;
+    }
+
+    // se palette aberta: navegação
+    if(pal && !pal.hidden){
+      if(key === 'Escape'){ e.preventDefault(); closePalette(); return; }
+      if(key === 'ArrowDown'){ e.preventDefault(); activeIndex = Math.min(items.length-1, activeIndex+1); renderList(palInput.value); return; }
+      if(key === 'ArrowUp'){ e.preventDefault(); activeIndex = Math.max(0, activeIndex-1); renderList(palInput.value); return; }
+      if(key === 'Enter'){ e.preventDefault(); pick(items[activeIndex]); return; }
+    }
+  });
+
+  // palette events
+  if(overlay) overlay.addEventListener('click', closePalette);
+  if(palClose) palClose.addEventListener('click', closePalette);
+  if(palInput) palInput.addEventListener('input', () => { activeIndex = 0; renderList(palInput.value); });
+
+})();
+
+// V7.2: Injeta botão de copiar no resultado sempre que renderizar
+(function(){
+  if(!window.__PA_COPY__ || !window.__PA_SHOW_TOAST__) return;
+
+  const origMostrar = (typeof mostrarResultado === 'function') ? mostrarResultado : null;
+  if(!origMostrar || origMostrar.__patchedCopy) return;
+
+  // Monkey patch seguro: envolve a função e adiciona botão após render
+  mostrarResultado = function(termOriginal, focoCidade, status, sugestoes = [], aliasCanonico = null, listasEncontradas = []){
+    origMostrar(termOriginal, focoCidade, status, sugestoes, aliasCanonico, listasEncontradas);
+
+    try{
+      // evita duplicar
+      if(document.querySelector('#out .copy-btn')) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copiar';
+      btn.setAttribute('aria-label','Copiar resultado');
+
+      // insere no topo do bloco de resultado (desktop fica do lado; no mobile vai quebrar linha)
+      const resultBox = document.getElementById('out');
+      if(!resultBox) return;
+      // cria uma linha flex para acomodar
+      const firstLine = resultBox.firstElementChild;
+      if(firstLine && firstLine.querySelector && firstLine.querySelector('.badge')){
+        // garante que a primeira linha aceita flex
+        firstLine.style.display = 'flex';
+        firstLine.style.alignItems = 'center';
+        firstLine.style.gap = '10px';
+        firstLine.appendChild(btn);
+      }else{
+        resultBox.appendChild(btn);
+      }
+
+      btn.addEventListener('click', async () => {
+        const cidade = focoCidade || (typeof extractCity === 'function' ? extractCity(q.value || '') : (q.value || ''));
+        const st = window.__PA_STATUS_LABEL__ ? window.__PA_STATUS_LABEL__(status) : status;
+        const text = `Pesquisa de Abrangência — ${st}
+Cidade: ${cidade || ''}`;
+        const ok = await window.__PA_COPY__(text);
+        window.__PA_SHOW_TOAST__(ok ? 'Resultado copiado!' : 'Não foi possível copiar.');
+      });
+    }catch(e){}
+  };
+  mostrarResultado.__patchedCopy = true;
 })();

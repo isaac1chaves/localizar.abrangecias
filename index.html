@@ -59,10 +59,28 @@
   </main>
 
   <div class="credit" id="credit">
-    <span class="credit-main" id="creditMain">V7.1.9.0 | 23-02-2026 | By Renapsi</span>
+    <span class="credit-main" id="creditMain">V7.2 | 23-02-2026 | By Renapsi</span>
   </div>
 
   <script defer src="./app.js"></script>
   <script defer src="./glow.js"></script>
+
+  <!-- === V7.2: Busca rápida (Command Palette) === -->
+  <div id="paletteOverlay" class="palette-overlay" hidden aria-hidden="true"></div>
+  <section id="palette" class="palette" role="dialog" aria-modal="true" aria-labelledby="paletteTitle" hidden>
+    <div class="palette-head">
+      <div class="palette-title" id="paletteTitle">Busca rápida</div>
+      <button id="paletteClose" class="palette-close" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="palette-body">
+      <input id="paletteInput" type="text" class="palette-input" placeholder="Digite o nome da cidade…" autocomplete="off" />
+      <div class="palette-sub">Use ↑ ↓ para navegar e Enter para selecionar</div>
+      <div id="paletteList" class="palette-list" role="listbox" aria-label="Sugestões"></div>
+    </div>
+  </section>
+
+  <!-- Toast / aviso rápido -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
 </body>
 </html>
