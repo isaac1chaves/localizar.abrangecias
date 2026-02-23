@@ -557,37 +557,6 @@ body{
 
 
 
-/* === Suaviza corte ao rolar (fade/blur nas bordas do scroll das cidades) === */
-/* Ideia: mascara (mask-image) cria um degradê nas bordas superior/inferior para não parecer "cortado". */
-.chips{
-  /* mantém o comportamento atual */
-  overflow: auto;
-  /* fade nas bordas (compatível com WebKit e padrões modernos) */
-  }
-
-/* Fallback caso mask-image não exista: coloca uma "névoa" suave no topo/rodapé com pseudo-elementos */
-@supports not ((-webkit-mask-image: linear-gradient(#000,#000)) or (mask-image: linear-gradient(#000,#000))) {
-  .chips{ position: relative; }
-  .chips::before,
-  .chips::after{
-    content: "";
-    position: sticky;
-    left: 0; right: 0;
-    height: 14px;
-    display: block;
-    pointer-events: none;
-    z-index: 3;
-    /* dá um blur leve no que passa por baixo */
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  .chips::before{ top: 0; background: linear-gradient(to bottom, rgba(8,12,34,.95), rgba(8,12,34,0)); }
-  .chips::after{ bottom: 0; background: linear-gradient(to top, rgba(8,12,34,.95), rgba(8,12,34,0)); }
-}
-/* === fim suavização === */
-
-
-
 /* ====== Fundo animado (Windows 11 Glow - random corners) IMPORTADO da V3.5 ====== */
 /* === V3.5: Glow estilo Windows 11 — aparece em cantos aleatórios (loop fluido) === */
 :root{
@@ -880,55 +849,21 @@ html.is-edge .app, html.is-edge .card{
 
 /* =====================================================
    V7.1.8.6 — Scrollbar sem "desfoque": hide nativa + scrollbar custom fora da máscara
-   Motivo: mask-image aplicado em .chips mascara também a scrollbar em vários browsers.
-   Solução robusta: esconder a scrollbar nativa (mantendo scroll) e desenhar uma barra custom fora do .chips.
    ===================================================== */
-
-/* Esconde a scrollbar nativa (mantém o scroll funcionando) */
-.chips{
-  scrollbar-width: none;            /* Firefox */
-  -ms-overflow-style: none;         /* IE/Edge legado */
-}
-.chips::-webkit-scrollbar{ width: 0; height: 0; } /* Chrome/Safari/Edge */
-
-/* Garante que o card seja referência para posicionar a barra custom */
+.chips{ scrollbar-width:none; -ms-overflow-style:none; }
+.chips::-webkit-scrollbar{ width:0; height:0; }
 .card{ position: relative !important; }
-
-/* Barra custom (track) */
 .chips-scrollbar{
-  position: absolute;
-  right: 10px;
-  top: 44px; /* ajustado via JS */
-  width: 10px; /* área de clique confortável */
-  border-radius: 999px;
-  background: transparent; /* SEM trilho visível */
-  border: none;
-  box-shadow: none;
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 20;
+  position:absolute; right:10px; top:44px; width:10px; border-radius:999px;
+  background: transparent; border:none; box-shadow:none; opacity:1; pointer-events:auto; z-index:20;
 }
-
-
-/* Thumb */
 .chips-scrollbar .thumb{
-  position: absolute;
-  left: 3px;
-  right: 3px; /* deixa o thumb mais fino, estilo nativo */
-  top: 0;
-  height: 28px;
-  border-radius: 999px;
+  position:absolute; left:3px; right:3px; top:0; height:28px; border-radius:999px;
   background: rgba(76,194,255,.55);
   box-shadow: 0 8px 18px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.12);
 }
-
-
-/* Interação */
 .chips-scrollbar:hover .thumb{ background: rgba(76,194,255,.70); }
-
-/* Some quando não precisa (JS aplica) */
 .chips-scrollbar.is-hidden{ display:none; }
-
 @media (prefers-reduced-motion: no-preference){
   .chips-scrollbar .thumb{ transition: background .18s ease, top .12s ease, height .12s ease; }
 }

@@ -58,8 +58,4 @@ V7.1.8.3: Higienização segura SEM alterar visual: corrigido texto solto fora d
 
 
 ---
-V7.1.8.6: Remove blur/fade na scrollbar: scrollbar nativa escondida (mantém scroll) + scrollbar custom fora do elemento mascarado (.chips). Mantém fade nas bolhas. Build: 23-02-2026.
-
-
----
-V7.1.8.7: Scrollbar custom sem trilho (apenas thumb), para ficar igual ao visual anterior. Mantém fade nas bolhas e remove efeito na scrollbar. Build: 23-02-2026.
+V7.1.9.0: CSS organizado com limpeza segura (remoção de blocos antigos que podiam causar conflitos) + mantém fade e scrollbar custom thumb-only. Build: 23-02-2026.

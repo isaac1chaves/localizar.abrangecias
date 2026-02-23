@@ -356,16 +356,14 @@ function debounce(fn, wait=120){
     const chipsCob = document.getElementById('chips-cob');
 
 // =====================================================
-// V7.1.8.6 — Scrollbar custom (fora da máscara) para as listas (.chips)
+// V7.1.8.6 — Scrollbar custom (thumb-only) para as listas (.chips)
 // =====================================================
 function getCardOf(el){
   return el ? (el.closest ? el.closest('.card') : null) : null;
 }
-
 function ensureCustomScrollbar(chipsEl){
   const card = getCardOf(chipsEl);
   if(!card) return null;
-
   let bar = card.querySelector(':scope > .chips-scrollbar');
   if(!bar){
     bar = document.createElement('div');
@@ -376,57 +374,35 @@ function ensureCustomScrollbar(chipsEl){
   }
   return bar;
 }
-
 function syncCustomScrollbar(chipsEl){
   if(!chipsEl) return;
   const bar = ensureCustomScrollbar(chipsEl);
   if(!bar) return;
-
   const thumb = bar.querySelector('.thumb');
   const card = getCardOf(chipsEl);
-
   const scrollH = chipsEl.scrollHeight || 0;
   const viewH = chipsEl.clientHeight || 0;
-
-  // Se não tem overflow, esconde a barra
-  if(scrollH <= viewH + 1){
-    bar.classList.add('is-hidden');
-    return;
-  }
+  if(scrollH <= viewH + 1){ bar.classList.add('is-hidden'); return; }
   bar.classList.remove('is-hidden');
-
-  // Posiciona o track alinhado ao box do .chips
   const rChips = chipsEl.getBoundingClientRect();
   const rCard  = card.getBoundingClientRect();
-  const top = rChips.top - rCard.top;
-  bar.style.top = (top) + 'px';
-  bar.style.height = (viewH) + 'px';
-
-  // Calcula thumb
-  const trackH = viewH;
+  bar.style.top = (rChips.top - rCard.top) + 'px';
+  bar.style.height = viewH + 'px';
   const ratio = viewH / scrollH;
   const minThumb = 26;
-  const thumbH = Math.max(minThumb, Math.round(trackH * ratio));
-  const maxTop = Math.max(0, trackH - thumbH);
-  const t = chipsEl.scrollTop / (scrollH - viewH);
-  const thumbTop = Math.round(maxTop * t);
-
+  const thumbH = Math.max(minThumb, Math.round(viewH * ratio));
+  const maxTop = Math.max(0, viewH - thumbH);
+  const t = chipsEl.scrollTop / Math.max(1, (scrollH - viewH));
   thumb.style.height = thumbH + 'px';
-  thumb.style.top = thumbTop + 'px';
+  thumb.style.top = Math.round(maxTop * t) + 'px';
 }
-
 function bindCustomScrollbar(chipsEl){
   if(!chipsEl) return;
   const bar = ensureCustomScrollbar(chipsEl);
   if(!bar) return;
   const thumb = bar.querySelector('.thumb');
-
-  // Sincroniza no scroll
   chipsEl.addEventListener('scroll', () => syncCustomScrollbar(chipsEl), {passive:true});
-
-  // Click no track: pula para posição
   bar.addEventListener('mousedown', (e) => {
-    // Se clicar no thumb, o drag cuida
     if(e.target === thumb) return;
     const rect = bar.getBoundingClientRect();
     const clickY = e.clientY - rect.top;
@@ -436,49 +412,34 @@ function bindCustomScrollbar(chipsEl){
     const t = Math.min(1, Math.max(0, clickY / rect.height));
     chipsEl.scrollTop = t * maxScroll;
   });
-
-  // Drag do thumb
-  let dragging = false;
-  let startY = 0;
-  let startTop = 0;
-
+  let dragging=false, startY=0, startTop=0;
   thumb.addEventListener('mousedown', (e) => {
-    dragging = true;
-    startY = e.clientY;
-    startTop = parseFloat(getComputedStyle(thumb).top) || 0;
-    document.body.style.userSelect = 'none';
+    dragging=true; startY=e.clientY;
+    startTop=parseFloat(getComputedStyle(thumb).top)||0;
+    document.body.style.userSelect='none';
     e.preventDefault();
   });
-
   window.addEventListener('mousemove', (e) => {
     if(!dragging) return;
     const rect = bar.getBoundingClientRect();
     const scrollH = chipsEl.scrollHeight;
     const viewH = chipsEl.clientHeight;
-
     const thumbH = thumb.getBoundingClientRect().height;
     const maxTop = Math.max(1, rect.height - thumbH);
     const dy = e.clientY - startY;
     const newTop = Math.min(maxTop, Math.max(0, startTop + dy));
     const t = newTop / maxTop;
-
     chipsEl.scrollTop = t * (scrollH - viewH);
   });
-
   window.addEventListener('mouseup', () => {
     if(!dragging) return;
-    dragging = false;
-    document.body.style.userSelect = '';
+    dragging=false; document.body.style.userSelect='';
   });
-
-  // Inicial
   requestAnimationFrame(() => syncCustomScrollbar(chipsEl));
 }
-
 function initCustomScrollbars(){
   try{
     [chipsAna, chipsBra, chipsCob].forEach(bindCustomScrollbar);
-    // Atualiza em resize
     window.addEventListener('resize', () => {
       [chipsAna, chipsBra, chipsCob].forEach(syncCustomScrollbar);
     });
