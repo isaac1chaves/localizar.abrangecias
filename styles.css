@@ -541,9 +541,6 @@ body{
   pointer-events: none;
 }
 
-  }
-}
-
 /* Glow discreto nos cantos do quadradão principal */
 .app{
   background-image:
@@ -709,7 +706,7 @@ body::after{
     0 12px 28px rgba(0,0,0,.30) !important;
 }
 
-/* === Animações importadas da versão fluida (Edge/Goianésia) === */
+/* === Animações importadas da versão fluida (Edge/Goianésia) ===
 PATCH (Copilot) — Animações mais fluidas (Edge)
    - Chips highlight: remove animação pesada de box-shadow/blur
    - Sugestão: expande por ALTURA real (JS) em vez de max-height
@@ -850,14 +847,88 @@ html.is-edge .app, html.is-edge .card{
 /* =====================================================
    FADE REAL apenas no conteúdo (não desfoca a barra)
    ===================================================== */
-:root{ --fade-edge: 18px; }
-/* Não aplicar máscara no container (scrollbar) */
-.chips{ -webkit-mask-image: none !important; mask-image: none !important; }
-/* Aplicar máscara no wrapper interno com as bolhas */
-.chips-inner{
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 var(--fade-edge), #000 calc(100% - var(--fade-edge)), transparent 100%) !important;
-  mask-image: linear-gradient(to bottom, transparent 0px, #000 var(--fade-edge), #000 calc(100% - var(--fade-edge)), transparent 100%) !important;
-  -webkit-mask-repeat: no-repeat !important; mask-repeat: no-repeat !important;
+/* (removido na V7.1.8.3) bloco antigo de fade que desativava mask-image no .chips e mascarava .chips-inner — mantido apenas o patch V7.1.8 no final. */
+/* =====================================================
+   V7.1.8 — Fade REAL nas bolhas (gradiente -> invisível) SEM quebrar o layout
+   - NÃO remove nada do seu CSS (evita quebra de estilos)
+   - NÃO usa ::before/::after (sem faixa/sombra)
+   - Apenas SOBRESCREVE o 'mask-image: none !important' existente
+   ===================================================== */
+:root{ --chips-fade-edge: 18px; }
+
+@supports ((-webkit-mask-image: linear-gradient(#000,#000)) or (mask-image: linear-gradient(#000,#000))) {
+  .chips{
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0px,
+      #000 var(--chips-fade-edge),
+      #000 calc(100% - var(--chips-fade-edge)),
+      transparent 100%
+    ) !important;
+    mask-image: linear-gradient(to bottom,
+      transparent 0px,
+      #000 var(--chips-fade-edge),
+      #000 calc(100% - var(--chips-fade-edge)),
+      transparent 100%
+    ) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+  }
 }
-/* Edge: manter o fade */
-html.is-edge .chips-inner{ -webkit-mask-image: inherit !important; mask-image: inherit !important; }
+
+
+/* =====================================================
+   V7.1.8.6 — Scrollbar sem "desfoque": hide nativa + scrollbar custom fora da máscara
+   Motivo: mask-image aplicado em .chips mascara também a scrollbar em vários browsers.
+   Solução robusta: esconder a scrollbar nativa (mantendo scroll) e desenhar uma barra custom fora do .chips.
+   ===================================================== */
+
+/* Esconde a scrollbar nativa (mantém o scroll funcionando) */
+.chips{
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;         /* IE/Edge legado */
+}
+.chips::-webkit-scrollbar{ width: 0; height: 0; } /* Chrome/Safari/Edge */
+
+/* Garante que o card seja referência para posicionar a barra custom */
+.card{ position: relative !important; }
+
+/* Barra custom (track) */
+.chips-scrollbar{
+  position: absolute;
+  right: 10px;
+  top: 44px; /* ajustado via JS */
+  width: 10px; /* área de clique confortável */
+  border-radius: 999px;
+  background: transparent; /* SEM trilho visível */
+  border: none;
+  box-shadow: none;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+
+/* Thumb */
+.chips-scrollbar .thumb{
+  position: absolute;
+  left: 3px;
+  right: 3px; /* deixa o thumb mais fino, estilo nativo */
+  top: 0;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(76,194,255,.55);
+  box-shadow: 0 8px 18px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+
+/* Interação */
+.chips-scrollbar:hover .thumb{ background: rgba(76,194,255,.70); }
+
+/* Some quando não precisa (JS aplica) */
+.chips-scrollbar.is-hidden{ display:none; }
+
+@media (prefers-reduced-motion: no-preference){
+  .chips-scrollbar .thumb{ transition: background .18s ease, top .12s ease, height .12s ease; }
+}

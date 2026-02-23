@@ -47,3 +47,19 @@ Jovem Aprendiz — Desenvolvedor Front-end
 
 ---
 V7.1 (visual idêntico): correção de nomes de cidades (maiúsculas/acentos) + melhorias internas. Build: 18-02-2026.
+
+
+---
+V7.1.8: Fade real nas bolhas nas bordas do scroll usando mask-image no .chips (override com !important), sem remover regras antigas (evita quebrar layout). Build: 23-02-2026.
+
+
+---
+V7.1.8.3: Higienização segura SEM alterar visual: corrigido texto solto fora de comentário (PATCH Copilot), removidas chaves extras no CSS, removido bloco antigo de fade que conflita (mask-image:none no .chips e mask em .chips-inner). Mantido patch funcional V7.1.8 do fade. Build: 23-02-2026.
+
+
+---
+V7.1.8.6: Remove blur/fade na scrollbar: scrollbar nativa escondida (mantém scroll) + scrollbar custom fora do elemento mascarado (.chips). Mantém fade nas bolhas. Build: 23-02-2026.
+
+
+---
+V7.1.8.7: Scrollbar custom sem trilho (apenas thumb), para ficar igual ao visual anterior. Mantém fade nas bolhas e remove efeito na scrollbar. Build: 23-02-2026.

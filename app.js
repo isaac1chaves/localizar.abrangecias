@@ -4,7 +4,7 @@
     
     const brasilia = [ 'Abadiânia', 'Água Fria de Goiás', 'Águas Lindas de Goiás', 'Alexânia', 'Cabeceiras', 'Cidade Ocidental', 'Cocalzinho de Goiás', 'Corumbá de Goiás', 'Cristalina', 'Formosa', 'Luziânia', 'Mimoso de Goiás', 'Novo Gama', 'Padre Bernardo', 'Pirenópolis', 'Planaltina', 'Santo Antônio do Descoberto', 'Valparaíso de Goiás', 'Vila Boa' ];
 
-    const cobertura = ["Acreúna", "Abadia de Goias", "Adelândia", "Água Limpa", "Aloândia", "Alto Horizonte", "Alto Paraíso de Goiás", "Alvorada do Norte", "Amaralina", "Americano do Brasil", "Amorinópolis", "Anhanguera", "Anicuns", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aporé", "Araçu", "Aragarças", "Aragoiânia", "Araguapaz", "Arenópolis", "Aruanã", "Aurilândia", "Avelinópolis", "Baliza", "Bela Vista de Goiás", "Bom Jardim de Goiás", "Bom Jesus de Goiás", "Bonfinópolis", "Bonópolis", "Brazabrantes", "Britânia", "Buriti Alegre", "Buriti de Goiás", "Buritinópolis", "Cachoeira Alta", "Cachoeira de Goiás", "Cachoeira Dourada", "Caçu", "Caiapônia", "Caldas Novas", "Caldazinha", "Campestre de Goiás", "Campinaçu", "Campinorte", "Campo Alegre de Goiás", "Campos Belos", "Campos Verdes", "Castelândia", "Catalão", "Caturaí", "Cavalcante", "Cezarina", "Chapadão do Céu", "Colinas do Sul", "Córrego do Ouro", "Corumbaíba", "Cristianópolis", "Crixás", "Cromínia", "Cumari", "Damianópolis", "Damolândia", "Davinópolis", "Diorama", "Divinópolis de Goiás", "Doverlândia", "Edealina", "Edéia", "Estrela do Norte", "Faina", "Fazenda Nova", "Firminópolis", "Flores de Goiás", "Gameleira de Goiás", "Goiandira", "Goiânia", "Goianira", "Goiás", "Goiatuba", "Gouvelândia", "Guapó", "Guarani de Goiás", "Heitoraí", "Hidrolândia", "Iaciara", "Inaciolândia", "Indiara", "Inhumas", "Ipameri", "Iporá", "Israelândia", "Itaberaí", "Itaguari", "Itaguaru", "Itajá", "Itapirapuã", "Itarumã", "Itauçu", "Itumbiara", "Ivolândia", "Jandaia", "Jataí", "Jaupaci", "Jesúpolis", "Joviânia", "Jussara", "Lagoa Santa", "Leopoldo de Bulhões", "Mairipotaba", "Mambaí", "Mara Rosa", "Marzagão", "Matrinchã", "Maurilândia", "Minaçu", "Mineiros", "Moiporá", "Monte Alegre de Goiás", "Montes Claros de Goiás", "Montividiu", "Montividiu do Norte", "Morrinhos", "Mossâmedes", "Mozarlândia", "Mundo Novo", "Mutunópolis", "Nazário", "Nerópolis", "Niquelândia", "Nova Aurora", "Nova Crixás", "Nova Roma", "Nova Veneza", "Novo Brasil", "Novo Planalto", "Orizona", "Ouro Verde de Goiás", "Ouvidor", "Palestina de Goiás", "Palmeiras de Goiás", "Palmelo", "Palminópolis", "Panamá", "Paranaiguara", "Paraúna", "Perolândia", "Petrolina de Goiás", "Piracanjuba", "Piranhas", "Pires do Rio", "Pontalina", "Porangatu", "Porteirão", "Portelândia", "Posse", "Professor Jamil", "Quirinópolis", "Rio Quente", "Rio Verde", "Sanclerlândia", "Santa Bárbara de Goiás", "Santa Cruz de Goiás", "Santa Fé de Goiás", "Santa Helena de Goiás", "Santa Rita do Araguaia", "Santa Tereza de Goiás", "Santa Terezinha de Goiás", "Santo Antônio da Barra", "Santo Antônio de Goiás", "São Domingos", "São Francisco de Goiás", "São João da Paraúna", "São João d'Aliança", "São Luís de Montes Belos", "São Simão", "São Miguel Do Passa Quatro", "Senador Canedo", "Serranópolis", "Silvânia", "Simolândia", "Sítio d'Abadia", "Taquaral de Goiás", "Teresina de Goiás", "Terezópolis de Goiás", "Três Ranchos", "Trindade", "Trombas", "Turvânia", "Turvelândia", "Uirapuru", "Urutaí", "Varjão", "Vianópolis", "Vicentinópolis"];
+    const cobertura = ["Acreúna", "Abadia de Goias", "Adelândia", "Água Limpa", "Aloândia", "Alto Horizonte", "Alto Paraíso de Goiás", "Alvorada do Norte", "Amaralina", "Americano do Brasil", "Amorinópolis", "Anhanguera", "Anicuns", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aporé", "Araçu", "Aragarças", "Aragoiânia", "Araguapaz", "Arenópolis", "Aruanã", "Aurilândia", "Avelinópolis", "Baliza", "Bela Vista de Goiás", "Bom Jardim de Goiás", "Bom Jesus de Goiás", "Bonfinópolis", "Bonópolis", "Brazabrantes", "Britânia", "Buriti Alegre", "Buriti de Goiás", "Buritinópolis", "Cachoeira Alta", "Cachoeira de Goiás", "Cachoeira Dourada", "Caçu", "Caiapônia", "Caldas Novas", "Caldazinha", "Campestre de Goiás", "Campinaçu", "Campinorte", "Campo Alegre de Goiás", "Campos Belos", "Campos Verdes", "Castelândia", "Catalão", "Caturaí", "Cavalcante", "Cezarina", "Chapadão do Céu", "Colinas do Sul", "Córrego do Ouro", "Corumbaíba", "Cristianópolis", "Crixás", "Cromínia", "Cumari", "Damianópolis", "Damolândia", "Davinópolis", "Diorama", "Divinópolis de Goiás", "Doverlândia", "Edealina", "Edéia", "Estrela do Norte", "Faina", "Fazenda Nova", "Firminópolis", "Flores de Goiás", "Gameleira de Goiás", "Goiandira", "Goiânia", "Goianira", "Goiás", "Goiatuba", "Gouvelândia", "Guapó", "Guarani de Goiás", "Heitoraí", "Hidrolândia", "Iaciara", "Inaciolândia", "Indiara", "Inhumas", "Ipameri", "Iporá", "Israelândia", "Itaberaí", "Itaguari", "Itaguaru", "Itajá", "Itapirapuã", "Itarumã", "Itauçu", "Itumbiara", "Ivolândia", "Jandaia", "Jataí", "Jaupaci", "Jesúpolis", "Joviânia", "Jussara", "Lagoa Santa", "Leopoldo de Bulhões", "Mairipotaba", "Mambaí", "Mara Rosa", "Marzagão", "Matrinchã", "Maurilândia", "Minaçu", "Mineiros", "Moiporá", "Monte Alegre de Goiás", "Montes Claros de Goiás", "Montividiu", "Montividiu do Norte", "Morrinhos", "Mossâmedes", "Mozarlândia", "Mundo Novo", "Mutunópolis", "Nazário", "Nerópolis", "Niquelândia", "Nova Aurora", "Nova Crixás", "Nova Roma", "Nova Veneza", "Novo Brasil", "Novo Planalto", "Orizona", "Ouro Verde de Goiás", "Ouvidor", "Palestina de Goiás", "Palmeiras de Goiás", "Palmelo", "Palminópolis", "Panamá", "Paranaiguara", "Paraúna", "Perolândia", "Petrolina de Goiás", "Piracanjuba", "Piranhas", "Pires do Rio", "Pontalina", "Porangatu", "Porteirão", "Portelândia", "Posse", "Professor Jamil", "Quirinópolis", "Rio Quente", "Rio Verde", "Sanclerlândia", "Santa Bárbara de Goiás", "Santa Cruz de Goiás", "Santa Fé de Goiás", "Santa Helena de Goiás", "Santa Rita do Araguaia", "Santa Tereza de Goiás", "Santa Terezinha de Goiás", "Santo Antônio da Barra", "Santo Antônio de Goiás", "São Domingos", "São Francisco de Goiás", "São João da Paraúna", "São João d'Aliança", "São Luís de Montes Belos", "São Simão", "Senador Canedo", "Serranópolis", "Silvânia", "Simolândia", "Sítio d'Abadia", "Taquaral de Goiás", "Teresina de Goiás", "Terezópolis de Goiás", "Três Ranchos", "Trindade", "Trombas", "Turvânia", "Turvelândia", "Uirapuru", "Urutaí", "Varjão", "Vianópolis", "Vicentinópolis"];
 
     
 // ====== NORMALIZAÇÃO / PARSING ======
@@ -355,6 +355,137 @@ function debounce(fn, wait=120){
     const chipsBra = document.getElementById('chips-bra');
     const chipsCob = document.getElementById('chips-cob');
 
+// =====================================================
+// V7.1.8.6 — Scrollbar custom (fora da máscara) para as listas (.chips)
+// =====================================================
+function getCardOf(el){
+  return el ? (el.closest ? el.closest('.card') : null) : null;
+}
+
+function ensureCustomScrollbar(chipsEl){
+  const card = getCardOf(chipsEl);
+  if(!card) return null;
+
+  let bar = card.querySelector(':scope > .chips-scrollbar');
+  if(!bar){
+    bar = document.createElement('div');
+    bar.className = 'chips-scrollbar';
+    bar.setAttribute('aria-hidden','true');
+    bar.innerHTML = '<div class="thumb"></div>';
+    card.appendChild(bar);
+  }
+  return bar;
+}
+
+function syncCustomScrollbar(chipsEl){
+  if(!chipsEl) return;
+  const bar = ensureCustomScrollbar(chipsEl);
+  if(!bar) return;
+
+  const thumb = bar.querySelector('.thumb');
+  const card = getCardOf(chipsEl);
+
+  const scrollH = chipsEl.scrollHeight || 0;
+  const viewH = chipsEl.clientHeight || 0;
+
+  // Se não tem overflow, esconde a barra
+  if(scrollH <= viewH + 1){
+    bar.classList.add('is-hidden');
+    return;
+  }
+  bar.classList.remove('is-hidden');
+
+  // Posiciona o track alinhado ao box do .chips
+  const rChips = chipsEl.getBoundingClientRect();
+  const rCard  = card.getBoundingClientRect();
+  const top = rChips.top - rCard.top;
+  bar.style.top = (top) + 'px';
+  bar.style.height = (viewH) + 'px';
+
+  // Calcula thumb
+  const trackH = viewH;
+  const ratio = viewH / scrollH;
+  const minThumb = 26;
+  const thumbH = Math.max(minThumb, Math.round(trackH * ratio));
+  const maxTop = Math.max(0, trackH - thumbH);
+  const t = chipsEl.scrollTop / (scrollH - viewH);
+  const thumbTop = Math.round(maxTop * t);
+
+  thumb.style.height = thumbH + 'px';
+  thumb.style.top = thumbTop + 'px';
+}
+
+function bindCustomScrollbar(chipsEl){
+  if(!chipsEl) return;
+  const bar = ensureCustomScrollbar(chipsEl);
+  if(!bar) return;
+  const thumb = bar.querySelector('.thumb');
+
+  // Sincroniza no scroll
+  chipsEl.addEventListener('scroll', () => syncCustomScrollbar(chipsEl), {passive:true});
+
+  // Click no track: pula para posição
+  bar.addEventListener('mousedown', (e) => {
+    // Se clicar no thumb, o drag cuida
+    if(e.target === thumb) return;
+    const rect = bar.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const scrollH = chipsEl.scrollHeight;
+    const viewH = chipsEl.clientHeight;
+    const maxScroll = Math.max(1, scrollH - viewH);
+    const t = Math.min(1, Math.max(0, clickY / rect.height));
+    chipsEl.scrollTop = t * maxScroll;
+  });
+
+  // Drag do thumb
+  let dragging = false;
+  let startY = 0;
+  let startTop = 0;
+
+  thumb.addEventListener('mousedown', (e) => {
+    dragging = true;
+    startY = e.clientY;
+    startTop = parseFloat(getComputedStyle(thumb).top) || 0;
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if(!dragging) return;
+    const rect = bar.getBoundingClientRect();
+    const scrollH = chipsEl.scrollHeight;
+    const viewH = chipsEl.clientHeight;
+
+    const thumbH = thumb.getBoundingClientRect().height;
+    const maxTop = Math.max(1, rect.height - thumbH);
+    const dy = e.clientY - startY;
+    const newTop = Math.min(maxTop, Math.max(0, startTop + dy));
+    const t = newTop / maxTop;
+
+    chipsEl.scrollTop = t * (scrollH - viewH);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if(!dragging) return;
+    dragging = false;
+    document.body.style.userSelect = '';
+  });
+
+  // Inicial
+  requestAnimationFrame(() => syncCustomScrollbar(chipsEl));
+}
+
+function initCustomScrollbars(){
+  try{
+    [chipsAna, chipsBra, chipsCob].forEach(bindCustomScrollbar);
+    // Atualiza em resize
+    window.addEventListener('resize', () => {
+      [chipsAna, chipsBra, chipsCob].forEach(syncCustomScrollbar);
+    });
+  }catch(e){}
+}
+
+
 // ====== ÍNDICE DE CHIPS (performance) ======
 let CHIP_INDEX = null;
 function buildChipIndex(){
@@ -586,6 +717,7 @@ q.addEventListener('input', debounce(() => {
 } else {
   renderLists();
   buildChipIndex();
+  initCustomScrollbars();
 }
 
 // ===== Easter egg: múltiplos cliques no crédito =====
