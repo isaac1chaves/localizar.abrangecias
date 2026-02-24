@@ -351,6 +351,8 @@ function debounce(fn, wait=120){
 
     const btn = document.getElementById('btn');
     const out = document.getElementById('out');
+const copyBtn = document.getElementById('copyBtn');
+
     const chipsAna = document.getElementById('chips-ana');
     const chipsBra = document.getElementById('chips-bra');
     const chipsCob = document.getElementById('chips-cob');
@@ -667,7 +669,74 @@ q.addEventListener('input', debounce(() => {
 }, 180));
 
 
-    btn.addEventListener('click', buscar);
+    
+
+// =========================
+// V8.0.2 — Botão COLAR (da área de transferência)
+// =========================
+function pulsePasted(){
+  if(!copyBtn) return;
+  copyBtn.classList.add('is-copied');
+  const old = copyBtn.textContent;
+  copyBtn.textContent = '✅';
+  setTimeout(() => {
+    copyBtn.textContent = old;
+    copyBtn.classList.remove('is-copied');
+  }, 900);
+}
+function pulseWarn(){
+  if(!copyBtn) return;
+  const old = copyBtn.textContent;
+  copyBtn.textContent = '⚠';
+  setTimeout(() => (copyBtn.textContent = old), 900);
+}
+
+function pasteFromClipboard(){
+  // A API de leitura do clipboard só funciona em contexto seguro (https/localhost) e com gesto do usuário.
+  if (!window.isSecureContext || !(navigator.clipboard && navigator.clipboard.readText)) {
+    if (q){
+      try{ q.focus({preventScroll:true}); }catch(e){ q.focus(); }
+      try{ q.select(); }catch(e){}
+    }
+    try{ copyBtn.title = 'Não foi possível ler a área de transferência aqui. Use Ctrl+V/⌘V no campo.'; }catch(e){}
+    pulseWarn();
+    return;
+  }
+
+  navigator.clipboard.readText()
+    .then((txt) => {
+      const t = String(txt || '').trim();
+      if (!t){
+        try{ copyBtn.title = 'Área de transferência vazia.'; }catch(e){}
+        pulseWarn();
+        return;
+      }
+      if (q){
+        q.value = t;
+        try{ q.focus({preventScroll:true}); }catch(e){ q.focus(); }
+        try{ q.setSelectionRange(q.value.length, q.value.length); }catch(e){}
+      }
+      // dispara a busca imediatamente
+      try{ buscar(); }catch(e){}
+      try{ copyBtn.title = 'Colado!'; }catch(e){}
+      pulsePasted();
+    })
+    .catch(() => {
+      if (q){
+        try{ q.focus({preventScroll:true}); }catch(e){ q.focus(); }
+        try{ q.select(); }catch(e){}
+      }
+      try{ copyBtn.title = 'Permissão negada. Cole manualmente com Ctrl+V/⌘V.'; }catch(e){}
+      pulseWarn();
+    });
+}
+btn.addEventListener('click', buscar);
+
+// Botão colar (fica dentro do campo)
+if (copyBtn){
+  copyBtn.addEventListener('click', pasteFromClipboard);
+}
+
     q.addEventListener('keydown', (e) => { if (e.key === 'Enter') buscar(); });
 
     

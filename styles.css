@@ -867,3 +867,35 @@ html.is-edge .app, html.is-edge .card{
 @media (prefers-reduced-motion: no-preference){
   .chips-scrollbar .thumb{ transition: background .18s ease, top .12s ease, height .12s ease; }
 }
+
+/* =========================
+   V8.0 — Botão (colar) dentro do input
+   ========================= */
+.search .field{ position: relative; display:block; }
+.search .field input[type="text"]{ padding-right: 54px !important; }
+.copy-btn{
+  position:absolute; right:12px; top:50%; transform: translateY(-50%);
+  width:36px; height:28px; border-radius:10px;
+  border:1px solid rgba(115,150,255,.22);
+  background: rgba(255,255,255,.92);
+  color:#0b1020;
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; user-select:none;
+  box-shadow:0 10px 22px rgba(0,0,0,.20);
+  -webkit-tap-highlight-color: transparent;
+}
+.copy-btn:hover{ background: rgba(255,255,255,.98); transform: translateY(-50%) translateY(-1px); }
+.copy-btn:active{ transform: translateY(-50%); box-shadow:0 8px 16px rgba(0,0,0,.18); }
+.copy-btn:focus-visible{ outline:none; box-shadow: 0 0 0 3px rgba(58,167,255,.22), 0 10px 22px rgba(0,0,0,.20); }
+.copy-btn.is-copied{ background: rgba(125,247,200,.92); border-color: rgba(45,227,176,.65); }
+
+
+/* =========================
+   V8.0.1 — Fix hover do botão (colar) (evita 'pulo' por regra global .search button:hover)
+   ========================= */
+.search .copy-btn{
+  transform: translateY(-50%) !important;
+  transition: transform .12s ease, box-shadow .18s ease, background .18s ease !important;
+}
+.search .copy-btn:hover{ transform: translateY(-50%) translateY(-1px) !important; }
+.search .copy-btn:active{ transform: translateY(-50%) !important; }
