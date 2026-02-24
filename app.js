@@ -1,6 +1,6 @@
 // ====== DADOS (listas) ======
 // Listas (mantidas como no arquivo original para Anápolis/Brasília)
-    const anapolis = [ 'Anápolis', 'Barro Alto', 'Campo Limpo de Goiás', 'Carmo do Rio Verde', 'Ceres', 'Goianápolis', 'Guaraíta', 'Guarinos', 'Hidrolina', 'Ipiranga de Goiás', 'Itapaci', 'Itapuranga', 'Jaraguá', 'Morro Agudo de Goiás', 'Nova América', 'Nova Glória', 'Pilar de Goiás', 'Rialma', 'Rianápolis', 'Rubiataba', 'Santa Isabel', 'Santa Rita do Novo Destino', 'São Luís do Norte', 'São Miguel do Araguaia', 'São Patrício', 'Uruaçu', 'Uruana', 'Vila Propício' ];
+    const anapolis = [ 'Anápolis', 'Barro Alto', 'Campo Limpo de Goiás', 'Carmo do Rio Verde', 'Ceres', 'Goianápolis','Goianésia', 'Guaraíta', 'Guarinos', 'Hidrolina', 'Ipiranga de Goiás', 'Itapaci', 'Itapuranga', 'Jaraguá', 'Morro Agudo de Goiás', 'Nova América', 'Nova Glória', 'Pilar de Goiás', 'Rialma', 'Rianápolis', 'Rubiataba', 'Santa Isabel', 'Santa Rita do Novo Destino', 'São Luís do Norte', 'São Miguel do Araguaia', 'São Patrício', 'Uruaçu', 'Uruana', 'Vila Propício' ];
     
     const brasilia = [ 'Abadiânia', 'Água Fria de Goiás', 'Águas Lindas de Goiás', 'Alexânia', 'Cabeceiras', 'Cidade Ocidental', 'Cocalzinho de Goiás', 'Corumbá de Goiás', 'Cristalina', 'Formosa', 'Luziânia', 'Mimoso de Goiás', 'Novo Gama', 'Padre Bernardo', 'Pirenópolis', 'Planaltina', 'Santo Antônio do Descoberto', 'Valparaíso de Goiás', 'Vila Boa' ];
 
