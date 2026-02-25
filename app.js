@@ -797,3 +797,70 @@ if (copyBtn){
     if (ua.indexOf('Edg/') !== -1) document.documentElement.classList.add('is-edge');
   }catch(e){}
 })();
+
+
+// =========================
+// THEME_TOGGLE_V1 — Alternância de tema (Light/Dark)
+// - Escuro é padrão
+// - Salva preferência no localStorage
+// - Respeita prefers-color-scheme quando não há preferência salva
+// =========================
+(function(){
+  const BTN = document.getElementById('themeBtn');
+  if(!BTN) return;
+
+  const KEY = 'theme_pref_v1';
+  const root = document.documentElement;
+
+  const ICON_SUN = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8zM1 13h3v-2H1zm10 10h2v-3h-2zm9-10v-2h-3v2zM19.66 6.25l1.79-1.8-1.41-1.41-1.8 1.79zM12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM17.24 19.16l1.8 1.79 1.41-1.41-1.79-1.8zM13 1h-2v3h2zM4.34 17.75l-1.79 1.8 1.41 1.41 1.8-1.79z"/>';
+  const ICON_MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+
+  function getSystemTheme(){
+    try{
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    }catch(e){ return 'dark'; }
+  }
+
+  function setMetaThemeColor(theme){
+    try{
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if(!meta) return;
+      meta.setAttribute('content', theme === 'light' ? '#f3f6fb' : '#0b1020');
+    }catch(e){}
+  }
+
+  function renderBtn(theme){
+    const svg = BTN.querySelector('svg');
+    if(svg){
+      svg.innerHTML = (theme === 'light') ? ICON_MOON : ICON_SUN;
+    }
+    const tip = (theme === 'light') ? 'Alternar para tema escuro' : 'Alternar para tema claro';
+    BTN.setAttribute('data-tooltip', tip);
+    BTN.setAttribute('title', tip);
+    BTN.setAttribute('aria-label', tip);
+  }
+
+  function apply(theme, persist=false){
+    const t = (theme === 'light') ? 'light' : 'dark';
+    if(t === 'light') root.setAttribute('data-theme','light');
+    else root.removeAttribute('data-theme');
+    renderBtn(t);
+    setMetaThemeColor(t);
+    if(persist){
+      try{ localStorage.setItem(KEY, t); }catch(e){}
+    }
+  }
+
+  let saved=null;
+  try{ saved = localStorage.getItem(KEY); }catch(e){}
+  const initial = (saved === 'light' || saved === 'dark') ? saved : getSystemTheme();
+  apply(initial, false);
+
+  BTN.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const next = (current === 'light') ? 'dark' : 'light';
+    apply(next, true);
+    BTN.classList.add('is-pulsing');
+    setTimeout(() => BTN.classList.remove('is-pulsing'), 650);
+  });
+})();

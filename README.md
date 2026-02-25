@@ -65,3 +65,9 @@ V8.0.3: FIX botão 📋 (colar) — remove corrida de timeouts em cliques rápid
 
 ---
 V8.0.3.1: Removido botão 'Buscar' (busca já é automática ao digitar). Build: 25-02-2026.
+
+---
+V8.0.3.7.1: Adicionado botão de alternar tema (placeholder) no canto superior esquerdo (estilo do report-bugs). Build: 25-02-2026.
+
+---
+V9.0.0: Release — Toggle de tema (claro/escuro) integrado + preferência salva (localStorage) + ícone dinâmico. Build: 25-02-2026.
