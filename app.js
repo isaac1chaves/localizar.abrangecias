@@ -674,21 +674,32 @@ q.addEventListener('input', debounce(() => {
 // =========================
 // V8.0.2 — Botão COLAR (da área de transferência)
 // =========================
-function pulsePasted(){
+// =========================
+// V8.0.3 — FIX: cliques rápidos não bugam o ícone do botão COLAR (📋/✅/⚠)
+// =========================
+const COPYBTN_DEFAULT_ICON = (copyBtn && String(copyBtn.textContent || '').trim())
+  ? String(copyBtn.textContent).trim()
+  : '📋';
+let copyBtnTimer = null;
+
+function setCopyBtnIcon(icon, { copiedClass = false, duration = 900 } = {}){
   if(!copyBtn) return;
-  copyBtn.classList.add('is-copied');
-  const old = copyBtn.textContent;
-  copyBtn.textContent = '✅';
-  setTimeout(() => {
-    copyBtn.textContent = old;
+  if(copyBtnTimer){ clearTimeout(copyBtnTimer); copyBtnTimer = null; }
+  copyBtn.textContent = icon;
+  copyBtn.classList.toggle('is-copied', !!copiedClass);
+  copyBtnTimer = setTimeout(() => {
+    copyBtn.textContent = COPYBTN_DEFAULT_ICON;
     copyBtn.classList.remove('is-copied');
-  }, 900);
+    copyBtnTimer = null;
+  }, duration);
 }
+
+function pulsePasted(){
+  setCopyBtnIcon('✅', { copiedClass: true, duration: 900 });
+}
+
 function pulseWarn(){
-  if(!copyBtn) return;
-  const old = copyBtn.textContent;
-  copyBtn.textContent = '⚠';
-  setTimeout(() => (copyBtn.textContent = old), 900);
+  setCopyBtnIcon('⚠', { copiedClass: false, duration: 900 });
 }
 
 function pasteFromClipboard(){

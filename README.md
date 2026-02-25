@@ -59,3 +59,6 @@ V7.1.8.3: Higienização segura SEM alterar visual: corrigido texto solto fora d
 
 ---
 V7.1.9.0: CSS organizado com limpeza segura (remoção de blocos antigos que podiam causar conflitos) + mantém fade e scrollbar custom thumb-only. Build: 23-02-2026.
+
+---
+V8.0.3: FIX botão 📋 (colar) — remove corrida de timeouts em cliques rápidos (não trava em ✅/⚠). Build: 25-02-2026.
