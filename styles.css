@@ -13,7 +13,7 @@
     h1 { font-size: clamp(18px, 2.1vw, 24px); margin:0; letter-spacing:.2px; }
     .pill { font-size:12px; padding:4px 10px; border-radius:999px; background:#0d2638; color:var(--accent); border:1px solid #1f3f58; }
     .search {
-      margin-top:16px; display:grid; gap:10px; grid-template-columns:1fr auto; align-items:center;
+      margin-top:16px; display:grid; gap:10px; grid-template-columns: 1fr; align-items:center;
       background:#0f1528; border:1px solid #212b4b; padding:12px; border-radius:12px;
     }
     .search input[type="text"] { width:100%; background:transparent; border:none; outline:none; color:var(--text); font-size:16px; padding:8px; letter-spacing:.2px; }

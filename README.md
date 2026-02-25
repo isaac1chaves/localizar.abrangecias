@@ -62,3 +62,6 @@ V7.1.9.0: CSS organizado com limpeza segura (remoção de blocos antigos que pod
 
 ---
 V8.0.3: FIX botão 📋 (colar) — remove corrida de timeouts em cliques rápidos (não trava em ✅/⚠). Build: 25-02-2026.
+
+---
+V8.0.3.1: Removido botão 'Buscar' (busca já é automática ao digitar). Build: 25-02-2026.

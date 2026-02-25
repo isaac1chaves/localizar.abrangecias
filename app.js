@@ -741,7 +741,7 @@ function pasteFromClipboard(){
       pulseWarn();
     });
 }
-btn.addEventListener('click', buscar);
+if (btn){ btn.addEventListener('click', buscar); }
 
 // Botão colar (fica dentro do campo)
 if (copyBtn){
