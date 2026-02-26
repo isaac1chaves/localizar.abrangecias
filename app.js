@@ -23,13 +23,13 @@
 // Escapa HTML (para manter render via innerHTML sem risco)
 function escapeHtml(s){
   return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
-    // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
+// Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
     function extractCity(raw) {
   if (!raw) return '';
   const dashes = ['-', '–', '—'];
@@ -87,14 +87,12 @@ function rememberAlias(fromRaw, toCityText){
 // =========================
 function getDynamicAliasSuggestion(rawInput, extractedCity){
   try{
-    // tenta casar tanto o texto bruto quanto a cidade extraída
     const keys = [iaNormalizeInput(rawInput), iaNormalizeInput(extractedCity)];
     for (const k of keys){
       if(!k) continue;
       const mapped = dynamicAliases.get(k);
       if(!mapped) continue;
 
-      // mapped foi salvo normalizado (normalize(toCityText))
       const cityText =
         normToOriginal.get(mapped) ||
         normToOriginal.get(normalize(mapped));
@@ -104,7 +102,6 @@ function getDynamicAliasSuggestion(rawInput, extractedCity){
   } catch(e){}
   return null;
 }
-
     
 // ====== SUGESTÕES / DISTÂNCIA ======
 // Distância de Levenshtein (para sugestões)
@@ -634,11 +631,10 @@ const ranked = rankSuggestions(cidadeBruta, 3);
 let sugs = ranked.picks;
 
 if (aliasPick){
-  // Prioriza a sugestão aprendida e completa com as demais (sem duplicar)
   sugs = [aliasPick, ...sugs.filter(s => normalize(s) !== normalize(aliasPick))].slice(0, 3);
 }
-    mostrarResultado(raw, cidadeBruta, 'nao', sugs, null);
-  } catch (err) {
+
+mostrarResultado(raw, cidadeBruta, 'nao', sugs, null);  } catch (err) {
     console.error('Erro no buscar():', err);
     try {
       const outSug = ensureOutSuggest();
