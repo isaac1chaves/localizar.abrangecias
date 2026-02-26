@@ -26,7 +26,7 @@ function escapeHtml(s){
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
-    .replace(/\"/g,'&quot;')
+    .replace(/"/g,'&quot;')
     .replace(/'/g,'&#39;');
 }
     // Extrai cidade após o último traço (-, –, —); se houver '/', ignora o sufixo.
@@ -80,6 +80,30 @@ function rememberAlias(fromRaw, toCityText){
   try{ localStorage.setItem('aliases', JSON.stringify(Object.fromEntries(dynamicAliases))); }catch(e){}
 }
 
+// =========================
+// IA_DYNAMIC_ALIASES_INTEGRATION_V1
+// - Usa aliases aprendidos (localStorage) para PRIORIZAR sugestões
+// - NÃO aplica automaticamente (usuário continua escolhendo)
+// =========================
+function getDynamicAliasSuggestion(rawInput, extractedCity){
+  try{
+    // tenta casar tanto o texto bruto quanto a cidade extraída
+    const keys = [iaNormalizeInput(rawInput), iaNormalizeInput(extractedCity)];
+    for (const k of keys){
+      if(!k) continue;
+      const mapped = dynamicAliases.get(k);
+      if(!mapped) continue;
+
+      // mapped foi salvo normalizado (normalize(toCityText))
+      const cityText =
+        normToOriginal.get(mapped) ||
+        normToOriginal.get(normalize(mapped));
+
+      if(cityText) return cityText;
+    }
+  } catch(e){}
+  return null;
+}
 
     
 // ====== SUGESTÕES / DISTÂNCIA ======
@@ -517,8 +541,8 @@ function mostrarResultado(termOriginal, focoCidade, status, sugestoes = [], alia
   const outSug = ensureOutSuggest();
   if (outSug) { closeSuggestWrap(outSug); outSug.innerHTML = '';  }
 
-  if (status === 'ana') out.appendChild(line(`<div class="badge ana">✖ Núcleo Anápolis</div>`));
-  else if (status === 'bra') out.appendChild(line(`<div class="badge bra">✖ Núcleo Brasília</div>`));
+  if (status === 'ana') out.appendChild(line(`<div class="badge ana">✖︎ Núcleo Anápolis</div>`));
+  else if (status === 'bra') out.appendChild(line(`<div class="badge bra">✖︎ Núcleo Brasília</div>`));
   else if (status === 'nossa') out.appendChild(line(`<div class="badge ok">✔ Nossa abrangência</div>`));
   else if (status === 'dup') {
     out.appendChild(line(`<div class="badge nao">! erro — cidade presente em ${listasEncontradas.length} listas</div>`));
@@ -604,8 +628,15 @@ return;
     if (inBra) { highlightCityByKey(keyRaw); mostrarResultado(raw, cidadeBruta, 'bra', [], null); return; }
     if (inCob) { highlightCityByKey(keyRaw); mostrarResultado(raw, cidadeBruta, 'nossa', [], null); return; }
 
-    const ranked = rankSuggestions(cidadeBruta, 3);
-    const sugs = ranked.picks;
+const aliasPick = getDynamicAliasSuggestion(raw, cidadeBruta);
+
+const ranked = rankSuggestions(cidadeBruta, 3);
+let sugs = ranked.picks;
+
+if (aliasPick){
+  // Prioriza a sugestão aprendida e completa com as demais (sem duplicar)
+  sugs = [aliasPick, ...sugs.filter(s => normalize(s) !== normalize(aliasPick))].slice(0, 3);
+}
     mostrarResultado(raw, cidadeBruta, 'nao', sugs, null);
   } catch (err) {
     console.error('Erro no buscar():', err);
@@ -755,6 +786,7 @@ if (copyBtn){
     if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', renderLists);
   window.addEventListener('DOMContentLoaded', buildChipIndex);
+  window.addEventListener('DOMContentLoaded', initCustomScrollbars);
 } else {
   renderLists();
   buildChipIndex();
@@ -812,8 +844,8 @@ if (copyBtn){
   const KEY = 'theme_pref_v1';
   const root = document.documentElement;
 
-  const ICON_SUN = '<path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8zM1 13h3v-2H1zm10 10h2v-3h-2zm9-10v-2h-3v2zM19.66 6.25l1.79-1.8-1.41-1.41-1.8 1.79zM12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM17.24 19.16l1.8 1.79 1.41-1.41-1.79-1.8zM13 1h-2v3h2zM4.34 17.75l-1.79 1.8 1.41 1.41 1.8-1.79z"/>';
-  const ICON_MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+  const ICON_SUN = '<path fill="currentColor" d="M12 15q1.25 0 2.125-.875T15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15m0 1q-1.671 0-2.835-1.164Q8 13.67 8 12t1.165-2.835T12 8t2.836 1.165T16 12t-1.164 2.836T12 16m-7-3.5H1.5v-1H5zm17.5 0H19v-1h3.5zM11.5 5V1.5h1V5zm0 17.5V19h1v3.5zM6.746 7.404l-2.16-2.098l.695-.745l2.111 2.135zM18.72 19.439l-2.117-2.141l.652-.702l2.16 2.098zM16.596 6.745l2.098-2.16l.745.695l-2.135 2.111zM4.562 18.72l2.14-2.117l.664.652l-2.08 2.179zM12 12"/>';
+  const ICON_MOON = '<path fill="currentColor" d="M12 21q-3.75 0-6.375-2.625T3 12t2.625-6.375T12 3q.35 0 .688.025t.662.075q-1.025.725-1.638 1.888T11.1 7.5q0 2.25 1.575 3.825T16.5 12.9q1.375 0 2.525-.613T20.9 10.65q.05.325.075.662T21 12q0 3.75-2.625 6.375T12 21"/>';
 
   function getSystemTheme(){
     try{
@@ -836,7 +868,6 @@ if (copyBtn){
     }
     const tip = (theme === 'light') ? 'Alternar para tema escuro' : 'Alternar para tema claro';
     BTN.setAttribute('data-tooltip', tip);
-    BTN.setAttribute('title', tip);
     BTN.setAttribute('aria-label', tip);
   }
 
@@ -860,7 +891,5 @@ if (copyBtn){
     const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const next = (current === 'light') ? 'dark' : 'light';
     apply(next, true);
-    BTN.classList.add('is-pulsing');
-    setTimeout(() => BTN.classList.remove('is-pulsing'), 650);
-  });
+});
 })();
